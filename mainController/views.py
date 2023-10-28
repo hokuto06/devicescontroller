@@ -5,7 +5,7 @@ from .controller import main
 
 def inicio(req):
 
-    return render(req, 'base.html')
+    return render(req, 'dashboard.html')
 
 def table(req):
     
