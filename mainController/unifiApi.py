@@ -12,9 +12,9 @@ class Unifi:
 
 	def __init__(self, ipAddress, userName, passWord):
 		try:
-			print("Intentando conectar a "+ipAddress)
+			print(f'Intentando conectar a {ipAddress} como {userName}')
 			client = paramiko.SSHClient()
-			client.load_system_host_keys()
+			# client.load_system_host_keys()
 			client.set_missing_host_key_policy(AutoAddPolicy)
 			client.connect(ipAddress, port=22, username=userName, password=passWord)
 			self.client = client

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">{{ group }}</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Search Devices</li>
+        </ol>
+        <div class="row">
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Search for devices
+                </div>
+                <div class="card-body">
+                    <br>
+                    <form method="post" action="{% url 'procesar_formulario'  group %}">{% csrf_token %}
+                        <br>
+                        <div class="form-group row">
+                            <label for="ip1" class="col-sm-2 col-form-label">IP 1:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="ip1" name="ip1" placeholder="Introduce la primera IP">
+                            </div>
+                            <label for="ip2" class="col-sm-2 col-form-label">IP 2:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="ip2" name="ip2" placeholder="Introduce la segunda IP">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <label for="texto1" class="col-sm-2 col-form-label">User:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="deviceUser" name="texto1" placeholder="Introduce el usuario">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <label for="texto2" class="col-sm-2 col-form-label">Password:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="texto2" name="texto2" placeholder="Introduce el segundo texto">
+                            </div>
+                        </div>
+                        <br>
+                        <input type="hidden" id="grupo" name="grupo" value="{{ group }}">
+                        <div class="form-group row">
+                            <label for="texto3" class="col-sm-2 col-form-label">Vendor</label>
+                            <div class="col-sm-10">
+                        <select id="texto3" name="texto3">
+                            <option value="unifi">Unifi</option>
+                            <option value="mikrotik">Mikrotik</option>
+                            <option value="ruckus">Ruckus</option>
+                        </select></div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

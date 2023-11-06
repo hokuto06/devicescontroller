@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{{ group }}
+<a href="{% url  'procesar_formulario' group %}">Search for devices</a>
+{% endblock %}

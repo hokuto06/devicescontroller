@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Grupo</title>
+</head>
+<body>
+    <h1>Crear Grupo</h1>
+    <form method="post" action="{% url 'CrearGrupo' %}">
+        {% csrf_token %}
+        <label for="group_name">Nombre del Grupo:</label>
+        <input type="text" id="group_name" name="group_name" required>
+        <br>
+        <button type="submit">Crear Grupo</button>
+    </form>
+</body>
+</html>

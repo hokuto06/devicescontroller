@@ -1,71 +1,64 @@
+from django.db import transaction
+import uuid
 from .unifiApi import Unifi
 from multiprocessing import Pool
-# from pymongo import MongoClient
-# from socket import socket
 import socket
-# from bson import json_util
-# from bson.json_util import dumps
-#from bson.objectid import ObjectId
 from pprint import pprint
-# from termcolor import colored, cprint
 import time
-# import django
-# # import os.path
-# # import sys
-
-# # # directory reach
-# import sys
-# import os
-
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mainController.settings') 
-# django.setup()
-
-# directory = os.path.dirname(os.path.abspath("__file__"))
- 
-# print(directory)
-# # setting path
-
-# sys.path.append(os.path.dirname(os.path.dirname(directory)))
-#sys.path.append('/.../mainController')
-from .models import Devices 
-#from models import Devices
-# from mainController.models import models
+from .models import Devices, GroupDevices
 
 def distributor(test):
-    host = test[0]
+    ip_address = test[0]
     user = test[1]
     password = test[2]
     vendor = test[3]
-    #print(test[1])
-    host = host.rstrip()
-    # cluster = MongoClient('mongodb://localhost:27017/prueba')
-    # db = cluster['hotels']
-    # collection = db[test[4]]
-    collection = 'test'
+    ip_address = ip_address.rstrip()
+    collection = test[4]
+    # collection = "grupo"
+    # collection = 'test'
     if vendor == 'unifi':
-        connectUnifi(host, user, password, collection)
+        connectUnifi(ip_address, user, password, collection)
 
-def checkHost(host):
+def checkHost(ip_address):
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		sock.settimeout(0.5)
-		result = sock.connect_ex((host,22))
+		result = sock.connect_ex((ip_address,22))
 		sock.close()
 		return result
 
+def get_group_id(collection):
+    try:
+        # grupos = GroupDevices.objects.all()
+        # for grupo in grupos:
+        #     print(grupo.group_name)
+        #     print(grupo.group_id)
+        group = GroupDevices.objects.get(group_name=collection)
+  
+        return group  # Convierte el ID a cadena antes de devolverlo
+    except GroupDevices.DoesNotExist:
+        # Manejar el caso cuando no se encuentra el grupo con el nombre dado
+        return None
 
-def connectUnifi(host, user, password, collection):
-    if checkHost(host) == 0:
-        unifi = Unifi(host, user, password)
+def connectUnifi(ip_address, user, password, collection):
+    if checkHost(ip_address) == 0:
+        print(collection)
+        unifi = Unifi(ip_address, user, password)
         if unifi.check_connection() == True:
+            #group = get_group_id(collection)
+            group = GroupDevices.objects.get(group_name=collection)
+
             data = unifi.getData()
             print(data)
             if "model" not in data:
-                print("error unifi "+host)
+                print("error unifi "+ip_address)
             else:
                 device_data = {
-                        'userName': user,
-                        'ipAddress': host,
-                        'hostName': data['hostname'],
+                        '_id': str(uuid.uuid4()),
+                        'group':group,
+                        'deviceUser': user,
+                        'devicePassword': password,
+                        'ipAddress': ip_address,
+                        'deviceName': data['hostname'],
                         'model': data['model'],
                         'macAddress': data['mac address'],
                         'version': data['version'],
@@ -75,26 +68,15 @@ def connectUnifi(host, user, password, collection):
 
                     # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
                 device, created = Devices.objects.update_or_create(
-                    ipAddress=host,  # Condición de búsqueda: campo ipAddress
+                    ipAddress=ip_address,  # Condición de búsqueda: campo ipAddress
                     defaults=device_data  # Valores para actualizar o crear
                 )
-
+                print(group)
                 if created:
                     print('Nuevo dispositivo creado:', device)
                 else:
-                    print('Dispositivo existente actualizado:', device)            
-                # device = Devices(
-                #      userName = user,
-                #      ipAddress = host,
-                #      hostName =  data['hostname'],
-                #      model = data['model'],
-                #      macAddress = data['mac address'],
-                #      version = data['version'],
-                #      controllerStatus = data['status'],
-                #      status = 1,
+                    print('Dispositivo existente actualizado:', device)
 
-                #      )
-                # device.save()           
 
 def setStatus(status, host, post, collection):
     # post["status"] = status
@@ -112,19 +94,34 @@ def getHosts():
     # for x in _collection:
     #     hosts.append([x['ipv4'].rstrip(), x['user'], x['password'], x['vendor'], col])
     # return hosts
-    hosts = [['10.2.2.30', 'n1mbu5','n3tw0rks','unifi','prueba'],['10.2.2.31', 'n1mbu5','n3tw0rks','unifi','prueba']]
+    hosts = [['10.2.2.51', 'n1mbu5','n3tw0rks','unifi','hotel_f'],['10.2.2.52', 'n1mbu5','n3tw0rks','unifi','hotel_f']]
+    # hosts = [['10.2.2.50', 'n1mbu5','n3tw0rks','unifi','hotel_f']]
     return hosts
+
+# def update_devices_info(col):
+#     devices = Devices.objects.all()
+#     list_devices = []
+#     for device in devices:
+#          list_devices.append([device., device.userName, device.])
+#     pass
+def scan_devices(devices):
+
+    with transaction.atomic():
+        for host in devices:
+            distributor(host)
 
 def main():
     start = time.time()
     hosts = getHosts()
     pprint(hosts)
-    mydict = []
 
-    for host in hosts:
-         distributor(host)
+    with transaction.atomic():
+        for host in hosts:
+             distributor(host)
+
+    ## Linux version
+    # mydict = []
     # pool = Pool(10)
-
     # pool.map(distributor,hosts)
 
     finish = time.time()

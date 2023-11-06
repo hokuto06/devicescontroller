@@ -5,7 +5,12 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.inicio, name="Inicio"),
-    path('table', views.table, name="Table"),
+    #path('table', views.table, name="Table"),
     path('test', views.test, name="Test"),
-    path('view-devices', views.view_devices),
+    path('view-devices/<str:group_id>', views.view_access_points, name="ViewAccessPoints"),
+    path('delete-all', views.delete_all),
+    path('crear_grupo/', views.crear_grupo, name='CrearGrupo'),
+    path('procesar_formulario/<str:group>/', views.procesar_formulario, name='procesar_formulario'),
+    path('group/<str:group>', views.view_group),
+    path('delete-device/<str:device_id>', views.delete_device, name='DeleteDevice')
 ]
