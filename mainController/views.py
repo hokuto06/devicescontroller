@@ -1,12 +1,36 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from rest_framework import generics
 from collections import Counter
 from .models import Devices, GroupDevices
 from .controller import main, checkHost, connectUnifi, scan_devices
 
+from .serializers import GroupDevicesSerializer, DevicesSerializer
 
+## Class Views
+###############
+
+class DevicesListCreateView(generics.ListCreateAPIView):
+    queryset = Devices.objects.all()
+    serializer_class = DevicesSerializer
+
+class DevicesDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Devices.objects.all()
+    serializer_class = DevicesSerializer
+
+class GroupDevicesListCreateView(generics.ListCreateAPIView):
+    queryset = GroupDevices.objects.all()
+    serializer_class = GroupDevicesSerializer
+
+def devices_api(request):
+    devices = Devices.objects.all()
+    data = [{'host_name': device.deviceName, 'ip_address': device.ipAddress, 'model': device.model, 'model': device.macAddress, 'model': device.version,'model': device._id,} for device in devices]
+    return JsonResponse({'devices': data})
+
+## funciones
+#############
 def inicio(request):
     # groups = GroupDevices.objects.all()
     # return render(request, 'dashboard.html', {'groups': groups})

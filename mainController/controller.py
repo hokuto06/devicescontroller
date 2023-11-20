@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 import uuid
 from .unifiApi import Unifi
 from multiprocessing import Pool
@@ -46,14 +47,23 @@ def connectUnifi(ip_address, user, password, collection):
         if unifi.check_connection() == True:
             #group = get_group_id(collection)
             group = GroupDevices.objects.get(group_name=collection)
-
             data = unifi.getData()
             print(data)
             if "model" not in data:
                 print("error unifi "+ip_address)
             else:
+                clients =  unifi.getWlanClients()
+                # if clients.index:
+                #     wclients_list = []
+                #     for wclients in data:
+                #         wc = wclients.split()
+                #         # wclients_list.append({"mac":t[0]})
+                # else:
+                #      wclients_list = 
+                print(clients)
+# ********* Recorrer todas las interfaces ****  
                 device_data = {
-                        '_id': str(uuid.uuid4()),
+                        # '_id': str(uuid.uuid4()),
                         'group':group,
                         'deviceUser': user,
                         'devicePassword': password,
@@ -63,9 +73,15 @@ def connectUnifi(ip_address, user, password, collection):
                         'macAddress': data['mac address'],
                         'version': data['version'],
                         'controllerStatus': data['status'],
-                        'status': 1,
+                        'clientes': clients,
+                        'status': 2,
                     }
-
+                try:
+                    existing_device = Devices.objects.get(ipAddress=ip_address)
+                    pass
+                except Devices.DoesNotExist:
+                    existing_device = None
+                    device_data["_id"] = str(uuid.uuid4())
                     # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
                 device, created = Devices.objects.update_or_create(
                     ipAddress=ip_address,  # Condición de búsqueda: campo ipAddress
@@ -94,7 +110,7 @@ def getHosts():
     # for x in _collection:
     #     hosts.append([x['ipv4'].rstrip(), x['user'], x['password'], x['vendor'], col])
     # return hosts
-    hosts = [['10.2.2.51', 'n1mbu5','n3tw0rks','unifi','hotel_f'],['10.2.2.52', 'n1mbu5','n3tw0rks','unifi','hotel_f']]
+    hosts = [['10.2.2.70', 'n1mbu5','n3tw0rks','unifi','hotel_a']]
     # hosts = [['10.2.2.50', 'n1mbu5','n3tw0rks','unifi','hotel_f']]
     return hosts
 

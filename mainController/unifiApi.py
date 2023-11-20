@@ -87,9 +87,15 @@ class Unifi:
 
 	def getWlanClients(self):
 		data = self.sendCommand('wlanconfig ath0 list station\n')
-		_data = self.parserData(data)
-		print('test')
-		return _data
+		# data = self.sendCommand('wlanconfig ath1 list station\n')
+		# data = self.sendCommand('wlanconfig ath2 list station\n')
+		reg_lines = re.split(r"[~\r\n]+", data)
+		lista = []
+		for i in range(2, len(reg_lines)-1):
+			lines = reg_lines[i].split()
+			lista.append({"mac":lines[0]})
+		#_data = [self.parserData(data)]
+		return lista
 
 	def set_inform(self, ip_controller):
 		_data = self.sendCommand('mca-cli-op set-inform http://'+ip_controller+':8080/inform')
