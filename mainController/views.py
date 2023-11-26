@@ -101,7 +101,10 @@ def view_access_points(request, group_id):
     # Renderiza el template con el diccionario de contexto y retorna la respuesta HTTP
     return render(request, 'table.html', contexto)
 
-from mainController.models import Devices  # Importa el modelo Devices
+def device_detail(request, ipAddress):
+    device = get_object_or_404(Devices, ipAddress=ipAddress)
+    context = {'device': device}
+    return render(request, 'device_detail.html', context)
 
 def procesar_formulario(request, group):
     if request.method == 'POST':
