@@ -17,5 +17,6 @@ urlpatterns = [
     path('devices/<str:pk>/', views.DevicesDetailView.as_view(), name='devices-detail'),
     path('groups/', views.GroupDevicesListCreateView.as_view(), name='group-devices-list-create'),
     path('devices-test/', views.devices_api, name='devices_api'),
-    path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
+    # path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
+    path('device/<int:pk>/', views.DevicesDetailView.as_view(), name='device-detail'),
 ]

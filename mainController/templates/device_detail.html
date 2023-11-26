@@ -7,8 +7,29 @@
 </head>
 <body>
     <h1>Detalles del Dispositivo</h1>
-    <p>ID: {{ context._id }}</p>
-    <p>Nombre del Dispositivo: {{ context.deviceName }}</p>
-    <!-- Otros campos del dispositivo... -->
+    
+    <ul>
+        <li><strong>ID:</strong> {{ device._id }}</li>
+        <li><strong>Grupo:</strong> {{ device.group }}</li>
+        <li><strong>Usuario:</strong> {{ device.deviceUser }}</li>
+        <li><strong>Contraseña:</strong> {{ device.devicePassword }}</li>
+        <li><strong>Dirección IP:</strong> {{ device.ipAddress }}</li>
+        <li><strong>Nombre del Dispositivo:</strong> {{ device.deviceName }}</li>
+        <li><strong>Modelo:</strong> {{ device.model }}</li>
+        <li><strong>Dirección MAC:</strong> {{ device.macAddress }}</li>
+        <li><strong>Versión:</strong> {{ device.version }}</li>
+        <li><strong>Estado del Controlador:</strong> {{ device.controllerStatus }}</li>
+        <li><strong>Clientes:</strong>
+            <ul>
+                {% for cliente in device.clientes %}
+                    <li>{{ cliente.nombre }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li><strong>Estado:</strong> {{ device.status }}</li>
+    </ul>
+
+    <a href="{% url 'editar-dispositivo' pk=device.pk %}">Editar</a>
+    <a href="{% url 'eliminar-dispositivo' pk=device.pk %}">Eliminar</a>
 </body>
 </html>
