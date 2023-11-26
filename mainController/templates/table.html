@@ -85,7 +85,7 @@
                         {% for dispositivo in dispositivos %}
                         <tr>
  
-                            <td><a href="#">{{ dispositivo.host_name }}</a></td>
+                            <td><a href="{% url 'device-detail' pk=dispositivo.id %}">{{ dispositivo.host_name }}</a></td>
                             <td>{{ dispositivo.ip_address }}</td>
                             <td>{{ dispositivo.mac_address }}</td>
                             <td>{{ dispositivo.model }}</td>
