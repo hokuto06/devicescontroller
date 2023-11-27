@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from django.views.generic.detail import DetailView
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
 from rest_framework import generics
 from collections import Counter
 from .models import Devices, GroupDevices
@@ -16,9 +19,37 @@ class DevicesListCreateView(generics.ListCreateAPIView):
     queryset = Devices.objects.all()
     serializer_class = DevicesSerializer
 
-class DevicesDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Devices.objects.all()
+# class DevicesDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Devices.objects.all()
+#     serializer_class = DevicesSerializer
+
+def device_detail_view(request, pk):
+    device = Devices.objects.get(pk=pk)
+    serializer = DevicesSerializer(device)
+    return JsonResponse(serializer.data)
+
+class DevicesDetailView(DetailView):
+    model = Devices
     serializer_class = DevicesSerializer
+    template_name = 'device_detail.html'  # Nombre del template HTML
+
+#     @method_decorator(ensure_csrf_cookie)
+#     def dispatch(self, *args, **kwargs):
+#         return super().dispatch(*args, **kwargs)
+
+#     def render_to_response(self, context, **response_kwargs):
+#         # print(self.request.headers)
+#         print(self.request.headers)
+#         if 'HTTP_X_REQUESTED_WITH' in self.request.headers and self.request.headers['HTTP_X_REQUESTED_WITH'].lower() == 'XMLHttpRequest':
+#             # Si es una solicitud AJAX, devuelve una respuesta JSON
+#             device = self.get_object()
+#             serializer = self.get_serializer(device)
+#             print(device)
+#             return JsonResponse(serializer.data)
+#         else:
+#             # Si no es una solicitud AJAX, utiliza el comportamiento predeterminado
+#             return super().render_to_response(context, **response_kwargs)
+
 
 class GroupDevicesListCreateView(generics.ListCreateAPIView):
     queryset = GroupDevices.objects.all()

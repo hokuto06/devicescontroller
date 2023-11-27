@@ -14,9 +14,10 @@ urlpatterns = [
     path('group/<str:group>', views.view_group),
     path('delete-device/<str:device_id>', views.delete_device, name='DeleteDevice'),
     path('devices/', views.DevicesListCreateView.as_view(), name='devices-list-create'),
-    path('devices/<str:pk>/', views.DevicesDetailView.as_view(), name='devices-detail'),
+    # path('devices/<str:pk>/', views.DevicesDetailView.as_view(), name='devices-detail'),
     path('groups/', views.GroupDevicesListCreateView.as_view(), name='group-devices-list-create'),
     path('devices-test/', views.devices_api, name='devices_api'),
     # path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
-    path('device/<int:pk>/', views.DevicesDetailView.as_view(), name='device-detail'),
+    path('device/<uuid:pk>/', views.device_detail_view, name='device-detail'),
+    path('viewdevice/<uuid:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]
