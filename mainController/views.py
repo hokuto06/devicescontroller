@@ -14,14 +14,25 @@ from .serializers import GroupDevicesSerializer, DevicesSerializer
 
 ## Class Views
 ###############
-
+#rest frawmeworks
 class DevicesListCreateView(generics.ListCreateAPIView):
-    queryset = Devices.objects.all()
     serializer_class = DevicesSerializer
 
-# class DevicesDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Devices.objects.all()
-#     serializer_class = DevicesSerializer
+    def get_queryset(self):
+        # Obtiene el parámetro group de la URL
+        group = self.kwargs.get('group', None)
+        print(group)
+        # Filtra los dispositivos por group si está presente
+        queryset = Devices.objects.all()
+        if group is not None:
+            queryset = queryset.filter(group=group)
+
+        return queryset
+
+class GroupDevicesListCreateView(generics.ListCreateAPIView):
+    queryset = GroupDevices.objects.all()
+    serializer_class = GroupDevicesSerializer
+
 
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=pk)
@@ -51,9 +62,6 @@ class DevicesDetailView(DetailView):
 #             return super().render_to_response(context, **response_kwargs)
 
 
-class GroupDevicesListCreateView(generics.ListCreateAPIView):
-    queryset = GroupDevices.objects.all()
-    serializer_class = GroupDevicesSerializer
 
 def devices_api(request):
     devices = Devices.objects.all()
