@@ -1,4 +1,6 @@
+#Conecta a Dispositivos Unifi.
 from .unifiApi import Unifi
+from .ruckusApi import Ruckus
 from multiprocessing import Pool
 from .models import Devices
 import socket
@@ -41,6 +43,13 @@ def connect_unifi(host, user, password):
                     print('Nuevo dispositivo creado:', device)
                 else:
                     print('Dispositivo existente actualizado:', device)
+
+def connectRuckus(host, user, password):
+    if check_host(host) == 0:
+        ruckus = Ruckus(host, user, password)
+        if ruckus.status == 1:
+            print("ok")
+
 
 def distributor(test):
     host, user, password, vendor, collection = test

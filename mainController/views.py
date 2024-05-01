@@ -7,10 +7,14 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from rest_framework import generics
 from collections import Counter
+from openpyxl import load_workbook
 from .models import Devices, GroupDevices
 from .controller import main, checkHost, connectUnifi, scan_devices
-
+from .tools import _read_excel,unifi_controller,connect_mikrotik
+from django.conf import settings
+import os
 from .serializers import GroupDevicesSerializer, DevicesSerializer
+from ._controller import connectRuckus
 
 ## Class Views
 ###############
@@ -216,3 +220,22 @@ def delete_all(request):
     
     # Puedes redirigir a una página de confirmación o realizar otras acciones necesarias
     return render(request, 'confirmacion.html')
+
+def uc_connect(request):
+    data = unifi_controller()
+    return HttpResponse(data)
+
+def mkt_connect(request):
+    data = connect_mikrotik()
+    return HttpResponse(data)
+
+def read_excel(request):
+
+    data = _read_excel()
+    # Devuelve el contenido de las celdas en una respuesta HTTP o haz lo que necesites con él
+    return HttpResponse(data)
+
+def connect_to_ruckus_ap(Request):
+    print("intentando conectar")
+    connectRuckus('10.9.21.14','n1mbu5','n3tw0rks.')
+    return HttpResponse("ok")
