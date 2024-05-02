@@ -7,6 +7,7 @@ import socket
 from pprint import pprint
 import time
 from .models import Devices, GroupDevices
+from .ruckusApi import Ruckus
 
 def distributor(test):
     ip_address = test[0]
@@ -19,6 +20,8 @@ def distributor(test):
     # collection = 'test'
     if vendor == 'unifi':
         connectUnifi(ip_address, user, password, collection)
+    elif vendor == 'ruckus':
+        connectRuckus(ip_address, user, password, collection)
 
 def checkHost(ip_address):
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,6 +42,42 @@ def get_group_id(collection):
     except GroupDevices.DoesNotExist:
         # Manejar el caso cuando no se encuentra el grupo con el nombre dado
         return None
+
+def connectRuckus(ip_address, user, password, collection):
+    if checkHost(ip_address) == 0:
+        print(collection)
+        ruckus = Unifi(ip_address, user, password)
+        if ruckus.check_connection() == True:
+            hostname = ruckus.getDeviceName()
+            if ruckus.status == 1:
+                group = GroupDevices.objects.get(group_name=collection)
+                device_data = {
+                        # '_id': str(uuid.uuid4()),
+                        'group':group,
+                        'deviceUser': user,
+                        'devicePassword': password,
+                        'ipAddress': ip_address,
+                        'deviceName': hostname,
+                        'model': "ap",
+                        'macAddress': 'mac address',
+                        'version': "version",
+                        'controllerStatus': 'null',
+                        #'clientes': clients,
+                        'status': 2,
+                    }
+                try:
+                    existing_device = Devices.objects.get(ipAddress=ip_address)
+                    pass
+                except Devices.DoesNotExist:
+                    existing_device = None
+                    device_data["_id"] = str(uuid.uuid4())
+                    # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
+                device, created = Devices.objects.update_or_create(
+                    ipAddress=ip_address,  # Condición de búsqueda: campo ipAddress
+                    defaults=device_data  # Valores para actualizar o crear
+                )
+
+
 
 def connectUnifi(ip_address, user, password, collection):
     if checkHost(ip_address) == 0:
