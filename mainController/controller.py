@@ -47,6 +47,10 @@ def connectRuckus(ip_address, user, password, collection):
     if checkHost(ip_address) == 0:
         print(collection)
         ruckus = Ruckus(ip_address, user, password)
+        print("sigue passw")
+        print(password)
+        print("sigue usuario")
+        print(user)
         if ruckus.status == 1:
         #if ruckus.check_connection() == True:
             hostname = ruckus.getDeviceName()
