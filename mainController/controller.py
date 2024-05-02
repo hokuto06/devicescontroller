@@ -7,7 +7,7 @@ from pprint import pprint
 import time
 from .models import Devices, GroupDevices
 from .unifiApi import Unifi
-# from .ruckusApi import Ruckus
+from .ruckusApi import Ruckus
 
 def distributor(test):
     ip_address = test[0]
