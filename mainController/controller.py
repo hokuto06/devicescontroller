@@ -149,7 +149,7 @@ def getHosts():
     # for x in _collection:
     #     hosts.append([x['ipv4'].rstrip(), x['user'], x['password'], x['vendor'], col])
     # return hosts
-    hosts = [['10.2.2.70', 'n1mbu5','n3tw0rks','unifi','hotel_a']]
+    hosts = [['10.9.21.14', 'n1mbu5','n3tw0rks.','ruckus','hotel_a']]
     # hosts = [['10.2.2.50', 'n1mbu5','n3tw0rks','unifi','hotel_f']]
     return hosts
 
