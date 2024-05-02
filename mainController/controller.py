@@ -46,7 +46,7 @@ def get_group_id(collection):
 def connectRuckus(ip_address, user, password, collection):
     if checkHost(ip_address) == 0:
         print(collection)
-        ruckus = Unifi(ip_address, user, password)
+        ruckus = Ruckus(ip_address, user, password)
         if ruckus.check_connection() == True:
             hostname = ruckus.getDeviceName()
             if ruckus.status == 1:
