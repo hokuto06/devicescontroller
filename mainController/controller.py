@@ -1,13 +1,13 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-import uuid
-from .unifiApi import Unifi
 from multiprocessing import Pool
+import uuid
 import socket
 from pprint import pprint
 import time
 from .models import Devices, GroupDevices
-from .ruckusApi import Ruckus
+from .unifiApi import Unifi
+# from .ruckusApi import Ruckus
 
 def distributor(test):
     ip_address = test[0]
