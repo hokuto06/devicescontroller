@@ -88,7 +88,8 @@ def connectUnifi(ip_address, user, password, collection):
         print(collection)
         unifi = Unifi(ip_address, user, password)
         if unifi.check_connection() == True:
-            #group = get_group_id(collection)
+            #group = ge
+            t_group_id(collection)
             group = GroupDevices.objects.get(group_name=collection)
             data = unifi.getData()
             print(data)
@@ -107,7 +108,7 @@ def connectUnifi(ip_address, user, password, collection):
 # ********* Recorrer todas las interfaces ****  
                 device_data = {
                         # '_id': str(uuid.uuid4()),
-                        'group':group,
+                        'group':"1",
                         'deviceUser': user,
                         'devicePassword': password,
                         'ipAddress': ip_address,
