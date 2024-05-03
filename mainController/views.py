@@ -15,6 +15,7 @@ from django.conf import settings
 import os
 from .serializers import GroupDevicesSerializer, DevicesSerializer
 from ._controller import connectRuckus
+import json
 
 ## Class Views
 ###############
@@ -98,7 +99,8 @@ def crear_grupo(request):
         print(group_name)
         # Crea un nuevo grupo utilizando el modelo Group
         nuevo_grupo = GroupDevices.objects.create(group_name=group_name)
-        print(nuevo_grupo)
+        # print(nuevo_grupo)
+        print(nuevo_grupo.__dict__)
         return render(request, 'group.html', {'group': group_name})
     else:
         # Si el método de solicitud no es POST, muestra el formulario de creación
