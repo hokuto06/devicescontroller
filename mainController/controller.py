@@ -127,6 +127,7 @@ def connectUnifi(ip_address, user, password, collection):
                     device_data["_id"] = str(uuid.uuid4())
                     # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
                 except Exception as e:
+                    print('sigue error')
                     print(e)
                 device, created = Devices.objects.update_or_create(
                     ipAddress=ip_address,  # Condición de búsqueda: campo ipAddress
