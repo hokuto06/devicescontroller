@@ -88,8 +88,7 @@ def connectUnifi(ip_address, user, password, collection):
         print(collection)
         unifi = Unifi(ip_address, user, password)
         if unifi.check_connection() == True:
-            #group = ge
-            t_group_id(collection)
+            #group = get_group_id(collection)
             group = GroupDevices.objects.get(group_name=collection)
             data = unifi.getData()
             print(data)
