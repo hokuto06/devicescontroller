@@ -107,7 +107,7 @@ def connectUnifi(ip_address, user, password, collection):
 # ********* Recorrer todas las interfaces ****  
                 device_data = {
                         # '_id': str(uuid.uuid4()),
-                        'group':"1",
+                        'group':group,
                         'deviceUser': user,
                         'devicePassword': password,
                         'ipAddress': ip_address,
