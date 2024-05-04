@@ -69,18 +69,22 @@ def connectRuckus(ip_address, user, password, collection):
                     #'clientes': clients,
                     'status': 2,
                 }
-            try:
-                existing_device = Devices.objects.get(ipAddress=ip_address)
-                pass
-            except Devices.DoesNotExist:
-                existing_device = None
-                device_data["_id"] = str(uuid.uuid4())
-                # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
+            # try:
+            #     existing_device = Devices.objects.get(ipAddress=ip_address)
+            #     pass
+            # except Devices.DoesNotExist:
+            #     existing_device = None
+            #     device_data["_id"] = str(uuid.uuid4())
+            #     # Intenta actualizar el dispositivo existente o crear uno nuevo si no existe
             device, created = Devices.objects.update_or_create(
                 ipAddress=ip_address,  # Condición de búsqueda: campo ipAddress
                 defaults=device_data  # Valores para actualizar o crear
             )
-
+            print(group)
+            if created:
+                print('Nuevo dispositivo creado:', device)
+            else:
+                print('Dispositivo existente actualizado:', device)
 
 
 def connectUnifi(ip_address, user, password, collection):
