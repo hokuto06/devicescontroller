@@ -9,7 +9,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, connectUnifi, scan_devices
+from .controller import main, checkHost, scan_devices
 from .tools import _read_excel,unifi_controller,connect_mikrotik
 from django.conf import settings
 import os
