@@ -89,7 +89,7 @@ class Unifi:
 	def getDeviceName(self):
 		name = self.getData()
 		print(name)
-		return(name['Hostname'])
+		return(name['hostname'])
 
 	def getWlanClients(self):
 		data = self.sendCommand('wlanconfig ath0 list station\n')
