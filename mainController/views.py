@@ -14,7 +14,7 @@ from .tools import _read_excel,unifi_controller,connect_mikrotik
 from django.conf import settings
 import os
 from .serializers import GroupDevicesSerializer, DevicesSerializer
-from ._controller import connectRuckus
+# from ._controller import connectRuckus
 import json
 
 ## Class Views
@@ -238,7 +238,7 @@ def read_excel(request):
     # Devuelve el contenido de las celdas en una respuesta HTTP o haz lo que necesites con él
     return HttpResponse(data)
 
-def connect_to_ruckus_ap(Request):
-    print("intentando conectar")
-    connectRuckus('10.9.21.14','n1mbu5','n3tw0rks.')
-    return HttpResponse("ok")
+# def connect_to_ruckus_ap(Request):
+#     print("intentando conectar")
+#     connectRuckus('10.9.21.14','n1mbu5','n3tw0rks.')
+#     return HttpResponse("ok")
