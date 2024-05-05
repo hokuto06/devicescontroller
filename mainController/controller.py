@@ -55,6 +55,8 @@ def connectRuckus(ip_address, user, password, collection):
         #if ruckus.check_connection() == True:
             hostname = ruckus.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
+            data = ruckus.getData()
+            print(data)
             device_data = {
                     # '_id': str(uuid.uuid4()),
                     'group':group,

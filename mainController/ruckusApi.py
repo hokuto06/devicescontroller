@@ -169,6 +169,11 @@ class Ruckus:
         controller = self.sendCommand('set scg ip 54.85.134.165')
         return controller
 
+    def getData(self, host):
+        deviceLocation = self.sendCommand('get boarddata')
+        deviceData = self.parse(deviceLocation.decode("utf-8"))
+        return deviceData 
+        
 
     def getAll(self, host):
         newdict = []
