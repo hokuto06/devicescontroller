@@ -82,8 +82,9 @@ class Unifi:
 
 	def getData(self):
 		data = self.sendCommand('mca-cli-op info\n')
-		_data = {k.lower(): v for k, v in self.parserData(data).iteritems()}
-		return _data
+		_data = self.parserData(data)
+		_lower_data = {k.lower(): v for k, v in _data.iteritems()}
+		return _lower_data
 
 	def getDeviceName(self):
 		name = self.getData()
