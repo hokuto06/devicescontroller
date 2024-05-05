@@ -41,7 +41,7 @@ class Ruckus:
             for line in lines:
                 if re.search(':', line):
                     linesCount = linesCount+1
-                    _list = re.split(":", line)
+                    _list = re.split(":", line, 1)
                     key = _list[0].lstrip().strip()
                     value = _list[1].lstrip().strip()
                     lista[key] = value
