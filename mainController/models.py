@@ -10,9 +10,9 @@ class GroupDevices(models.Model):
 
 class Devices(models.Model):
     # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    _id = models.CharField(primary_key=True, max_length=24)
+    # _id = models.CharField(primary_key=True, max_length=24)
     # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # _id = models.AutoField(primary_key=True)
+    _id = models.AutoField(primary_key=True)
     # _id = models.CharField(max_length=24, primary_key=True, default=uuid.uuid4().hex, editable=False)
     # group_id = models.UUIDField(default=uuid.uuid4, editable=False)  # Campo para el ID grupal
     # group_id = models.ReferenceField(GroupDevices, on_delete=models.CASCADE)
