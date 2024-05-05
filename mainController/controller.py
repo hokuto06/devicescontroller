@@ -35,10 +35,10 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
                 'ipAddress': ip_address,
                 'deviceName': hostname,
                 'model': data.get('model', ''),
-                'macAddress': data.get('mac_address', ''),
+                'macAddress': data.get('mac address', ''),
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
-                'clientes': device.getWlanClients(),
+                'clientes': 'none',
                 'status': 2,
             }
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)

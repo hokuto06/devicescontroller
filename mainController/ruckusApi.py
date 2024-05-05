@@ -174,7 +174,7 @@ class Ruckus:
         deviceData = self.parse(deviceLocation.decode("utf-8"))
         mac_address = re.split('base', deviceData['V54 MAC Address Pool'])
         data = {
-            'mac_address':mac_address[1],
+            'mac address':mac_address[1],
             'serial':deviceData['Serial#'],
             'model':deviceData['Model'],
             'version':deviceData['rev'],

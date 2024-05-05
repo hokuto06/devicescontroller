@@ -82,8 +82,12 @@ class Unifi:
 
 	def getData(self):
 		data = self.sendCommand('mca-cli-op info\n')
-		_data = self.parserData(data)
+		_data = {k.lower(): v for k, v in self.parserData(data).iteritems()}
 		return _data
+
+	def getDeviceName(self):
+		name = self.getData()
+		return(name['Hostname'])
 
 	def getWlanClients(self):
 		data = self.sendCommand('wlanconfig ath0 list station\n')
