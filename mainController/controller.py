@@ -45,7 +45,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
 
 def getHosts():
     return [['10.9.21.14', 'n1mbu5', 'n3tw0rks.', 'ruckus', 'hotel_a']]
-
+ 
 def scan_devices(devices):
     with transaction.atomic():
         for host in devices:
