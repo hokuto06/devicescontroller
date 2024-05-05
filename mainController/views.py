@@ -169,11 +169,11 @@ def procesar_formulario(request, group):
             ip = '.'.join(split_ip1[0:3])+'.'+str(i)
             resultado = checkHost(ip)
             if resultado:
-                print(f'{ip} no responde')
-            else:
                 print(ip)
                 devices_list.append([ip, texto1, texto2, texto3, group])
                 # connectUnifi(ip, texto1, texto2, "hotel_f")
+            else:
+                print(f'{ip} no responde')
 
             print(resultado)
         scan_devices(devices_list)
@@ -238,7 +238,7 @@ def read_excel(request):
     # Devuelve el contenido de las celdas en una respuesta HTTP o haz lo que necesites con él
     return HttpResponse(data)
 
-# def connect_to_ruckus_ap(Request):
+# def connect_to_ruckus_ap(Request):    
 #     print("intentando conectar")
 #     connectRuckus('10.9.21.14','n1mbu5','n3tw0rks.')
 #     return HttpResponse("ok")
