@@ -50,25 +50,6 @@ class Ruckus:
             # print(lista)
             return lista
 
-    def newparse(self, string, wlan="", vlan="", stations=""):
-        #devuelvo una lista
-        if string:
-            lines = re.split(r"[~\r\n]+", string)
-            # lista = {"wlan": wlan, "stations": stations, "vlan": vlan}
-            lista = []
-            # linesCount = 0
-            for line in lines:
-                if re.search(':', line):
-                    # linesCount = linesCount+1
-                    _list = re.split(":", line, 1)
-                    key = _list[0].lstrip().strip()
-                    value = _list[1].lstrip().strip()
-                    lista[key] = value
-            # if linesCount == 1:
-            #     lista = value
-            # print(lista)
-            return lista
-
     def parse_lines(self, raw_data):
         lista = {}
         for line in re.split(r"[~\r\n]+", raw_data):
@@ -190,9 +171,10 @@ class Ruckus:
 
     def getData(self):
         deviceLocation = self.sendCommand('get boarddata')
-        deviceData = self.newparse(deviceLocation.decode("utf-8"))
-
-        return deviceData 
+        deviceData = self.parse(deviceLocation.decode("utf-8"))
+        mac_address = re.split('base', deviceData['V54 MAC Address Pool'])
+        data = {'mac_address':mac_address[1],'serial':deviceData['Serial#']}        
+        return data
         
 
     def getAll(self, host):
