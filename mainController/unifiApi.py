@@ -88,6 +88,7 @@ class Unifi:
 
 	def getDeviceName(self):
 		name = self.getData()
+		print(name)
 		return(name['Hostname'])
 
 	def getWlanClients(self):
