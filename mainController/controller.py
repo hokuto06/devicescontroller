@@ -38,7 +38,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
                 'macAddress': data.get('mac address', ''),
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
-                'clientes': 'none',
+                'clientes': {},
                 'status': 2,
             }
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
