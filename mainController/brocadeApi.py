@@ -35,25 +35,22 @@ class Brocade:
         return deviceName
     
     def parse(self, string, wlan="", vlan="", stations=""):
-        if string:
-            lines = re.split(r"[~\r\n]+", string)
-            lista = {"wlan": wlan, "stations": stations, "vlan": vlan}
-            linesCount = 0
-            for line in lines:
-                if re.search(':', line):
-                    linesCount = linesCount+1
-                    _list = re.split(":", line, 1)
-                    key = _list[0].lstrip().strip()
-                    value = _list[1].lstrip().strip()
-                    lista[key] = value
-            if linesCount == 1:
-                lista = value
-            return lista
+        lista = {}
+        for line in re.split(r"[~\r\n]+", string):
+            if ':' not in line:
+                print(line)
+                continue			
+            key_value = re.split(":", line)
+            #value = line.split(':', maxsplit=1)[1].strip()
+            lista = {key_value[0].strip():key_value[1].strip()}
+            print(lista)
+            # if line.startswith('SSID'):
+        return lista
 
     def getData(self):
         raw_version_data = self.ssh.send_command('show version')
         deviceData = self.parse(raw_version_data)
-        raw_mac_address = self.ssh.send_command('show chasis')
+        raw_mac_address = self.ssh.send_command('show chassis')
         mac_address = self.parse(raw_mac_address)
         data = {
             'mac address':mac_address['Management MAC'],
