@@ -52,7 +52,7 @@ class Brocade:
         deviceData = self.parse(raw_data)
         raw_mac_address = self.ssh.send_command('show chassis')
         mac_address = self.parse(raw_mac_address)
-        print(mac_address['Management MAC'])
+        print(deviceData)
         data = {
             'mac address':mac_address['Management MAC'],
             'serial':deviceData['Serial  #'],
