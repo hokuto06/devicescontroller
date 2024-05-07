@@ -50,12 +50,10 @@ class Brocade:
                 lista = value
             return lista
 
-
-
     def getData(self):
-        raw_version_data = self.ssh.sendCommand('show version')
+        raw_version_data = self.ssh.send_command('show version')
         deviceData = self.parse(raw_version_data.decode("utf-8"))
-        raw_mac_address = self.ssh.sendCommand('show chasis')
+        raw_mac_address = self.ssh.send_command('show chasis')
         mac_address = self.parse(raw_mac_address.decode("utf-8"))
         data = {
             'mac address':mac_address['Management MAC'],
