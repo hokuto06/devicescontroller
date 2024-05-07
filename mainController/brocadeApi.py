@@ -18,6 +18,7 @@ class Brocade:
             }
 
             ssh = ConnectHandler(**brocade_router)
+            self.status = 1
             self.ssh = ssh
             ssh.enable()
             # result = ssh.send_command('sh mac-address vlan 100 | exclude 1/1/48')

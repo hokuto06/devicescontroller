@@ -31,6 +31,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
             data = device.getData()
+            print(data)
             device_data = {
                 'group': group,
                 'deviceUser': user,
