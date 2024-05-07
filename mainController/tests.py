@@ -1,4 +1,4 @@
-from django.test import TestCase
+# from django.test import TestCase
 
 # Create your tests here.
 # split_ip1 = '10.2.2.3'.split('.')
