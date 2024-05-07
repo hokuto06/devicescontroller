@@ -55,7 +55,7 @@ class Brocade:
         print(deviceData)
         data = {
             'mac address':mac_address['Management MAC'],
-            'serial':deviceData['Serial  #'],
+            'serial':"serial",
             'model':deviceData['HW'],
             'version':deviceData['SW'],
             }        
