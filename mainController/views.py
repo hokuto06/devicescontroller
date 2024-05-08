@@ -80,7 +80,7 @@ def inicio(request):
     # return render(request, 'dashboard.html', {'groups': groups})
     groups = GroupDevices.objects.annotate(num_devices=Count('devices'))
     for group in groups:
-        print(group)
+        print(group.__dict__)
     return render(request, 'dashboard.html', {'groups': groups})
 
 def view_group(req, group):
