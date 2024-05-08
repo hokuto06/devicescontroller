@@ -115,14 +115,14 @@ def view_groups(request):
 
 def view_access_points(request, group_id):
     # Recupera todos los objetos Devices de la base de datos
-    dispositivos = Devices.objects.filter(group__group_name=group_id).values()
-    # status_counts = Counter(dispositivo.status for dispositivo in dispositivos)
+    dispositivos = Devices.objects.filter(group__group_name=group_id)
+    status_counts = Counter(dispositivo.status for dispositivo in dispositivos)
     # Crea una lista de diccionarios para almacenar los resultados
     resultados = []
     status_counts_dict = {}
     # print(dispositivos.__dict__)
     for dispositivo in dispositivos:
-        print(type(dispositivo))
+        # print(type(dispositivo))
         print(dispositivo)
         # Agrega los atributos relevantes del objeto a un diccionario
         dispositivo_dict = {
