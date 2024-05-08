@@ -122,7 +122,7 @@ def view_access_points(request, group_id):
     for dispositivo in dispositivos:
         # Agrega los atributos relevantes del objeto a un diccionario
         dispositivo_dict = {
-            'id': dispositivo._id,
+            'id': 'dispositivo._id',
             'host_name': dispositivo.deviceName,
             'version': dispositivo.version,
             'mac_address': dispositivo.macAddress,
