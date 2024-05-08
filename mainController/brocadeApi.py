@@ -42,8 +42,8 @@ class Brocade:
                 continue			
             key_value = re.split(":", line)
             #value = line.split(':', maxsplit=1)[1].strip()
-            lista = {key_value[0].strip():key_value[1].strip()}
-            print(lista)
+            lista.update({key_value[0].strip():key_value[1].strip()})
+            # print(lista)
             # if line.startswith('SSID'):
         return lista
 
@@ -52,11 +52,11 @@ class Brocade:
         deviceData = self.parse(raw_data)
         raw_mac_address = self.ssh.send_command('show chassis')
         mac_address = self.parse(raw_mac_address)
-        print(deviceData)
+        # print(deviceData)
         data = {
             'mac address':mac_address['Management MAC'],
             'serial':deviceData['Serial  #'],
             'model':deviceData['HW'],
             'version':deviceData['SW'],
             }        
-        return data    
+        return data
