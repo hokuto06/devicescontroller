@@ -1,8 +1,8 @@
 import uuid
-from django.db import models
+# from django.db import models
+from djongo import models
 #from django.contrib.postgres.fields import JSONField
 from djongo.models import JSONField
-
 
 class GroupDevices(models.Model):
     group_id = models.AutoField(primary_key=True)  # El campo group_id se autogenera
