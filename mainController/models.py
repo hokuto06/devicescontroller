@@ -11,6 +11,7 @@ class GroupDevices(models.Model):
 class Devices(models.Model):
     # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # _id = models.CharField(primary_key=True, max_length=24)
+    device_id = models.AutoField(primary_key=True)
     # _id = models.ObjectIdField(primary_key=True)
     # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # _id = models.AutoField(primary_key=True)
