@@ -120,6 +120,7 @@ def view_access_points(request, group_id):
     # Crea una lista de diccionarios para almacenar los resultados
     resultados = []
     status_counts_dict = {}
+    print(dispositivos.__dict__)
     for dispositivo in dispositivos:
         print(type(dispositivo))
         print(dispositivo.__dict__)
