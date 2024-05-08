@@ -121,8 +121,8 @@ def view_access_points(request, group_id):
     resultados = []
     status_counts_dict = {}
     for dispositivo in dispositivos:
-        print(dispositivo.__dict__)
         print(type(dispositivo))
+        print(dispositivo.__dict__)
         # Agrega los atributos relevantes del objeto a un diccionario
         dispositivo_dict = {
             'id': 'dispositivo._id',
