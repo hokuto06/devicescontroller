@@ -108,8 +108,8 @@ def crear_grupo(request):
 
 def view_groups(request):
     groups = GroupDevices.objects.annotate(num_devices=Count('devices'))
+    print(groups.__dict__)
     for group in groups:
-        print(group.__dict__)
         print(group)
     return render(request, 'dashboard.html', {'groups': groups})
 
