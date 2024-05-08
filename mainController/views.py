@@ -123,7 +123,7 @@ def view_access_points(request, group_id):
     # print(dispositivos.__dict__)
     for dispositivo in dispositivos:
         # print(type(dispositivo))
-        print(dispositivo)
+        print(dispositivo._id)
         # Agrega los atributos relevantes del objeto a un diccionario
         dispositivo_dict = {
             'id': dispositivo._id,

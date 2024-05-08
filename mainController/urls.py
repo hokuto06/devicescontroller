@@ -23,5 +23,5 @@ urlpatterns = [
     path('devices-test/', views.devices_api, name='devices_api'),
     # path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
     path('device/<uuid:pk>/', views.device_detail_view, name='device-detail'),
-    path('viewdevice/<str:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
+    path('viewdevice/<pk:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]
