@@ -23,7 +23,7 @@ urlpatterns = [
     path('devices-test/', views.devices_api, name='devices_api'),
     # path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
     path('device/<pk>/', views.device_detail_view, name='device-detail'),
-    path('update_device/<str:mac>', views.update_device, name='update-device'),
+    path('update_device/<mac>', views.update_device, name='update-device'),
     # path('viewdevice/<str:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
     path('viewdevice/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]
