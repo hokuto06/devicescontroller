@@ -47,6 +47,21 @@ class Brocade:
             # if line.startswith('SSID'):
         return lista
 
+    def parse_ifcs(self):
+        lista = {}
+        for line in re.split(r"[~\r\n]+", string):
+            if ':' not in line:
+                print(line)
+                continue			
+            key_value = re.split(":", line)
+            lista.update({key_value[0].strip():key_value[1].strip()})
+        return lista        
+
+    def getInterfacesDevices(self):
+        result = self.ssh.send_command('show lldp neighbors')
+        interfaces = self.parse_ifcs(result)
+        return interfaces
+
     def getData(self):
         raw_data = self.ssh.send_command('show version')
         deviceData = self.parse(raw_data)

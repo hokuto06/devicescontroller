@@ -47,6 +47,17 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
             }
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
 
+def connect_device_update(DeviceClass, ip_address, user, password, collection):
+    if checkHost(ip_address):
+        device = DeviceClass(ip_address, user, password)
+        if device.status == 1:
+            interfaces = device.getInterfacesDevices()
+            #print(data)
+            device_data = {
+                'clientes': interfaces,
+            }
+            Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
+
 def getHosts():
     return [['10.9.21.14', 'n1mbu5', 'n3tw0rks.', 'ruckus', 'hotel_a']]
  
@@ -54,6 +65,11 @@ def scan_devices(devices):
     with transaction.atomic():
         for host in devices:
             distributor(host)
+
+def update_device_info(ip_address, user, password, collection):
+    connect_device_update('brocade', ip_address, user, password, collection)
+    return "ok"
+
 
 def main():
     start = time.time()

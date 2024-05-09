@@ -10,7 +10,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices
+from .controller import main, checkHost, scan_devices, update_device_info
 from .tools import _read_excel,unifi_controller,connect_mikrotik
 from django.conf import settings
 import os
@@ -46,6 +46,11 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 #     return JsonResponse(serializer.data)
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
+    return render(request, 'device_detail.html', {'device': device})
+
+def update_device(request, pk):
+    device = Devices.objects.get(pk=ObjectId(pk))
+    update_device_info(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
     return render(request, 'device_detail.html', {'device': device})
 
 class DevicesDetailView(DetailView):
