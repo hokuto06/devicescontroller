@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.views.generic.detail import DetailView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from bson import ObjectId
 from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
@@ -40,7 +41,7 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 
 
 def device_detail_view(request, pk):
-    device = Devices.objects.get(pk=pk)
+    device = Devices.objects.get(pk=ObjectId(object_id))
     serializer = DevicesSerializer(device)
     return JsonResponse(serializer.data)
 
