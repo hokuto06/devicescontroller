@@ -48,8 +48,9 @@ def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
     return render(request, 'device_detail.html', {'device': device})
 
-def update_device(request, pk):
-    device = Devices.objects.get(pk=ObjectId(pk))
+def update_device(request, mac):
+
+    device = Devices.objects.get(macAddress=mac)
     update_device_info(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
     return render(request, 'device_detail.html', {'device': device})
 
