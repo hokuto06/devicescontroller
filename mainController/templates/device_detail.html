@@ -5,10 +5,10 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
-<!-- <div id="device-detail-container">
+<div id="device-detail-container">
     <h1>Detalle del Dispositivo</h1>
     <p id="device-detail-content">Cargando...</p>
-</div> -->
+</div>
 <div class="container-fluid px-4">
 <div class="card mb-4">
     <div class="card-header">
@@ -17,11 +17,13 @@
     </div>    
     <div class="card-body">
         <div id="device-detail-container"> 
-        Mac: {{ device.macAddress }}
-        Ip: {{ device.ipAddress }}
-        Version: {{ device.version }}
-        Controller: {{ device.controllerStatus }}
-<!-- <p id="device-detail-content">Cargando...</p> -->
+        <table>
+            <tr><td>>Mac: {{ device.macAddress }}</td></tr>
+            <tr><td>Ip: {{ device.ipAddress }}</td></tr>
+            <tr><td>Version: {{ device.version }}</td></tr>
+            <tr><td>Controller: {{ device.controllerStatus }}</td></tr>
+        </table>
+        <!-- <p id="device-detail-content">Cargando...</p> -->
 </div>
 </div>
 </div>
