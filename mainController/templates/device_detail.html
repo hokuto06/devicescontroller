@@ -16,7 +16,7 @@
         {% with object_id=device._id %}
             <a href="{% url 'update_device' object_id %}">Update</a>
         {% endwith %} -->
-
+        <button id="updateButton">Actualizar Dispositivo</button>
         <!-- <a href="{% url  'update_device' device._id %}">Update</a> -->
     </div>
 </div>
@@ -38,6 +38,28 @@
 </div>
 </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#updateButton').click(function() {
+            var device_id = "{{ device._id|stringformat:"s" }}"; // Obtener el ID del dispositivo del template
+
+            $.ajax({
+                url: "{% url 'update_device' %}" + device_id + "/", // URL de la vista de Django
+                method: "GET",
+                success: function(data) {
+                    // Manejar la respuesta aquí
+                    console.log(data); // Imprimir datos en la consola para verificación
+                    // Aquí puedes manipular los datos recibidos, por ejemplo, actualizar el DOM con los detalles del dispositivo
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores aquí
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 <!-- JavaScript para realizar la solicitud AJAX -->
 <!-- <script>
     $(document).ready(function () {
