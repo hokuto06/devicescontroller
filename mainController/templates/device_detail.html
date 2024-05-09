@@ -16,9 +16,12 @@
         {{ device.deviceName }}
     </div>    
     <div class="card-body">
-    {{ device.macAddress }}
-<div id="device-detail-container"> 
-<p id="device-detail-content">Cargando...</p>
+        <div id="device-detail-container"> 
+        Mac: {{ device.macAddress }}
+        Ip: {{ device.ipAddress }}
+        Version: {{ device.version }}
+        Controller: {{ device.controllerStatus }}
+<!-- <p id="device-detail-content">Cargando...</p> -->
 </div>
 </div>
 </div>
