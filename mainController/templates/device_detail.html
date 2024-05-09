@@ -13,7 +13,7 @@
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
-        DataTable Example
+        {{ device }}
     </div>    
 <div class="card-body">
 <div id="device-detail-container"> 
@@ -22,7 +22,7 @@
 </div>
 </div>
 <!-- JavaScript para realizar la solicitud AJAX -->
-<script>
+<!-- <script>
     $(document).ready(function () {
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
         $.ajaxSetup({
@@ -57,5 +57,5 @@
             }
         });
     });
-</script>
+</script> -->
 {% endblock %}

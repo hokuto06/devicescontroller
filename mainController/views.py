@@ -39,11 +39,14 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
     queryset = GroupDevices.objects.all()
     serializer_class = GroupDevicesSerializer
 
-
+#Funcion para devolver un json 
+# def device_detail_view(request, pk):
+#     device = Devices.objects.get(pk=ObjectId(pk))
+#     serializer = DevicesSerializer(device)
+#     return JsonResponse(serializer.data)
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
-    serializer = DevicesSerializer(device)
-    return JsonResponse(serializer.data)
+    return render(request, 'device_detail.html', {'device': device})
 
 class DevicesDetailView(DetailView):
     model = Devices
