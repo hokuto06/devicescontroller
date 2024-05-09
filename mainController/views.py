@@ -41,7 +41,7 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 
 
 def device_detail_view(request, pk):
-    device = Devices.objects.get(pk=ObjectId(object_id))
+    device = Devices.objects.get(pk=ObjectId(pk))
     serializer = DevicesSerializer(device)
     return JsonResponse(serializer.data)
 
