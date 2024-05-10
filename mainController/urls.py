@@ -11,6 +11,7 @@ urlpatterns = [
     path('uc', views.uc_connect, name="uc"),
     path('mkt', views.mkt_connect, name="mkt"),
     path('view-devices/<str:group_id>', views.view_access_points, name="ViewAccessPoints"),
+    path('view-gateway/<str:group_id>', views.view_gateway, name="ViewGateway"),
     path('delete-all', views.delete_all),
     path('crear_grupo/', views.crear_grupo, name='CrearGrupo'),
     path('procesar_formulario/<str:group>/', views.procesar_formulario, name='procesar_formulario'),

@@ -86,6 +86,10 @@ def view_groups(request):
         print(group)
     return render(request, 'dashboard.html', {'groups': groups})
 
+def view_gateway(request, group_id):
+    contexto = 'ok'
+    return render(request, 'gateway.html', contexto)
+
 def view_access_points(request, group_id):
     dispositivos = Devices.objects.filter(group__group_name=group_id)
     status_counts = Counter(dispositivo.status for dispositivo in dispositivos)
