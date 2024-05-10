@@ -50,10 +50,10 @@ class Brocade:
     def parse_ifcs(self, string):
         lista = {}
         for line in re.split(r"[~\r\n]+", string):
-            if ':' not in line:
+            if  r"\d+\s*/\s*\d+\s*/\s*\d+" not in line:
                 print(line)
                 continue			
-            key_value = re.split(":", line)
+            key_value = re.split("", line)
             lista.update({key_value[0].strip():key_value[1].strip()})
         return lista        
 
