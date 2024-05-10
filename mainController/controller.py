@@ -26,7 +26,7 @@ def checkHost(ip_address):
 
 def connect_device(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):
-        device = DeviceClass(ip_address, user, password)
+        device = Brocade(ip_address, user, password)
         if device.status == 1:
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
