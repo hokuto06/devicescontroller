@@ -87,7 +87,7 @@ def view_groups(request):
     return render(request, 'dashboard.html', {'groups': groups})
 
 def view_gateway(request, group_id):
-    contexto = 'ok'
+    contexto = {}
     return render(request, 'gateway.html', contexto)
 
 def view_access_points(request, group_id):
