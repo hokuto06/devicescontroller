@@ -68,7 +68,7 @@ def scan_devices(devices):
             distributor(host)
 
 def update_device_info(ip_address, user, password, collection):
-    connect_device_update('brocade', ip_address, user, password, collection)
+    connect_device_update('Brocade', ip_address, user, password, collection)
     return "ok"
 
 
