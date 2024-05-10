@@ -48,7 +48,7 @@ class Brocade:
         return lista
 
     def parse_mac(self, string):
-        mac_address = mac_address.replace(".", "")
+        mac_address = string.replace(".", "")
         formatted_mac_address = ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2))
         return formatted_mac_address
 
