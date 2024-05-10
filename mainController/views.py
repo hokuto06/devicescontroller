@@ -197,9 +197,9 @@ def procesar_formulario(request, group):
     else:
         return render(request, 'add_devices.html', {'group' : group})
 
-def delete_device(request, device_id):
+def delete_device(request, pk):
     # Encuentra el dispositivo por su ID, si no existe, retorna un error 404
-    dispositivo = get_object_or_404(Devices, _id=device_id)
+    dispositivo = get_object_or_404(Devices, _id=pk)
     
     grupo_perteneciente = dispositivo.group
     
