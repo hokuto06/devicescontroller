@@ -30,7 +30,17 @@
             <tr><td>Controller: {{ device.controllerStatus }}</td></tr>
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
-</div>
+        {% if device.clientes %}
+        <ul>
+            {% for port, mac_address in device.clientes.items %}
+                <li>Cliente en el puerto {{ port }}: {{ mac_address }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay clientes disponibles.</p>
+    {% endif %}
+    
+    </div>
 </div>
 </div>
 
