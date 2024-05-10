@@ -12,6 +12,7 @@
 <div class="card mb-4">
     <div class="card-body">
         <button id="updateButton">Actualizar Dispositivo</button>
+        <a href="{% url  'update_device' device.macAddress  %}">Search for devices</a>
     </div>
 </div>
 <div class="container-fluid px-4">
@@ -33,7 +34,7 @@
 </div>
 </div>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#updateButton').click(function() {
             var device_id = "{{ device.macAddress }}"; // Obtener el ID del dispositivo del template
@@ -53,7 +54,7 @@
             });
         });
     });
-</script>
+</script> -->
 <!-- JavaScript para realizar la solicitud AJAX -->
 <!-- <script>
     $(document).ready(function () {
