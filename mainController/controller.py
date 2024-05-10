@@ -26,7 +26,7 @@ def checkHost(ip_address):
 
 def connect_device(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):
-        device = Brocade(ip_address, user, password)
+        device = DeviceClass(ip_address, user, password)
         if device.status == 1:
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
@@ -68,7 +68,7 @@ def scan_devices(devices):
             distributor(host)
 
 def update_device_info(ip_address, user, password, collection):
-    connect_device_update('Brocade', ip_address, user, password, collection)
+    connect_device_update(Brocade, ip_address, user, password, collection)
     return "ok"
 
 
