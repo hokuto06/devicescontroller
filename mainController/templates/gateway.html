@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-2">{{ group_name }}</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Gateway</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-md-4">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body">UP: {{ status_counts_dict.status_1_count }}</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-4">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-body">ERROR: {{ status_counts_dict.status_2_count }} Card</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-4">
+                <div class="card bg-danger text-white mb-4">
+                    <div class="card-body">DOWN: {{ status_counts_dict.status_0_count }}</div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="card mb-4">
+            <div class="card-body">
+                Agregar disositivos individualmente.
+                <a href="{% url  'procesar_formulario' group_name %}">Search for devices</a>
+                .
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Dispositivos
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
