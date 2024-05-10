@@ -48,14 +48,14 @@ class Brocade:
         return lista
 
     def parse_ifcs(self, string):
-        lista = {}
-        for line in re.split(r"[~\r\n]+", string):
-            if  r"\d+\s*/\s*\d+\s*/\s*\d+" not in line:
-                print(line)
-                continue			
-            key_value = re.split("", line)
-            lista.update({key_value[0].strip():key_value[1].strip()})
-        return lista        
+        pattern = r'^(\d+/\d+/\d+)\s+(\S+)\s+'
+        matches = re.findall(pattern, string, re.MULTILINE)
+        result = {}
+        for match in matches:
+            result[match[0]] = match[1]
+
+        # Imprimir el diccionario resultante
+        return result
 
     def getInterfacesDevices(self):
         result = self.ssh.send_command('show lldp neighbors')
