@@ -47,7 +47,7 @@ class Brocade:
             # if line.startswith('SSID'):
         return lista
 
-    def parse_ifcs(self):
+    def parse_ifcs(self, string):
         lista = {}
         for line in re.split(r"[~\r\n]+", string):
             if ':' not in line:
