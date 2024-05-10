@@ -199,7 +199,7 @@ def procesar_formulario(request, group):
 
 def delete_device(request, pk):
     # Encuentra el dispositivo por su ID, si no existe, retorna un error 404
-    dispositivo = get_object_or_404(Devices, _id=pk)
+    dispositivo = get_object_or_404(Devices, pk=ObjectId(pk))
     
     grupo_perteneciente = dispositivo.group
     
