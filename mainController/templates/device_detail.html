@@ -33,7 +33,7 @@
         {% if device.clientes %}
         <ul>
             {% for port, mac_address in device.clientes.items %}
-                <li>Cliente en el puerto {{ port }}: {{ mac_address }}</li>
+                <li>{{ port }}: {{ mac_address }}</li>
             {% endfor %}
         </ul>
     {% else %}
