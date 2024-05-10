@@ -49,6 +49,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
 
 def connect_device_update(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):
+        print(ip_address)
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
             interfaces = device.getInterfacesDevices()
