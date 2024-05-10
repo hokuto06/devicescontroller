@@ -52,7 +52,7 @@ def update_device(request, macAddress):
 
     device = Devices.objects.get(macAddress=macAddress)
     update_device_info(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
-    return render(request, 'device_detail.html', {'device': device})
+    return redirect('device_detail.html', {'device': device})
 
 class DevicesDetailView(DetailView):
     model = Devices
