@@ -59,6 +59,7 @@ class Brocade:
 
     def getInterfacesDevices(self):
         result = self.ssh.send_command('show lldp neighbors')
+        print(result)
         interfaces = self.parse_ifcs( result)
         return interfaces
 
