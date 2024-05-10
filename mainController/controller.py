@@ -57,6 +57,7 @@ def connect_device_update(DeviceClass, ip_address, user, password, collection):
             device_data = {
                 'clientes': interfaces,
             }
+            print(device_data)
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
 
 def getHosts():
