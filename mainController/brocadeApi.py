@@ -47,12 +47,18 @@ class Brocade:
             # if line.startswith('SSID'):
         return lista
 
+    def parse_mac(self, string):
+        mac_address = mac_address.replace(".", "")
+        formatted_mac_address = ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2))
+        return formatted_mac_address
+
     def parse_ifcs(self, string):
         pattern = r'^(\d+/\d+/\d+)\s+(\S+)\s+'
         matches = re.findall(pattern, string, re.MULTILINE)
         result = {}
         for match in matches:
-            result[match[0]] = match[1]
+            mac = self.parse_mac(match[1])
+            result[match[0]] = mac
 
         # Imprimir el diccionario resultante
         return result
