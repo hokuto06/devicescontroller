@@ -10,8 +10,8 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices, update_device_info
-from .tools import _read_excel,unifi_controller,connect_mikrotik
+from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik
+from .tools import _read_excel,unifi_controller
 from django.conf import settings
 import os
 from .serializers import GroupDevicesSerializer, DevicesSerializer
