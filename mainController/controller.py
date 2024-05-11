@@ -4,6 +4,7 @@ from multiprocessing import Pool
 import routeros_api
 import uuid
 import socket
+import json
 from pprint import pprint
 import time
 from .models import Devices, GroupDevices
@@ -78,17 +79,36 @@ def connect_mikrotik(devices):
     api = connection.get_api()
     list_dhcp = api.get_resource('/ip/dhcp-server/lease')
     routerboard = api.get_resource('/system/routerboard')
-    identity = api.get_resource('/system/identity')
-    dhcp_list = list_dhcp.get(server="dhcp1")
-    print(dhcp_list)
-    list_client = {}
+    identity = api.get_resource('/system/identity')    
+    _identity = identity.get()    
+    interfaces = api.get_resource('/interface/ethernet')
+    _routerboard = routerboard.get()
+    _identity = identity.get()
+    for interface in interfaces.get():
+        if interface['name']=='ether1':
+            mac_address=interface['mac-address']
+    version =_routerboard[0]['current-firmware']
+    model =_routerboard[0]['model']
+    dhcp_list = list_dhcp.get()
+    list_client = []
     for dhcp_client in dhcp_list:
-        # list_client.append(dhcp_client['address'])
-        # list_client.append(dhcp_client['mac-address'])
-        # list_client.append(dhcp_client['server'])
-        # list_client.append([dhcp_client['address'],dhcp_client['mac-address'],dhcp_client['server']])
-        list_client.update({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
-    return(list_client)
+        list_client.append({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
+    json_data = json.dumps(list_client)
+    device_data = {
+        'group': 'prueba',
+        'deviceUser': devices[1],
+        'devicePassword': devices[2],
+        'ipAddress': devices[0],
+        'deviceName': _identity[0]['name'],
+        'model': model,
+        'macAddress': mac_address,
+        'version': version,
+        'controllerStatus': 'null',
+        'clientes': json_data,
+        'status': 2,
+    }
+    Devices.objects.update_or_create(ipAddress=devices[0], defaults=device_data)
+
 
 def main():
     start = time.time()
