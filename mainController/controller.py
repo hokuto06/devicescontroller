@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from multiprocessing import Pool
+import routeros_api
 import uuid
 import socket
 from pprint import pprint
@@ -72,6 +73,22 @@ def update_device_info(ip_address, user, password, collection):
     connect_device_update(Brocade, ip_address, user, password, collection)
     return "ok"
 
+def connect_mikrotik(devices):
+    connection = routeros_api.RouterOsApiPool(devices[0], username=devices[1], password=devices[2])
+    api = connection.get_api()
+    list_dhcp = api.get_resource('/ip/dhcp-server/lease')
+    routerboard = api.get_resource('/system/routerboard')
+    identity = api.get_resource('/system/identity')
+    dhcp_list = list_dhcp.get(server="dhcp1")
+    print(dhcp_list)
+    list_client = {}
+    for dhcp_client in dhcp_list:
+        # list_client.append(dhcp_client['address'])
+        # list_client.append(dhcp_client['mac-address'])
+        # list_client.append(dhcp_client['server'])
+        # list_client.append([dhcp_client['address'],dhcp_client['mac-address'],dhcp_client['server']])
+        list_client.update({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
+    return(list_client)
 
 def main():
     start = time.time()

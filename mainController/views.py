@@ -158,19 +158,19 @@ def procesar_formulario(request, group):
 
 def add_one(request, group):
     if request.method == 'POST':
-        ip = request.POST.get('ip1')
+        ip = request.POST.get('ip')
         texto1 = request.POST.get('texto1')
         texto2 = request.POST.get('texto2')
-        texto3 = request.POST.get('texto3')
+        # texto3 = request.POST.get('texto3')
         group = request.POST.get('grupo')
         devices = []
         resultado = checkHost(ip)
         if resultado:
             print(ip)
-            devices.append([ip, texto1, texto2, texto3, group])
+            devices.append([ip, texto1, texto2, group])
         else:
             print(f'{ip} no responde')
-        scan_devices(devices)
+        connect_mikrotik(devices)
         return redirect('ViewAccessPoints',group_id=group)
     else:
         return render(request, 'add_one_device.html', {'group' : group})
