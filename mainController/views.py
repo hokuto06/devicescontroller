@@ -156,6 +156,25 @@ def procesar_formulario(request, group):
     else:
         return render(request, 'add_devices.html', {'group' : group})
 
+def add_one(request, group):
+    if request.method == 'POST':
+        ip = request.POST.get('ip1')
+        texto1 = request.POST.get('texto1')
+        texto2 = request.POST.get('texto2')
+        texto3 = request.POST.get('texto3')
+        group = request.POST.get('grupo')
+        devices = []
+        resultado = checkHost(ip)
+        if resultado:
+            print(ip)
+            devices.append([ip, texto1, texto2, texto3, group])
+        else:
+            print(f'{ip} no responde')
+        scan_devices(devices)
+        return redirect('ViewAccessPoints',group_id=group)
+    else:
+        return render(request, 'add_one_device.html', {'group' : group})
+
 def delete_device(request, pk):
     # Encuentra el dispositivo por su ID, si no existe, retorna un error 404
     dispositivo = get_object_or_404(Devices, pk=ObjectId(pk))
