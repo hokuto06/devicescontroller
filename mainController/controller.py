@@ -91,12 +91,13 @@ def connect_mikrotik(device):
     version =_routerboard[0]['current-firmware']
     model =_routerboard[0]['model']
     dhcp_list = list_dhcp.get()
+    group = GroupDevices.objects.get(group_name=collection)
     list_client = []
     for dhcp_client in dhcp_list:
         list_client.append({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
     json_data = json.dumps(list_client)
     device_data = {
-        'group': 'prueba',
+        'group': group,
         'deviceUser': device[1],
         'devicePassword': device[2],
         'ipAddress': device[0],
