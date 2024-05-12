@@ -76,7 +76,7 @@ def update_device_info(ip_address, user, password, collection):
 
 def connect_mikrotik(device):
     print(device)
-    connection = routeros_api.RouterOsApiPool(device[0], username=device[1], password=device[2],password=device[3])
+    connection = routeros_api.RouterOsApiPool(device[0], username=device[1], password=device[2])
     api = connection.get_api()
     list_dhcp = api.get_resource('/ip/dhcp-server/lease')
     routerboard = api.get_resource('/system/routerboard')
