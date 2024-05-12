@@ -162,7 +162,8 @@ def add_one(request, group):
         texto1 = request.POST.get('texto1')
         texto2 = request.POST.get('texto2')
         # texto3 = request.POST.get('texto3')
-        group = request.POST.get('grupo')
+        # group = request.POST.get('grupo')
+        group = 'prueba'
         #devices = []
         resultado = checkHost(ip)
         if resultado:
