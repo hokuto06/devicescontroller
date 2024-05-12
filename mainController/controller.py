@@ -95,7 +95,7 @@ def connect_mikrotik(device):
     list_client = []
     for dhcp_client in dhcp_list:
         list_client.append({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
-    json_data = json.dumps(list_client)
+    # json_data = json.dumps(list_client)
     device_data = {
         'group': group,
         'deviceUser': device[1],
@@ -106,7 +106,7 @@ def connect_mikrotik(device):
         'macAddress': mac_address,
         'version': version,
         'controllerStatus': 'null',
-        'clientes': json_data,
+        'clientes': list_client,
         'status': 2,
     }
     Devices.objects.update_or_create(ipAddress=device[0], defaults=device_data)
