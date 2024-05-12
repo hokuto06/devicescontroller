@@ -74,9 +74,9 @@ def update_device_info(ip_address, user, password, collection):
     connect_device_update(Brocade, ip_address, user, password, collection)
     return "ok"
 
-def connect_mikrotik(devices):
-    print(devices)
-    connection = routeros_api.RouterOsApiPool(devices[0], username=devices[1], password=devices[2])
+def connect_mikrotik(device):
+    print(device)
+    connection = routeros_api.RouterOsApiPool(device[0], username=device[1], password=device[2])
     api = connection.get_api()
     list_dhcp = api.get_resource('/ip/dhcp-server/lease')
     routerboard = api.get_resource('/system/routerboard')
@@ -97,9 +97,9 @@ def connect_mikrotik(devices):
     json_data = json.dumps(list_client)
     device_data = {
         'group': 'prueba',
-        'deviceUser': devices[1],
-        'devicePassword': devices[2],
-        'ipAddress': devices[0],
+        'deviceUser': device[1],
+        'devicePassword': device[2],
+        'ipAddress': device[0],
         'deviceName': _identity[0]['name'],
         'model': model,
         'macAddress': mac_address,
@@ -108,7 +108,7 @@ def connect_mikrotik(devices):
         'clientes': json_data,
         'status': 2,
     }
-    Devices.objects.update_or_create(ipAddress=devices[0], defaults=device_data)
+    Devices.objects.update_or_create(ipAddress=device[0], defaults=device_data)
 
 
 def main():

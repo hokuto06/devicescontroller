@@ -163,14 +163,14 @@ def add_one(request, group):
         texto2 = request.POST.get('texto2')
         # texto3 = request.POST.get('texto3')
         group = request.POST.get('grupo')
-        devices = []
+        #devices = []
         resultado = checkHost(ip)
         if resultado:
             print(ip)
-            devices.append([ip, texto1, texto2, group])
+            device = [ip, texto1, texto2, group]
         else:
             print(f'{ip} no responde')
-        connect_mikrotik(devices)
+        connect_mikrotik(device)
         return redirect('ViewAccessPoints',group_id=group)
     else:
         return render(request, 'add_one_device.html', {'group' : group})
