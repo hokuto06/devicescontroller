@@ -19,8 +19,7 @@ class Devices(models.Model):
     version = models.CharField(max_length=40)
     model = models.CharField(max_length=40)
     macAddress = models.CharField(max_length=40)
-    # clientes = JSONField(default=list, null=True, blank=True)
-    clientes = models.ArrayField(model_container=dict)
+    clientes = JSONField(default=list, null=True, blank=True)
     status = models.IntegerField()
 
     def save(self, *args, **kwargs):
