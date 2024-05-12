@@ -9,15 +9,7 @@ class GroupDevices(models.Model):
     group_name = models.CharField(max_length=255)
 
 class Devices(models.Model):
-    # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # _id = models.CharField(primary_key=True, max_length=24)
-    # device_id = models.AutoField(primary_key=True)
     _id = models.ObjectIdField(primary_key=True)
-    # _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # _id = models.AutoField(primary_key=True)
-    # _id = models.CharField(max_length=24, primary_key=True, default=uuid.uuid4().hex, editable=False)
-    # group_id = models.UUIDField(default=uuid.uuid4, editable=False)  # Campo para el ID grupal
-    # group_id = models.ReferenceField(GroupDevices, on_delete=models.CASCADE)
     group = models.ForeignKey(GroupDevices, on_delete=models.CASCADE)
     ipAddress = models.GenericIPAddressField(unique=True)
     deviceUser = models.CharField(max_length=100)
@@ -27,7 +19,8 @@ class Devices(models.Model):
     version = models.CharField(max_length=40)
     model = models.CharField(max_length=40)
     macAddress = models.CharField(max_length=40)
-    clientes = JSONField(default=list, null=True, blank=True)
+    # clientes = JSONField(default=list, null=True, blank=True)
+    clientes = models.ArrayField(model_container=dict)
     status = models.IntegerField()
 
     def save(self, *args, **kwargs):
