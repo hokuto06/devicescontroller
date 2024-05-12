@@ -76,7 +76,7 @@ def update_device_info(ip_address, user, password, collection):
 
 def connect_mikrotik(device):
     print(device)
-    connection = routeros_api.RouterOsApiPool(device[0], username=device[1], password=device[2])
+    connection = routeros_api.RouterOsApiPool(device[0], username=device[1], password=device[2],password=device[3])
     api = connection.get_api()
     list_dhcp = api.get_resource('/ip/dhcp-server/lease')
     routerboard = api.get_resource('/system/routerboard')
@@ -91,7 +91,7 @@ def connect_mikrotik(device):
     version =_routerboard[0]['current-firmware']
     model =_routerboard[0]['model']
     dhcp_list = list_dhcp.get()
-    group = GroupDevices.objects.get(group_name=collection)
+    group = GroupDevices.objects.get(group_name=device[3])
     list_client = []
     for dhcp_client in dhcp_list:
         list_client.append({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
