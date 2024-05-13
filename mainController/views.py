@@ -53,7 +53,7 @@ def device_detail_view(request, pk):
 def update_device(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
     group_name = GroupDevices.objects.get(group_id=device.group_id)
-    distributor([device.ipAddress, device.deviceUser, device.devicePassword, device.vendor, group_name])
+    distributor([device.ipAddress, device.deviceUser, device.devicePassword, group_name, device.vendor])
     return "ok"
 
 class DevicesDetailView(DetailView):
