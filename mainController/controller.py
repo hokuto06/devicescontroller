@@ -16,20 +16,20 @@ from .mikrotikApi import Mikrotik
 def distributor(test):
     ip_address, user, password, vendor, collection = (test[0], test[1], test[2], test[3], test[4].rstrip())
     if vendor == 'unifi':
-        connect_device(Unifi, ip_address, user, password, collection)
+        connect_device(Unifi, ip_address, user, password, collection, vendor)
     elif vendor == 'ruckus':
-        connect_device(Ruckus, ip_address, user, password, collection)
+        connect_device(Ruckus, ip_address, user, password, collection, vendor)
     elif vendor == 'brocade':
-        connect_device(Brocade, ip_address, user, password, collection)
+        connect_device(Brocade, ip_address, user, password, collection, vendor)
     elif vendor == 'mikrotik':
-        connect_device(Mikrotik, ip_address, user, password, collection)        
+        connect_device(Mikrotik, ip_address, user, password, collection,vendor)        
 
 def checkHost(ip_address):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(0.5)
         return not sock.connect_ex((ip_address, 22))
 
-def connect_device(DeviceClass, ip_address, user, password, collection):
+def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
     if checkHost(ip_address):
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
@@ -45,6 +45,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection):
                 'deviceName': hostname,
                 'model': data.get('model', ''),
                 'macAddress': data.get('mac address', ''),
+                'vendor': vendor,
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
                 'clientes': {},
