@@ -11,6 +11,7 @@ from .models import Devices, GroupDevices
 from .unifiApi import Unifi
 from .ruckusApi import Ruckus
 from .brocadeApi import Brocade
+from .mikrotikApi import Mikrotik
 
 def distributor(test):
     ip_address, user, password, vendor, collection = (test[0], test[1], test[2], test[3], test[4].rstrip())
@@ -20,6 +21,8 @@ def distributor(test):
         connect_device(Ruckus, ip_address, user, password, collection)
     elif vendor == 'brocade':
         connect_device(Brocade, ip_address, user, password, collection)
+    elif vendor == 'mikrotik':
+        connect_device(Mikrotik, ip_address, user, password, collection)        
 
 def checkHost(ip_address):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
