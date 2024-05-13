@@ -10,7 +10,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik
+from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, connect_device
 from .tools import _read_excel,unifi_controller
 from django.conf import settings
 import os
@@ -52,7 +52,7 @@ def device_detail_view(request, pk):
 
 def update_device(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
-    update_device_info(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
+    connect_device(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
     return "ok"
 
 class DevicesDetailView(DetailView):
