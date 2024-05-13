@@ -18,7 +18,7 @@ class Devices(models.Model):
     deviceName = models.CharField(max_length=40)
     version = models.CharField(max_length=40)
     model = models.CharField(max_length=40)
-    manufacturer = models.CharField(max_length=40)
+    vendor = models.CharField(max_length=40)
     macAddress = models.CharField(max_length=40)
     clientes = JSONField(default=list, null=True, blank=True)
     status = models.IntegerField()
