@@ -52,7 +52,7 @@ def device_detail_view(request, pk):
 
 def update_device(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
-    distributor(device.ipAddress, device.deviceUser, device.devicePassword, device.devicePassword, device.group)
+    distributor(device.ipAddress, device.deviceUser, device.devicePassword, device.vendor, device.group)
     return "ok"
 
 class DevicesDetailView(DetailView):
