@@ -37,11 +37,21 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
-    return render(request, 'device_detail.html', {'device': device})
+    dispositivo_dict = {
+        'id': device._id,
+        'host_name': device.deviceName,
+        'version': device.version,
+        'mac_address': device.macAddress,
+        'model': device.model,
+        'ip_address': device.ipAddress,
+        'status': device.status,
+        'controller_status': device.controllerStatus,
+    }
+    return render(request, 'device_detail.html', {'device': dispositivo_dict})
 
-def update_device(request, macAddress):
 
-    device = Devices.objects.get(macAddress=macAddress)
+def update_device(request, pk):
+    device = Devices.objects.get(pk=ObjectId(pk))
     update_device_info(device.ipAddress, device.deviceUser, device.devicePassword, device.group_id)
     return "ok"
 

@@ -94,8 +94,12 @@ def connect_mikrotik(device):
     group = GroupDevices.objects.get(group_name=device[3])
     list_client = []
     for dhcp_client in dhcp_list:
-        list_client.append({'address':dhcp_client['address'],'mac':dhcp_client['mac-address'],'server':dhcp_client['server']})
-    # json_data = json.dumps(list_client)
+        if 'mac-address' in dhcp_client and dhcp_client['mac-address']:
+            list_client.append({
+                'address':dhcp_client['address'],
+                'mac':dhcp_client['mac-address'],
+                'server':dhcp_client['server']
+                })
     device_data = {
         'group': group,
         'deviceUser': device[1],

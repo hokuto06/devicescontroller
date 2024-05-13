@@ -12,7 +12,7 @@
 <div class="card mb-4">
     <div class="card-body">
         <button id="updateButton">Actualizar Dispositivo</button>
-        <a href="{% url  'update_device' device.macAddress  %}">Search for devices</a>
+        <a href="{% url  'update_device' device.id  %}">Search for devices</a>
     </div>
 </div>
 <div class="container-fluid px-4">
@@ -24,10 +24,10 @@
     <div class="card-body">
         <div id="device-detail-container"> 
         <table>
-            <tr><td>Mac: {{ device.macAddress }}</td></tr>
-            <tr><td>Ip: {{ device.ipAddress }}</td></tr>
+            <tr><td>Mac: {{ device.mac_address }}</td></tr>
+            <tr><td>Ip: {{ device.ip_address }}</td></tr>
             <tr><td>Version: {{ device.version }}</td></tr>
-            <tr><td>Controller: {{ device.controllerStatus }}</td></tr>
+            <tr><td>Controller: {{ device.controller_status }}</td></tr>
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
