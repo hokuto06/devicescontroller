@@ -1,6 +1,6 @@
 import routeros_api
 
-class Brocade:
+class Mikrotik:
 
     status = None
 
