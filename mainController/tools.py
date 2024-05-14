@@ -62,4 +62,7 @@ def checkhost(vendor='mikrotik',ip_address='172.19.60.3' ):
 
 if __name__ == "__main__":
     # _read_excel()
-    checkhost()
+    if checkhost():
+        print('responde')
+    else:
+        print('no responde')
