@@ -180,7 +180,7 @@ def add_one(request, group):
         #devices = []
         resultado = checkHost(ip)
         if resultado:
-            print(ip)
+            print(' add one ')
         else:
             print(f'{ip} no responde')
         distributor([ip, texto1, texto2, group, texto3])
