@@ -1,6 +1,6 @@
 from django.conf import settings
 from openpyxl import load_workbook
-# from unificontrol import UnifiClient
+from unificontrol import UnifiClient
 import os
 from pprint import pprint
 import routeros_api
