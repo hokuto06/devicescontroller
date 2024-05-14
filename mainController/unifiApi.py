@@ -91,7 +91,7 @@ class Unifi:
 		print(name)
 		return(name['hostname'])
 
-	def getWlanClients(self):
+	def get_clients(self):
 		data = self.sendCommand('wlanconfig ath0 list station\n')
 		# data = self.sendCommand('wlanconfig ath1 list station\n')
 		# data = self.sendCommand('wlanconfig ath2 list station\n')
