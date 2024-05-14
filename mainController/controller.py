@@ -31,6 +31,8 @@ def checkHost(ip_address):
 
 def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
     if checkHost(ip_address):
+        print("sigue ip")
+        print(ip_address)
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
             hostname = device.getDeviceName()

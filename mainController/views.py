@@ -181,9 +181,9 @@ def add_one(request, group):
         resultado = checkHost(ip)
         if resultado:
             print(ip)
-            distributor([ip, texto1, texto2, group, texto3])
         else:
             print(f'{ip} no responde')
+        distributor([ip, texto1, texto2, group, texto3])
         return redirect('ViewAccessPoints',group_id=group)
     else:
         return render(request, 'add_one_device.html', {'group' : group})
