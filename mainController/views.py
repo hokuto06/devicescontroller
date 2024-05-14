@@ -54,7 +54,7 @@ def update_device(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
     group_name = GroupDevices.objects.get(group_id=device.group_id) 
     print(group_name.group_name)
-    distributor([device.ipAddress, device.deviceUser, device.devicePassword, group_name.group_name, device.vendor])
+    distributor([device.ipAddress, device.deviceUser, device.devicePassword, device.vendor, group_name.group_name])
     # return "ok"
     return redirect('ViewAccessPoints',group_id=group_name.group_name)
 
