@@ -56,7 +56,7 @@ def update_device(request, pk):
     print(group_name.group_name)
     distributor([device.ipAddress, device.deviceUser, device.devicePassword, group_name.group_name, device.vendor])
     # return "ok"
-    return redirect('ViewAccessPoints',group_id=group_name)
+    return redirect('ViewAccessPoints',group_id=group_name.group_name)
 
 class DevicesDetailView(DetailView):
     model = Devices
