@@ -34,6 +34,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
     print("sigue ip")
     print(ip_address)
     if checkHost(ip_address):
+        print('responde')
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
             hostname = device.getDeviceName()
@@ -55,6 +56,8 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
             }
             print(device_data)
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
+        else:
+            print('no responde')
 
 def connect_device_update(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):
