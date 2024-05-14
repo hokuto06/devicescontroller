@@ -61,7 +61,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
             print(device_data)
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
         else:
-            print('no responde')
+            print(ip_address+'no responde')
 
 def connect_device_update(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):

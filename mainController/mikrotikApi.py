@@ -9,6 +9,7 @@ class Mikrotik:
         connection = routeros_api.RouterOsApiPool(ipAddress, userName, passWord)
         api = connection.get_api()
         self.api = api
+        self.status = 1
     
     def get_dhcp_clients(self):
         list_dhcp = self.api.get_resource('/ip/dhcp-server/lease')
