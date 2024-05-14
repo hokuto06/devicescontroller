@@ -25,7 +25,11 @@ def distributor(test):
         print('mikrotik')
         connect_device(Mikrotik, ip_address, user, password, collection,vendor)        
 
-def checkHost(ip_address):
+def checkHost(ip_address, vendor):
+    if vendor == 'mikrotik':
+        port = 8728
+    else:
+        port = 22
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(0.5)
         return not sock.connect_ex((ip_address, 22))
@@ -33,7 +37,7 @@ def checkHost(ip_address):
 def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
     print("sigue ip")
     print(ip_address)
-    if checkHost(ip_address):
+    if checkHost(ip_address, vendor):
         print('responde')
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
