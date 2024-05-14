@@ -1,6 +1,6 @@
 from django.conf import settings
 from openpyxl import load_workbook
-from unificontrol import UnifiClient
+# from unificontrol import UnifiClient
 import os
 from pprint import pprint
 import routeros_api
@@ -22,20 +22,20 @@ def _read_excel():
     workbook.close()
     return(data)
 
-def unifi_controller():
-    uc_user = "rsupport"
-    uc_pass = "elrbsestNF!25"
-    uc_site = "1xgr01ba"
-    client = UnifiClient(host="3.208.83.14",
-    username=uc_user, password=uc_pass, site=uc_site)
-    devices = client.list_devices()
-    list_devices = []
-    for device in devices:
-        list_devices.append(device['ip'])
-        # list_devices['config_network']['ip': '10.2.3.58']
-        list_devices.append(device['mac'])
-    pprint(list_devices)
-    return(list_devices)
+# def unifi_controller():
+#     uc_user = "rsupport"
+#     uc_pass = "elrbsestNF!25"
+#     uc_site = "1xgr01ba"
+#     client = UnifiClient(host="3.208.83.14",
+#     username=uc_user, password=uc_pass, site=uc_site)
+#     devices = client.list_devices()
+#     list_devices = []
+#     for device in devices:
+#         list_devices.append(device['ip'])
+#         # list_devices['config_network']['ip': '10.2.3.58']
+#         list_devices.append(device['mac'])
+#     pprint(list_devices)
+#     return(list_devices)
 
 def connect_mikrotik():
     connection = routeros_api.RouterOsApiPool('50.50.50.1', username='admin', password='elrbsest')
