@@ -4,6 +4,7 @@ from unificontrol import UnifiClient
 import os
 from pprint import pprint
 import routeros_api
+import socket
 
 def _read_excel():
     base_dir = settings.BASE_DIR
@@ -50,5 +51,15 @@ def connect_mikrotik():
     print(list_client[0][0])
     return(list_client)
 
+def checkhost(vendor='mikrotik',ip_address='172.19.60.3' ):
+    if vendor == 'mikrotik':
+        port = 8728
+    else:
+        port = 22
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.settimeout(0.5)
+        return not sock.connect_ex((ip_address, port))
+
 if __name__ == "__main__":
-    _read_excel()
+    # _read_excel()
+    checkhost()
