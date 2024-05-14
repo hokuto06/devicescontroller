@@ -22,6 +22,7 @@ def distributor(test):
     elif vendor == 'brocade':
         connect_device(Brocade, ip_address, user, password, collection, vendor)
     elif vendor == 'mikrotik':
+        print('mikrotik')
         connect_device(Mikrotik, ip_address, user, password, collection,vendor)        
 
 def checkHost(ip_address):
