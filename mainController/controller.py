@@ -32,7 +32,7 @@ def checkHost(ip_address, vendor):
         port = 22
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.settimeout(0.5)
-        return not sock.connect_ex((ip_address, 22))
+        return not sock.connect_ex((ip_address, port))
 
 def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
     print("sigue ip")
