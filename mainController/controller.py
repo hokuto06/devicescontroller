@@ -44,6 +44,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
             data = device.getData()
+            clients  = device.get_clients()
             device_data = {
                 'group': group,
                 'deviceUser': user,
@@ -55,7 +56,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
                 'vendor': vendor,
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
-                'clientes': {},
+                'clientes': clients,
                 'status': 2,
             }
             print(device_data)

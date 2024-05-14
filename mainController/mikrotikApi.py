@@ -11,7 +11,7 @@ class Mikrotik:
         self.api = api
         self.status = 1
     
-    def get_dhcp_clients(self):
+    def get_clients(self):
         list_dhcp = self.api.get_resource('/ip/dhcp-server/lease')
         dhcp_list = list_dhcp.get()
         list_client = []
