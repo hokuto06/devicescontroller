@@ -30,9 +30,9 @@ def checkHost(ip_address):
         return not sock.connect_ex((ip_address, 22))
 
 def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
+    print("sigue ip")
+    print(ip_address)
     if checkHost(ip_address):
-        print("sigue ip")
-        print(ip_address)
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
             hostname = device.getDeviceName()
