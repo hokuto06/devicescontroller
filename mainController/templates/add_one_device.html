@@ -38,6 +38,8 @@
                                 <input type="text" class="form-control" id="texto2" name="texto2" placeholder="Introduce el segundo texto">
                             </div>
                         </div>
+                        <br>
+                        <input type="hidden" id="grupo" name="grupo" value="{{ group }}">
                         <div class="form-group row">
                             <label for="texto3" class="col-sm-2 col-form-label">Vendor</label>
                             <div class="col-sm-10">
@@ -47,9 +49,7 @@
                             <option value="ruckus">Ruckus</option>
                             <option value="brocade">Brocade</option>
                         </select></div>
-                        </div>
-                        <br>
-                        <input type="hidden" id="grupo" name="grupo" value="{{ group }}">
+                        </div>                        
                         <br>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>
