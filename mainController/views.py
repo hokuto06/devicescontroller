@@ -178,7 +178,7 @@ def add_one(request, group):
         group = request.POST.get('grupo')
         # group = 'prueba'
         #devices = []
-        resultado = checkHost(ip)
+        resultado = checkHost(ip, texto3)
         if resultado:
             print(' add one ')
         else:
