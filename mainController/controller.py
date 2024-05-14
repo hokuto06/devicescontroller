@@ -39,7 +39,6 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
             data = device.getData()
-            #print(data)
             device_data = {
                 'group': group,
                 'deviceUser': user,
@@ -54,6 +53,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
                 'clientes': {},
                 'status': 2,
             }
+            print(device_data)
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
 
 def connect_device_update(DeviceClass, ip_address, user, password, collection):
