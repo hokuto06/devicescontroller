@@ -15,7 +15,6 @@ from .mikrotikApi import Mikrotik
 
 def distributor(test):
     ip_address, user, password, vendor, collection = (test[0], test[1], test[2], test[3], test[4].rstrip())
-    print('mikrotik')
     if vendor == 'unifi':
         connect_device(Unifi, ip_address, user, password, collection, vendor)
     elif vendor == 'ruckus':
@@ -23,6 +22,7 @@ def distributor(test):
     elif vendor == 'brocade':
         connect_device(Brocade, ip_address, user, password, collection, vendor)
     elif vendor == 'mikrotik':
+        print('mikrotik')
         connect_device(Mikrotik, ip_address, user, password, collection,vendor)        
 
 def checkHost(ip_address):
