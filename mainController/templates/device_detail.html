@@ -22,7 +22,7 @@
         {{ device.deviceName }}
     </div>    
     <div class="card-body">
-        <div id="device-detail-container"> 
+        <div id="device-detail-container">
         <table>
             <tr><td>Mac: {{ device.mac_address }}</td></tr>
             <tr><td>Ip: {{ device.ip_address }}</td></tr>
@@ -31,6 +31,8 @@
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
+        <form id="myForm" method="post" action="{% url 'procesar_formulario' %}">
+            {% csrf_token %}        
         <table id="datatablesSimple">
             <thead>
                 <tr>
@@ -47,7 +49,9 @@
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>          
+        </table>
+        <button type="button" id="enviar" disabled>Enviar</button>
+    </form>        
     {% else %}
         <p>No hay clientes disponibles.</p>
     {% endif %}
@@ -55,5 +59,29 @@
     </div>
 </div>
 </div>
+<script>
+    // Obtener todos los checkboxes
+    const checkboxes = document.querySelectorAll('.checkbox');
+    // Obtener el botón de enviar
+    const enviarButton = document.getElementById('enviar');
 
+    // Agregar un evento de clic al botón de enviar
+    enviarButton.addEventListener('click', function() {
+        // Obtener los IDs de los clientes seleccionados
+        const clientesSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        // Hacer algo con los IDs seleccionados, por ejemplo, enviarlos a la URL de Django
+        console.log(clientesSeleccionados);
+        // Aquí puedes hacer una petición AJAX o enviar los IDs al backend de Django
+    });
+
+    // Iterar sobre todos los checkboxes y agregar un listener para cambiar
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            // Verificar si al menos un checkbox está seleccionado
+            const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+            // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
+            enviarButton.disabled = !algunSeleccionado;
+        });
+    });
+</script>
 {% endblock %}
