@@ -31,7 +31,7 @@
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
-        <form id="myForm" method="post" action="{% url 'procesar_formulario' %}">
+        <form id="myForm" method="post" action="{% url 'procesar_formulario' device.ip_address %}">
             {% csrf_token %}        
         <table id="datatablesSimple">
             <thead>
