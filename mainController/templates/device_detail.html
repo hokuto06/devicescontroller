@@ -31,15 +31,16 @@
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
-        <ul>
+        <table>
+            <tr><th>Address</th></tr>
+            <tr><th>Mac</th></tr>
+            <tr><th>Server</th></tr>
             {% for cliente in device.clientes %}
-              <li>
-                <strong>Address:</strong> {{ cliente.address }}<br>
-                <strong>MAC:</strong> {{ cliente.mac }}<br>
-                <strong>Server:</strong> {{ cliente.server }}<br>
-              </li>
+            <tr><td>cliente.address</td></tr>
+            <tr><td>cliente.mac</td></tr>
+            <tr><td>cliente.server</td></tr>
             {% endfor %}
-        </ul>          
+        </table>          
     {% else %}
         <p>No hay clientes disponibles.</p>
     {% endif %}
