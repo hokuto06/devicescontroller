@@ -32,13 +32,18 @@
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
         <table>
-            <tr><th>Address</th></tr>
-            <tr><th>Mac</th></tr>
-            <tr><th>Server</th></tr>
+            <thead>
+                <tr><th>Address</th></tr>
+                <tr><th>Mac</th></tr>
+                <tr><th>Server</th></tr>
+            </thead>
             {% for cliente in device.clientes %}
-            <tr><td>cliente.address</td></tr>
-            <tr><td>cliente.mac</td></tr>
-            <tr><td>cliente.server</td></tr>
+            <tbody>
+                <tr><td>cliente.address</td></tr>
+                <tr><td>cliente.mac</td></tr>
+                <tr><td>cliente.server</td></tr>
+
+            </tbody>    
             {% endfor %}
         </table>          
     {% else %}
