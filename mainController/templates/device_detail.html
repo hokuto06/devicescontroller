@@ -33,7 +33,7 @@
         {% if device.clientes %}
         <form id="myForm" method="post" action="{% url 'procesar_formulario' device.ip_address %}">
             {% csrf_token %}        
-        <table id="datatablesSimple">
+        <table>
             <thead>
                 <tr>
                     <th>Address</th>
