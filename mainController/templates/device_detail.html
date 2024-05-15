@@ -33,14 +33,14 @@
         {% if device.clientes %}
         <form id="myForm" method="post" action="{% url 'procesar_formulario' device.ip_address %}">
             {% csrf_token %}        
-        <table>
+        <table id="datatablesSimple">
             <thead>
                 <tr>
                     <th>Address</th>
                     <th>Mac</th>
                     <th>Server</th>
                     <th>
-                        <input type="checkbox" id="seleccionarTodos">
+                        <input class="no-sort" type="checkbox" id="seleccionarTodos">
                     </th>
                 </tr>
                 <tbody>
@@ -66,6 +66,16 @@
 </div>
 </div>
 <script>
+
+$(document).ready(function() {
+    $('#datatablesSimple').DataTable({
+        "columnDefs": [{
+            "targets": 'no-sort', // Clase CSS de la columna donde deseas deshabilitar el ordenamiento
+            "orderable": false,   // Deshabilitar ordenamiento para esta columna
+        }]
+    });
+});
+
     // Obtener el checkbox "Seleccionar Todos"
     const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
     // Obtener todos los checkboxes individuales
