@@ -32,10 +32,14 @@
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
         <ul>
-            {% for port, mac_address in device.clientes.items %}
-                <li>{{ port }}: {{ mac_address }}</li>
+            {% for cliente in clientes %}
+              <li>
+                <strong>Address:</strong> {{ cliente.address }}<br>
+                <strong>MAC:</strong> {{ cliente.mac }}<br>
+                <strong>Server:</strong> {{ cliente.server }}<br>
+              </li>
             {% endfor %}
-        </ul>
+        </ul>          
     {% else %}
         <p>No hay clientes disponibles.</p>
     {% endif %}
