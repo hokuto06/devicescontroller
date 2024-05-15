@@ -31,7 +31,7 @@
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
-        <table >
+        <table id="datatablesSimple">
             <thead>
                 <tr>
                     <th>Address</th>
@@ -39,11 +39,13 @@
                     <th>Server</th>
                 </tr>
             {% for cliente in device.clientes %}
+            <tbody>
                 <tr>
                     <td>{{ cliente.address }}</td>
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
                 </tr>
+            </tbody>
                 {% endfor %}
         </table>          
     {% else %}
