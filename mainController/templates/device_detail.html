@@ -39,7 +39,9 @@
                     <th>Address</th>
                     <th>Mac</th>
                     <th>Server</th>
-                    <th></th>
+                    <th>
+                        <input type="checkbox" id="seleccionarTodos">
+                    </th>
                 </tr>
                 <tbody>
             {% for cliente in device.clientes %}
@@ -64,10 +66,24 @@
 </div>
 </div>
 <script>
-    // Obtener todos los checkboxes
+    // Obtener el checkbox "Seleccionar Todos"
+    const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
+    // Obtener todos los checkboxes individuales
     const checkboxes = document.querySelectorAll('.checkbox');
     // Obtener el botón de enviar
     const enviarButton = document.getElementById('enviar');
+
+    // Agregar un evento de cambio al checkbox "Seleccionar Todos"
+    seleccionarTodosCheckbox.addEventListener('change', function() {
+        // Iterar sobre todos los checkboxes y establecer su estado según el estado del checkbox "Seleccionar Todos"
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = seleccionarTodosCheckbox.checked;
+        });
+        // Verificar si al menos un checkbox está seleccionado
+        const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+        // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
+        enviarButton.disabled = !algunSeleccionado;
+    });
 
     // Agregar un evento de clic al botón de enviar
     enviarButton.addEventListener('click', function() {
@@ -78,7 +94,7 @@
         // Aquí puedes hacer una petición AJAX o enviar los IDs al backend de Django
     });
 
-    // Iterar sobre todos los checkboxes y agregar un listener para cambiar
+    // Iterar sobre todos los checkboxes individuales y agregar un listener para cambiar
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             // Verificar si al menos un checkbox está seleccionado
