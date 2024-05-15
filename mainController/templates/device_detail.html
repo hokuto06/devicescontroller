@@ -38,15 +38,15 @@
                     <th>Mac</th>
                     <th>Server</th>
                 </tr>
+                <tbody>
             {% for cliente in device.clientes %}
-            <tbody>
                 <tr>
                     <td>{{ cliente.address }}</td>
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
                 </tr>
-            </tbody>
                 {% endfor %}
+            </tbody>
         </table>          
     {% else %}
         <p>No hay clientes disponibles.</p>
