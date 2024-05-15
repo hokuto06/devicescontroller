@@ -39,6 +39,7 @@
                     <th>Address</th>
                     <th>Mac</th>
                     <th>Server</th>
+                    <th></th>
                 </tr>
                 <tbody>
             {% for cliente in device.clientes %}
@@ -46,6 +47,9 @@
                     <td>{{ cliente.address }}</td>
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
+                    <td>
+                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.id }}">
+                    </td>                    
                 </tr>
                 {% endfor %}
             </tbody>
