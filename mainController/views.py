@@ -45,7 +45,7 @@ def device_detail_view(request, pk):
         'model': device.model,
         'ip_address': device.ipAddress,
         'status': device.status,
-        'clients':device.clientes,
+        'clientes':device.clientes,
         'controller_status': device.controllerStatus,
     }
     return render(request, 'device_detail.html', {'device': dispositivo_dict})
