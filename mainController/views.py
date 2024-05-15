@@ -37,6 +37,7 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
+    print(device.clientes)
     dispositivo_dict = {
         'id': device._id,
         'host_name': device.deviceName,

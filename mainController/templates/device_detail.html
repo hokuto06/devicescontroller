@@ -32,7 +32,7 @@
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
         <ul>
-            {% for cliente in clientes %}
+            {% for cliente in device.clientes %}
               <li>
                 <strong>Address:</strong> {{ cliente.address }}<br>
                 <strong>MAC:</strong> {{ cliente.mac }}<br>
