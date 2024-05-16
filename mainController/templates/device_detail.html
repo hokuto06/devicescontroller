@@ -32,7 +32,7 @@
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
-        <form id="myForm" method="post" action="{% url 'procesar_formulario' device.ip_address %}">
+        <form id="myForm" method="post" action="{% url 'config-new-one' %}">
             {% csrf_token %}        
         <table class="table">
             <!-- <table id="datatablesSimple"> -->
