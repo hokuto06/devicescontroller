@@ -17,7 +17,7 @@ urlpatterns = [
     path('add_one_device/<str:group>/', views.add_one, name='add_one_device'),
     path('procesar_formulario/<str:group>/', views.procesar_formulario, name='procesar_formulario'),
     path('group/<str:group>', views.view_group),
-    path('config-new-one/<str:group_name>/', views.config_new_one, name="config-new-one"),
+    path('config-new-one/', views.config_new_one, name="config-new-one"),
     path('delete-device/<pk>', views.delete_device, name='DeleteDevice'),
     # path('devices/', views.DevicesListCreateView.as_view(), name='devices-list-create'),
     path('devices/<int:group>/', views.DevicesListCreateView.as_view(), name='devices-list-create-filtered'),
