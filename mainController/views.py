@@ -60,6 +60,12 @@ def update_device(request, pk):
     # return "ok"
     return redirect('device-detail',pk)
 
+def config_new_one(request, ip_address):
+    group_name =  'test'
+    distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
+    # return "ok"
+    return redirect('device-detail',pk)
+
 class DevicesDetailView(DetailView):
     model = Devices
     serializer_class = DevicesSerializer
