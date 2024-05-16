@@ -74,7 +74,7 @@ def config_new_one(request):
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
     # # return "ok"
-    return redirect('device-detail',pk)
+    return redirect('device-detail','664363fd0aa72a70fde68d2a')
 
 class DevicesDetailView(DetailView):
     model = Devices
