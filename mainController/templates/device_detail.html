@@ -52,7 +52,7 @@
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
                     <td>
-                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }}" data-group="{{ device.group_name }}">
+                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }}" data-mac="{{ cliente.mac }}" data-group="{{ device.group_name }}">
                     </td>                    
                 </tr>
                 {% endfor %}

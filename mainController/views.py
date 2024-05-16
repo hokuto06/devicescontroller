@@ -66,7 +66,8 @@ def config_new_one(request):
     if request.method == 'POST':
         direcciones_seleccionadas = request.POST.getlist('clientes_seleccionados')
         # Direcciones MAC seleccionadas
-        macs_seleccionadas = request.POST.getlist('clientes_group')
+        groups_seleccionadas = request.POST.getlist('clientes_group')
+        macs_seleccionadas = request.POST.getlist('clientes_mac')
         # Hacer algo con las direcciones y las MAC seleccionadas
         print(direcciones_seleccionadas)
         print(macs_seleccionadas)
