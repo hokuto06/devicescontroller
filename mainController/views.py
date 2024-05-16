@@ -71,6 +71,7 @@ def config_new_one(request):
         # Hacer algo con las direcciones y las MAC seleccionadas
         print(direcciones_seleccionadas)
         print(macs_seleccionadas)
+        print(request.POST)
 
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
