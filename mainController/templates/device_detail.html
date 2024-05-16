@@ -37,7 +37,7 @@
         <table class="table">
             <!-- <table id="datatablesSimple"> -->
             <thead>
-                <tr>{{ device.group_name}}
+                <tr>
                     <th>Address</th>
                     <th>Mac</th>
                     <th>Server</th>
@@ -52,7 +52,7 @@
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
                     <td>
-                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }} data-group="{{ device.group_name }}">
+                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }}" data-group="{{ device.group_name }}">
                     </td>                    
                 </tr>
                 {% endfor %}
