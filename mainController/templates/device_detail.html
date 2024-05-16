@@ -22,7 +22,7 @@
         {{ device.deviceName }}
     </div>    
     <div class="card-body">
-        <div id="device-detail-container">group: {{ group_name }}
+        <div id="device-detail-container">
         <table>
             <tr><td>Host: {{ device.host_name }}</td></tr>
             <tr><td>Mac: {{ device.mac_address }}</td></tr>
@@ -52,7 +52,7 @@
                     <td>{{ cliente.mac }}</td>
                     <td>{{ cliente.server }}</td>
                     <td>
-                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }}">
+                        <input type="checkbox" class="checkbox" name="clientes_seleccionados" value="{{ cliente.address }} data-group="{{ device.group_name }}">
                     </td>                    
                 </tr>
                 {% endfor %}

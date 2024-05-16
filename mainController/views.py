@@ -37,6 +37,7 @@ class GroupDevicesListCreateView(generics.ListCreateAPIView):
 
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
+    group_name = GroupDevices.objects.get(group_id=device.group_id)
     print(device.clientes)
     dispositivo_dict = {
         'id': device._id,
@@ -45,6 +46,7 @@ def device_detail_view(request, pk):
         'mac_address': device.macAddress,
         'model': device.model,
         'ip_address': device.ipAddress,
+        'group_name': group_name.group_name,
         'status': device.status,
         'clientes':device.clientes,
         'controller_status': device.controllerStatus,
@@ -61,9 +63,17 @@ def update_device(request, pk):
     return redirect('device-detail',pk)
 
 def config_new_one(request, ip_address):
-    group_name =  'test'
-    distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
-    # return "ok"
+    if request.method == 'POST':
+        direcciones_seleccionadas = request.POST.getlist('clientes_seleccionados')
+        # Direcciones MAC seleccionadas
+        macs_seleccionadas = request.POST.getlist('clientes_group')
+        # Hacer algo con las direcciones y las MAC seleccionadas
+        print(direcciones_seleccionadas)
+        print(macs_seleccionadas)
+
+    # group_name =  'test'
+    # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
+    # # return "ok"
     return redirect('device-detail',pk)
 
 class DevicesDetailView(DetailView):
