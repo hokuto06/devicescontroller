@@ -62,7 +62,7 @@ def update_device(request, pk):
     # return "ok"
     return redirect('device-detail',pk)
 
-def config_new_one(request, ip_address):
+def config_new_one(request):
     if request.method == 'POST':
         direcciones_seleccionadas = request.POST.getlist('clientes_seleccionados')
         # Direcciones MAC seleccionadas
