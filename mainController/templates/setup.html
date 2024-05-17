@@ -3,7 +3,53 @@
     {% load static %}
     {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Dispositivos
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ip Address</th>
+                    <th>Mac</th>
+                    <th>Model</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Ip Address</th>
+                    <th>Mac</th>
+                    <th>Model</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for dispositivo in dispositivos %}
+                <tr>
 
+                    <td><a href="{% url 'device-detail' dispositivo.id %}">{{ dispositivo.host_name }}</a></td>
+                    <td>{{ dispositivo.ip_address }}</td>
+                    <td>{{ dispositivo.mac_address }}</td>
+                    <td>{{ dispositivo.model }}</td>
+                    <td>{{ dispositivo.version }}</td>
+                    <td>{{ dispositivo.status }}</td>
+                    <td><a href="{% url 'DeleteDevice' dispositivo.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 {% endblock %}
