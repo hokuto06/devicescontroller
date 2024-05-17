@@ -105,6 +105,7 @@ def setup_devices(request, group_id):
 def set_controller(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        print(data)
         # Suponiendo que sólo hay un grupo en los datos enviados
         group_name = list(data.keys())[0]
         ip_list = data[group_name]
