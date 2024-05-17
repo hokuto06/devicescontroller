@@ -109,13 +109,19 @@ $(document).ready(function() {
     $('#myForm').submit(function(event) {
         event.preventDefault();
         const clientesSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        const groupName = checkboxes[0].dataset.group;
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        const data = {};
+        data[groupName] = clientesSeleccionados;
+
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
-            data: {
-                clientesSeleccionados,
-                'csrfmiddlewaretoken': csrfToken
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRFToken': csrfToken
             },
             success: function(response) {
                 console.log('Success:', response);
