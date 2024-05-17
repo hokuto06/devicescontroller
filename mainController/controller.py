@@ -14,7 +14,7 @@ from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
 
 def distributor(test):
-    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), state="configured")
+    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), state)
     if vendor == 'unifi':
         connect_device(Unifi, ip_address, user, password, collection, vendor, state)
     elif vendor == 'ruckus':
@@ -23,7 +23,7 @@ def distributor(test):
         connect_device(Brocade, ip_address, user, password, collection, vendor, state)
     elif vendor == 'mikrotik':
         print('mikrotik')
-        connect_device(Mikrotik, ip_address, user, password, collection,vendor, state)        
+        connect_device(Mikrotik, ip_address, user, password, collection,vendor, state)
 
 def checkHost(ip_address, vendor):
     if vendor == 'mikrotik':
