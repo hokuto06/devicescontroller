@@ -69,6 +69,10 @@ def config_new_one(request):
         ip_list = data[group_name]
         print(group_name)
         print(ip_list)
+        devices_list = []
+        for device in ip_list:
+            devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name])
+        scan_devices(devices_list)
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
     # # return "ok"
