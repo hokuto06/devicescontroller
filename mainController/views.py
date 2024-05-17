@@ -63,15 +63,13 @@ def update_device(request, pk):
 
 def config_new_one(request):
     if request.method == 'POST':
-        direcciones_seleccionadas = request.POST.getlist('clientes_seleccionados')
-        # Direcciones MAC seleccionadas
-        groups_seleccionadas = request.POST.getlist('clientes_group')
-        macs_seleccionadas = request.POST.getlist('mac')
-        # Hacer algo con las direcciones y las MAC seleccionadas
-        print(direcciones_seleccionadas)
-        print(macs_seleccionadas)
-        print(request.POST)
-
+        data = json.loads(request.body)
+        # Suponiendo que sólo hay un grupo en los datos enviados
+        group_name = list(data.keys())[0]
+        ip_list = data[group_name]
+        print(data)
+        print(group_name)
+        print(ip_list)
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
     # # return "ok"
