@@ -86,6 +86,14 @@ def scan_devices(devices):
         for host in devices:
             distributor(host)
 
+def set_ap_controller(devices):
+    with transaction.atomic():
+        for host in devices:
+            device = Ruckus(host[0], host[1], host[2])
+            if device.status == 1:
+                hostname = device.setController()
+                return "ok"  
+
 def update_device_info(ip_address, user, password, collection):
     connect_device_update(Brocade, ip_address, user, password, collection)
     return "ok"

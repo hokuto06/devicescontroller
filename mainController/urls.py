@@ -28,6 +28,7 @@ urlpatterns = [
     path('device/<pk>/', views.device_detail_view, name='device-detail'),
     path('update_device/<pk>/', views.update_device, name='update_device'),
     path('setup/<str:group_id>', views.setup_devices, name='setup' ),
+    path('set_controller/', views.setup_devices, name='set-controller' ),
     # path('viewdevice/<str:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
     path('viewdevice/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]

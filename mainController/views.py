@@ -10,7 +10,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor
+from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller
 from .tools import _read_excel,unifi_controller
 from django.conf import settings
 import os
@@ -102,7 +102,19 @@ def setup_devices(request, group_id):
     }
     return render(request, 'setup.html', contexto)
 
-
+def set_controller(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # Suponiendo que sólo hay un grupo en los datos enviados
+        group_name = list(data.keys())[0]
+        ip_list = data[group_name]
+        print(group_name)
+        print(ip_list)
+        devices_list = []
+        for device in ip_list:
+            devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name,'default'])
+        set_ap_controller(devices_list)
+        return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
 
 class DevicesDetailView(DetailView):
     model = Devices

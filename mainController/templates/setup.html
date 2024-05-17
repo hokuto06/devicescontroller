@@ -9,7 +9,9 @@
         Dispositivos
     </div>
     <div class="card-body">
-        <table id="datatablesSimple">
+        <form id="myForm" method="post" action="{% url 'set-controller' %}">
+            {% csrf_token %}             
+        <table class="table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -36,20 +38,88 @@
                 {% for dispositivo in dispositivos %}
                 <tr>
 
-                    <td><a href="{% url 'device-detail' dispositivo.id %}">{{ dispositivo.host_name }}</a></td>
+                    <td>{{ dispositivo.host_name }}</a></td>
                     <td>{{ dispositivo.ip_address }}</td>
                     <td>{{ dispositivo.mac_address }}</td>
                     <td>{{ dispositivo.model }}</td>
                     <td>{{ dispositivo.version }}</td>
                     <td>{{ dispositivo.status }}</td>
-                    <td><a href="{% url 'DeleteDevice' dispositivo.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                    <input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.address }}" data-group="{{ device.group_name }}">
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
+        </form>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    // Obtener el checkbox "Seleccionar Todos"
+    const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
+    // Obtener todos los checkboxes individuales
+    const checkboxes = document.querySelectorAll('.checkbox');
+    // Obtener el botón de enviar
+    const enviarButton = document.getElementById('enviar');
 
+    // Agregar un evento de cambio al checkbox "Seleccionar Todos"
+    seleccionarTodosCheckbox.addEventListener('change', function() {
+        // Iterar sobre todos los checkboxes y establecer su estado según el estado del checkbox "Seleccionar Todos"
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = seleccionarTodosCheckbox.checked;
+        });
+        // Verificar si al menos un checkbox está seleccionado
+        const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+        // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
+        enviarButton.disabled = !algunSeleccionado;
+    });
+
+    // Agregar un evento de clic al botón de enviar
+    enviarButton.addEventListener('click', function() {
+        // Obtener los IDs de los clientes seleccionados
+        const dispositivosSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        // Hacer algo con los IDs seleccionados, por ejemplo, enviarlos a la URL de Django
+        console.log(dispositivosSeleccionados);
+        // Aquí puedes hacer una petición AJAX o enviar los IDs al backend de Django
+    });
+
+    // Iterar sobre todos los checkboxes individuales y agregar un listener para cambiar
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            // Verificar si al menos un checkbox está seleccionado
+            const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+            // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
+            enviarButton.disabled = !algunSeleccionado;
+        });
+    });
+    $('#myForm').submit(function(event) {
+        event.preventDefault();
+        const dispositivosSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        const groupName = checkboxes[0].dataset.group;
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        const data = {};
+        data[groupName] = dispositivosSeleccionados;
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                console.log('Success:', response);
+                // Aquí puedes manejar la respuesta exitosa del servidor
+            },
+            error: function(error) {
+                console.log('Error:', error);
+                // Aquí puedes manejar cualquier error que ocurra durante la solicitud
+            }
+        });
+    });
+});
+</script>
 
 {% endblock %}
