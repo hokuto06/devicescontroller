@@ -76,7 +76,8 @@ def config_new_one(request):
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
     # # return "ok"
-    return redirect('device-detail','664363fd0aa72a70fde68d2a')
+    # return redirect('device-detail','664363fd0aa72a70fde68d2a')
+    return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
 
 class DevicesDetailView(DetailView):
     model = Devices
