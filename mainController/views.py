@@ -80,7 +80,7 @@ def config_new_one(request):
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
 
 def setup_devices(request, group_id):
-    dispositivos = Devices.objects.filter(group__group_name=group_id)
+    dispositivos = Devices.objects.filter(group__group_name=group_id, vendor='ruckus')
     resultados = []
     for dispositivo in dispositivos:
         print(dispositivo._id)
