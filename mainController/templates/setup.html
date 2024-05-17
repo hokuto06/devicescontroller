@@ -31,7 +31,9 @@
                     <th>Model</th>
                     <th>Version</th>
                     <th>Status</th>
-                    <th></th>
+                    <th>
+                        <input type="checkbox" id="seleccionarTodos">
+                    </th>
                 </tr>
             </tfoot>
             <tbody>
@@ -44,7 +46,7 @@
                     <td>{{ dispositivo.model }}</td>
                     <td>{{ dispositivo.version }}</td>
                     <td>{{ dispositivo.status }}</td>
-                    <input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.address }}" data-group="{{ device.group_name }}">
+                    <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.address }}" data-group="{{ device.group_name }}"></td>
                 </tr>
             {% endfor %}
 
