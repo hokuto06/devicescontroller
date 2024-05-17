@@ -71,13 +71,38 @@ def config_new_one(request):
         print(ip_list)
         devices_list = []
         for device in ip_list:
-            devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name])
+            devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name,'default'])
         scan_devices(devices_list)
     # group_name =  'test'
     # distributor([ip_address, 'super', 'sp-admin', 'ruckus', group_name])
     # # return "ok"
     # return redirect('device-detail','664363fd0aa72a70fde68d2a')
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
+
+def setup_devices(request, group_id):
+    dispositivos = Devices.objects.filter(group__group_name=group_id)
+    resultados = []
+    for dispositivo in dispositivos:
+        print(dispositivo._id)
+        dispositivo_dict = {
+            'id': dispositivo._id,
+            'host_name': dispositivo.deviceName,
+            'version': dispositivo.version,
+            'mac_address': dispositivo.macAddress,
+            'model': dispositivo.model,
+            'ip_address': dispositivo.ipAddress,
+            'status': dispositivo.status,
+            'controller_status': dispositivo.controllerStatus,
+        }
+        resultados.append(dispositivo_dict)
+
+    contexto = {
+        'dispositivos': resultados,
+        'group_name': group_id,
+    }
+    return render(request, 'setup.html', contexto)
+
+
 
 class DevicesDetailView(DetailView):
     model = Devices

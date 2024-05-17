@@ -14,16 +14,16 @@ from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
 
 def distributor(test):
-    ip_address, user, password, vendor, collection = (test[0], test[1], test[2], test[3], test[4].rstrip())
+    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), state="configured")
     if vendor == 'unifi':
-        connect_device(Unifi, ip_address, user, password, collection, vendor)
+        connect_device(Unifi, ip_address, user, password, collection, vendor, state)
     elif vendor == 'ruckus':
-        connect_device(Ruckus, ip_address, user, password, collection, vendor)
+        connect_device(Ruckus, ip_address, user, password, collection, vendor, state)
     elif vendor == 'brocade':
-        connect_device(Brocade, ip_address, user, password, collection, vendor)
+        connect_device(Brocade, ip_address, user, password, collection, vendor, state)
     elif vendor == 'mikrotik':
         print('mikrotik')
-        connect_device(Mikrotik, ip_address, user, password, collection,vendor)        
+        connect_device(Mikrotik, ip_address, user, password, collection,vendor, state)        
 
 def checkHost(ip_address, vendor):
     if vendor == 'mikrotik':
@@ -34,7 +34,7 @@ def checkHost(ip_address, vendor):
         sock.settimeout(0.5)
         return not sock.connect_ex((ip_address, port))
 
-def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
+def connect_device(DeviceClass, ip_address, user, password, collection, vendor, state="configured"):
     print("sigue ip")
     print(ip_address)
     if checkHost(ip_address, vendor):
@@ -57,6 +57,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor):
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
                 'clientes': clients,
+                'state': state,
                 'status': 2,
             }
             print(device_data)

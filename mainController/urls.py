@@ -27,6 +27,7 @@ urlpatterns = [
     # path('device/<str:ipAddress>/', views.device_detail, name='device_detail'),
     path('device/<pk>/', views.device_detail_view, name='device-detail'),
     path('update_device/<pk>/', views.update_device, name='update_device'),
+    path('setup/<str:group_id>', views.setup_devices, name='setup' ),
     # path('viewdevice/<str:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
     path('viewdevice/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]
