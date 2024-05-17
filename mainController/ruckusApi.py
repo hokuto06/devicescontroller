@@ -74,7 +74,7 @@ class Ruckus:
 				return columns[1]
     '''
 
-    def getWlanList(self):
+    def get_clients(self):
         deviceData = self.sendCommand('get wlanlist')
         if deviceData != 0:
             lines = re.split(r"[~\r\n]+", deviceData.decode("utf-8"))
@@ -86,7 +86,7 @@ class Ruckus:
                     wlansUp.append(columns[3])
             return wlansUp
         else:
-            return "1"
+            return []
 
     def searchVlan(self, interface="", interfacesData=""):
         lines = re.split(r"[~\r\n]+", interfacesData.decode("utf-8"))
