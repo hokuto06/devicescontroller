@@ -112,6 +112,7 @@ def set_controller(request):
         print(ip_list)
         devices_list = []
         for device in ip_list:
+            print("ip: "+device)
             devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name,'default'])
         set_ap_controller(devices_list)
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
