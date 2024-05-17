@@ -1,11 +1,13 @@
 <!-- Incluye jQuery (asegúrate de agregarlo en tu proyecto) -->
 {% extends "base.html" %}
-{% load static %}
-{% block content %}
+    {% load static %}
+    {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 <div id="device-detail-container">
     <h3 class="breadcrumb-item active">Detalle del Dispositivo</h3>
+    <!-- <p id="device-detail-content">Cargando...</p> -->
 </div>
 <div class="card mb-4">
     <div class="card-body">
@@ -28,17 +30,19 @@
             <tr><td>Version: {{ device.version }}</td></tr>
             <tr><td>Controller: {{ device.controller_status }}</td></tr>
         </table>
+        <!-- <p id="device-detail-content">Cargando...</p> -->
         {% if device.clientes %}
         <form id="myForm" method="post" action="{% url 'config-new-one' %}">
             {% csrf_token %}        
         <table class="table">
+            <!-- <table id="datatablesSimple"> -->
             <thead>
                 <tr>
                     <th>Address</th>
                     <th>Mac</th>
                     <th>Server</th>
                     <th>
-                        <input class="no-sort" type="checkbox" id="seleccionarTodos">
+                        <input type="checkbox" id="seleccionarTodos">
                     </th>
                 </tr>
                 <tbody>
@@ -65,55 +69,44 @@
 </div>
 <script>
 
-$(document).ready(function() {
-    $('#datatablesSimple').DataTable({
-        "columnDefs": [{
-            "targets": 'no-sort',
-            "orderable": false,
-        }]
-    });
-
+    // Obtener el checkbox "Seleccionar Todos"
     const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
+    // Obtener todos los checkboxes individuales
     const checkboxes = document.querySelectorAll('.checkbox');
+    // Obtener el botón de enviar
     const enviarButton = document.getElementById('enviar');
 
+    // Agregar un evento de cambio al checkbox "Seleccionar Todos"
     seleccionarTodosCheckbox.addEventListener('change', function() {
+        // Iterar sobre todos los checkboxes y establecer su estado según el estado del checkbox "Seleccionar Todos"
         checkboxes.forEach(checkbox => {
             checkbox.checked = seleccionarTodosCheckbox.checked;
         });
+        // Verificar si al menos un checkbox está seleccionado
         const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+        // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
         enviarButton.disabled = !algunSeleccionado;
     });
 
+    // Agregar un evento de clic al botón de enviar
+    enviarButton.addEventListener('click', function() {
+        // Obtener los IDs de los clientes seleccionados
+        const clientesSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        // Hacer algo con los IDs seleccionados, por ejemplo, enviarlos a la URL de Django
+        console.log(clientesSeleccionados);
+        // Aquí puedes hacer una petición AJAX o enviar los IDs al backend de Django
+    });
+
+    // Iterar sobre todos los checkboxes individuales y agregar un listener para cambiar
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
+            // Verificar si al menos un checkbox está seleccionado
             const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
+            // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
             enviarButton.disabled = !algunSeleccionado;
         });
     });
 
-    $('#myForm').submit(function(event) {
-        event.preventDefault();
-        const clientesSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: {
-                'clientes_seleccionados': clientesSeleccionados,
-                'csrfmiddlewaretoken': csrfToken
-            },
-            success: function(response) {
-                console.log('Success:', response);
-                // Aquí puedes manejar la respuesta exitosa del servidor
-            },
-            error: function(error) {
-                console.log('Error:', error);
-                // Aquí puedes manejar cualquier error que ocurra durante la solicitud
-            }
-        });
-    });
-});
-
+    
 </script>
 {% endblock %}
