@@ -114,7 +114,7 @@ $(document).ready(function() {
             type: 'POST',
             url: $(this).attr('action'),
             data: {
-                'clientes_seleccionados': clientesSeleccionados,
+                // 'clientes_seleccionados': clientesSeleccionados,
                 'csrfmiddlewaretoken': csrfToken
             },
             success: function(response) {
