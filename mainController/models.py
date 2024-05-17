@@ -22,6 +22,8 @@ class Devices(models.Model):
     macAddress = models.CharField(max_length=40)
     clientes = JSONField(default=list, null=True, blank=True)
     status = models.IntegerField()
+    serialNumber = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Generar un nuevo ID grupal si no se proporciona uno
