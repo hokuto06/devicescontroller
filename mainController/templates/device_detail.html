@@ -106,7 +106,27 @@
             enviarButton.disabled = !algunSeleccionado;
         });
     });
+    $('#myForm').submit(function(event) {
+        event.preventDefault();
+        const clientesSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: {
+                'clientes_seleccionados': clientesSeleccionados,
+                'csrfmiddlewaretoken': csrfToken
+            },
+            success: function(response) {
+                console.log('Success:', response);
+                // Aquí puedes manejar la respuesta exitosa del servidor
+            },
+            error: function(error) {
+                console.log('Error:', error);
+                // Aquí puedes manejar cualquier error que ocurra durante la solicitud
+            }
+        });
+    });
 
-    
 </script>
 {% endblock %}
