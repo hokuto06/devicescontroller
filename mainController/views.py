@@ -67,7 +67,6 @@ def config_new_one(request):
         # Suponiendo que sólo hay un grupo en los datos enviados
         group_name = list(data.keys())[0]
         ip_list = data[group_name]
-        print(data)
         print(group_name)
         print(ip_list)
     # group_name =  'test'
