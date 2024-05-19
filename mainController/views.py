@@ -31,10 +31,11 @@ class DevicesListCreateView(generics.ListCreateAPIView):
 
         return queryset
 
+
 class GroupDevicesListCreateView(generics.ListCreateAPIView):
     queryset = GroupDevices.objects.all()
     serializer_class = GroupDevicesSerializer
-
+ 
 def device_detail_view(request, pk):
     device = Devices.objects.get(pk=ObjectId(pk))
     group_name = GroupDevices.objects.get(group_id=device.group_id)
