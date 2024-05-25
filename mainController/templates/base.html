@@ -18,7 +18,13 @@
             }
         </style>
     </head>
-    {{ group_name|default:"default" }}    
+    {% if not group_name %}
+        {% with "prueba" as group_name %}
+            <p>{{ group_name }}</p>
+        {% endwith %}
+    {% else %}
+        <p>{{ group_name }}</p>
+    {% endif %}
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
