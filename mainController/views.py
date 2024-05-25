@@ -132,7 +132,7 @@ def devices_api(request):
 def inicio(request):
     groups = GroupDevices.objects.annotate(num_devices=Count('devices'))
     for group in groups:
-        print(group['grouop_name'])
+        print(group)
         print(group.__dict__)
     return render(request, 'dashboard.html', {'groups': groups, 'group_name':'prueba'})
 
