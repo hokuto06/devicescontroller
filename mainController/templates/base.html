@@ -62,7 +62,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{% url  'ViewGateway' 'prueba' %}">Gateway</a>
-                                    <a class="nav-link" href="{% url  'ViewAccessPoints' 'grupo' %}">{{ group_name }}</a>
+                                    <a class="nav-link" href="{% url  'ViewAccessPoints' group_name %}">{{ group_name }}</a>
                                     <a class="nav-link" href="{% url  'setup' 'prueba' %}">{{ group }}</a>
                                     <a class="nav-link" href="layout-sidenav-light.html">Switch</a>
                                 </nav>
