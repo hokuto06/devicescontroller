@@ -134,6 +134,7 @@ def inicio(request):
     for group in groups:
         print(group.group_name)
         # print(group.__dict__)
+    print(groups[0].group_name)
     return render(request, 'dashboard.html', {'groups': groups, 'group_name':'prueba'})
 
 def view_group(req, group):
