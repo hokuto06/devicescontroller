@@ -3,46 +3,48 @@
     {% load static %}
     {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        Dispositivos
-    </div>
-    <div class="card-body">
-        <form id="myForm" method="post" action="{% url 'set-controller' %}">
-            {% csrf_token %}             
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Ip Address</th>
-                    <th>Mac</th>
-                    <th>Model</th>
-                    <th>Version</th>
-                    <th>Status</th>
-                    <th>
-                        <input type="checkbox" id="seleccionarTodos">
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for dispositivo in dispositivos %}
-                <tr>
+<div class="container-fluid px-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Dispositivos
+        </div>
+        <div class="card-body">
+            <form id="myForm" method="post" action="{% url 'set-controller' %}">
+                {% csrf_token %}             
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Ip Address</th>
+                        <th>Mac</th>
+                        <th>Model</th>
+                        <th>Version</th>
+                        <th>Status</th>
+                        <th>
+                            <input type="checkbox" id="seleccionarTodos">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dispositivo in dispositivos %}
+                    <tr>
 
-                    <td>{{ dispositivo.host_name }}</a></td>
-                    <td>{{ dispositivo.ip_address }}</td>
-                    <td>{{ dispositivo.mac_address }}</td>
-                    <td>{{ dispositivo.model }}</td>
-                    <td>{{ dispositivo.version }}</td>
-                    <td>{{ dispositivo.status }}</td>
-                    <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}" data-group="{{ dispositivo.group_name }}"></td>
-                </tr>
-            {% endfor %}
+                        <td>{{ dispositivo.host_name }}</a></td>
+                        <td>{{ dispositivo.ip_address }}</td>
+                        <td>{{ dispositivo.mac_address }}</td>
+                        <td>{{ dispositivo.model }}</td>
+                        <td>{{ dispositivo.version }}</td>
+                        <td>{{ dispositivo.status }}</td>
+                        <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}" data-group="{{ dispositivo.group_name }}"></td>
+                    </tr>
+                {% endfor %}
 
-            </tbody>
-        </table>
-        <button type="submit" id="enviar" disabled>Enviar</button>
-        </form>
+                </tbody>
+            </table>
+            <button type="submit" id="enviar" disabled>Enviar</button>
+            </form>
+        </div>
     </div>
 </div>
 <script>
