@@ -14,7 +14,7 @@ from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
 
 def distributor(test):
-    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), state)
+    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5])
     if vendor == 'unifi':
         connect_device(Unifi, ip_address, user, password, collection, vendor, state)
     elif vendor == 'ruckus':
