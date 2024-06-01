@@ -25,6 +25,9 @@ def upload_file(request, group_id):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES['file']
+            # Asegurarse de que el directorio de destino existe
+            if not os.path.exists(settings.MEDIA_ROOT):
+                os.makedirs(settings.MEDIA_ROOT)
             # Guarda el archivo en el directorio especificado en settings.MEDIA_ROOT
             file_path = os.path.join(settings.MEDIA_ROOT, file.name)
             with open(file_path, 'wb+') as destination:
