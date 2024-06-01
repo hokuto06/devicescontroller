@@ -20,19 +20,21 @@ from .serializers import GroupDevicesSerializer, DevicesSerializer
 # from ._controller import connectRuckus
 import json
 
-
-
 def upload_file(request, group_id):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES['file']
-            # Aquí puedes manejar el archivo (guardarlo, procesarlo, etc.)
+            # Guarda el archivo en el directorio especificado en settings.MEDIA_ROOT
+            file_path = os.path.join(settings.MEDIA_ROOT, file.name)
+            with open(file_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
             messages.success(request, 'Archivo subido con éxito.')
             return redirect('setup', group_id=group_id)
     else:
         form = UploadFileForm()
-    return render(request, 'setup.html', {'form': form})
+    return render(request, 'setup.html', {'form': form, 'group_name': group_id})
 
 class DevicesListCreateView(generics.ListCreateAPIView):
     serializer_class = DevicesSerializer

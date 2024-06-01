@@ -1,5 +1,7 @@
 from django.contrib import admin
 from mainController import views
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 
 urlpatterns = [
@@ -33,4 +35,4 @@ urlpatterns = [
     #path('upload/', views.upload_file, name='upload_file'),
     path('upload/<str:group_id>/', views.upload_file, name='upload_file'),
     path('viewdevice/', views.DevicesDetailView.as_view(), name='view-device-detail'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
