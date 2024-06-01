@@ -13,10 +13,29 @@ from .models import Devices, GroupDevices
 from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller
 from .tools import _read_excel,unifi_controller
 from django.conf import settings
+from django.contrib import messages
+from .forms import UploadFileForm
 import os
 from .serializers import GroupDevicesSerializer, DevicesSerializer
 # from ._controller import connectRuckus
 import json
+
+
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Handle file upload here
+            file = request.FILES['file']
+            # Optionally, save the file or process it
+            # For now, we'll just display a success message
+            messages.success(request, 'Archivo subido con éxito.')
+            return redirect('upload_file')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
 
 class DevicesListCreateView(generics.ListCreateAPIView):
     serializer_class = DevicesSerializer

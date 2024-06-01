@@ -30,5 +30,6 @@ urlpatterns = [
     path('setup/<str:group_id>', views.setup_devices, name='setup' ),
     path('set_controller/', views.set_controller, name='set-controller' ),
     # path('viewdevice/<str:pk>/', views.DevicesDetailView.as_view(), name='view-device-detail'),
+    path('upload/', views.upload_file, name='upload_file'),
     path('viewdevice/', views.DevicesDetailView.as_view(), name='view-device-detail'),
 ]

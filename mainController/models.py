@@ -30,3 +30,7 @@ class Devices(models.Model):
         if not self.group_id:
             self.group_id = uuid.uuid4()
         super().save(*args, **kwargs)
+
+class UploadFile(models.Model):
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
