@@ -22,20 +22,17 @@ import json
 
 
 
-
-def upload_file(request):
+def upload_file(request, group_id):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            # Handle file upload here
             file = request.FILES['file']
-            # Optionally, save the file or process it
-            # For now, we'll just display a success message
+            # Aquí puedes manejar el archivo (guardarlo, procesarlo, etc.)
             messages.success(request, 'Archivo subido con éxito.')
-            return redirect('upload_file')
+            return redirect('setup', group_id=group_id)
     else:
         form = UploadFileForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'setup.html', {'form': form})
 
 class DevicesListCreateView(generics.ListCreateAPIView):
     serializer_class = DevicesSerializer

@@ -11,7 +11,7 @@
 
     <!-- Formulario de subida de archivos (inicialmente oculto) -->
     <div id="uploadFormContainer" style="display:none;">
-        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_file' group_id=group_name %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="file">Selecciona un archivo Excel</label>
