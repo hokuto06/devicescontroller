@@ -5,24 +5,20 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <div class="container-fluid px-4">
     <ol class="breadcrumb mb-4">
-        <a class="btn btn-primary" href="{% url  'CrearGrupo' %}" role="button">Cargar Datos</a>
+        <!-- Este es el boton con el que quiero abrir el formulario  -->
+        <a class="btn btn-primary" href="" role="button">Cargar Datos</a>
     </ol>    
 
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Subir</button>
-    </form>
-
-
+    <div id="uploadFormContainer" style="display:none;">
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="file">Selecciona un archivo Excel</label>
+                <input type="file" id="file" name="file" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Subir</button>
+        </form>
+    </div>
 
     <div class="card mb-4">
         <div class="card-header">
