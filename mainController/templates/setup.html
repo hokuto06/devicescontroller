@@ -1,14 +1,15 @@
-<!-- Incluye jQuery (asegúrate de agregarlo en tu proyecto) -->
 {% extends "base.html" %}
-    {% load static %}
-    {% block content %}
+{% load static %}
+{% block content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <div class="container-fluid px-4">
     <ol class="breadcrumb mb-4">
-        <!-- Este es el boton con el que quiero abrir el formulario  -->
-        <a class="btn btn-primary" href="" role="button">Cargar Datos</a>
-    </ol>    
+        <!-- Este es el botón con el que quiero abrir el formulario -->
+        <button class="btn btn-primary" id="cargarDatosBtn" type="button">Cargar Datos</button>
+    </ol>
 
+    <!-- Formulario de subida de archivos (inicialmente oculto) -->
     <div id="uploadFormContainer" style="display:none;">
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
             {% csrf_token %}
@@ -27,81 +28,72 @@
         </div>
         <div class="card-body">
             <form id="myForm" method="post" action="{% url 'set-controller' %}">
-                {% csrf_token %}             
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Ip Address</th>
-                        <th>Mac</th>
-                        <th>Model</th>
-                        <th>Version</th>
-                        <th>Status</th>
-                        <th>
-                            <input type="checkbox" id="seleccionarTodos">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for dispositivo in dispositivos %}
-                    <tr>
-
-                        <td>{{ dispositivo.host_name }}</a></td>
-                        <td>{{ dispositivo.ip_address }}</td>
-                        <td>{{ dispositivo.mac_address }}</td>
-                        <td>{{ dispositivo.model }}</td>
-                        <td>{{ dispositivo.version }}</td>
-                        <td>{{ dispositivo.status }}</td>
-                        <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}" data-group="{{ dispositivo.group_name }}"></td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-            <button type="submit" id="enviar" disabled>Enviar</button>
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Ip Address</th>
+                            <th>Mac</th>
+                            <th>Model</th>
+                            <th>Version</th>
+                            <th>Status</th>
+                            <th>
+                                <input type="checkbox" id="seleccionarTodos">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dispositivo in dispositivos %}
+                        <tr>
+                            <td>{{ dispositivo.host_name }}</a></td>
+                            <td>{{ dispositivo.ip_address }}</td>
+                            <td>{{ dispositivo.mac_address }}</td>
+                            <td>{{ dispositivo.model }}</td>
+                            <td>{{ dispositivo.version }}</td>
+                            <td>{{ dispositivo.status }}</td>
+                            <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}" data-group="{{ dispositivo.group_name }}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" id="enviar" disabled>Enviar</button>
             </form>
         </div>
     </div>
 </div>
+
 <script>
 $(document).ready(function() {
-    // Obtener el checkbox "Seleccionar Todos"
+    // Mostrar el formulario de subida de archivos al hacer clic en el botón
+    $('#cargarDatosBtn').click(function() {
+        $('#uploadFormContainer').toggle();
+    });
+
     const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
-    // Obtener todos los checkboxes individuales
     const checkboxes = document.querySelectorAll('.checkbox');
-    // Obtener el botón de enviar
     const enviarButton = document.getElementById('enviar');
 
-    // Agregar un evento de cambio al checkbox "Seleccionar Todos"
     seleccionarTodosCheckbox.addEventListener('change', function() {
-        // Iterar sobre todos los checkboxes y establecer su estado según el estado del checkbox "Seleccionar Todos"
         checkboxes.forEach(checkbox => {
             checkbox.checked = seleccionarTodosCheckbox.checked;
         });
-        // Verificar si al menos un checkbox está seleccionado
         const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
-        // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
         enviarButton.disabled = !algunSeleccionado;
     });
 
-    // Agregar un evento de clic al botón de enviar
     enviarButton.addEventListener('click', function() {
-        // Obtener los IDs de los clientes seleccionados
         const dispositivosSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-        // Hacer algo con los IDs seleccionados, por ejemplo, enviarlos a la URL de Django
         console.log(dispositivosSeleccionados);
-        // Aquí puedes hacer una petición AJAX o enviar los IDs al backend de Django
     });
 
-    // Iterar sobre todos los checkboxes individuales y agregar un listener para cambiar
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            // Verificar si al menos un checkbox está seleccionado
             const algunSeleccionado = [...checkboxes].some(checkbox => checkbox.checked);
-            // Habilitar o deshabilitar el botón de enviar dependiendo del estado de los checkboxes
             enviarButton.disabled = !algunSeleccionado;
         });
     });
+
     $('#myForm').submit(function(event) {
         event.preventDefault();
         const dispositivosSeleccionados = [...checkboxes].filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
@@ -121,11 +113,9 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log('Success:', response);
-                // Aquí puedes manejar la respuesta exitosa del servidor
             },
             error: function(error) {
                 console.log('Error:', error);
-                // Aquí puedes manejar cualquier error que ocurra durante la solicitud
             }
         });
     });
