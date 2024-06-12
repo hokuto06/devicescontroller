@@ -170,7 +170,7 @@ def crear_grupo(request):
         print(nuevo_grupo.__dict__)
         return render(request, 'group.html', {'group': group_name})
     else:
-        return render(request, 'crear_grupo.html')
+        return render(request, 'crear_grupo.html', {'group': group_name})
 
 def view_groups(request):
     groups = GroupDevices.objects.annotate(num_devices=Count('devices'))
