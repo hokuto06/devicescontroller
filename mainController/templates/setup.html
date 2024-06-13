@@ -36,6 +36,7 @@
                             <th>Ip Address</th>
                             <th>Mac</th>
                             <th>Model</th>
+                            <th>Serial</th>
                             <th>Version</th>
                             <th>Status</th>
                             <th>
@@ -50,6 +51,7 @@
                             <td>{{ dispositivo.ip_address }}</td>
                             <td>{{ dispositivo.mac_address }}</td>
                             <td>{{ dispositivo.model }}</td>
+                            <td>{{ dispositivo.serial }}</td>
                             <td>{{ dispositivo.version }}</td>
                             <td>{{ dispositivo.status }}</td>
                             <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}" data-group="{{ dispositivo.group_name }}"></td>

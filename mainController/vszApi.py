@@ -2,12 +2,12 @@ import RuckusVirtualSmartZoneAPIClient
 import json
 
 class connectVsz():
-    def __init__(self, ipAddress, userName, passWord):
+    def __init__(self, mac_address):
         try:
             client = RuckusVirtualSmartZoneAPIClient.Client()
-            client.connect(url='https://54.85.134.165:8443', username='admin', password='elrbsestNF!25')
+            client.connect(url='https://192.168.188.10:8443', username='admin', password='elrbsestNF!25')
             self.client = client
-            self.mac_address = '2C:C5:D3:2F:33:50'
+            self.mac_address = mac_address
             self.status = 1
         except Exception as e:
             print(e)
@@ -25,28 +25,31 @@ class connectVsz():
         # print(response.status_code) # --> 204
         if response == 204:
             return('ok')
+        else:
+            return('no')
 
-    def config_ap(self):
-        hostname = "prueba"
-        ip_address = "10.6.255.10"
-        mac_address = "2C:C5:D3:2F:33:50"
-        description = "ap prueba"
-        response = self.client.put(method=f'/aps/'+mac_address, data={ "name":hostname,
-                                                                      "description":description,
-                                                                      "network":{
-                                                                        "ipType": "Static",
-                                                                        "ip": ip_address,
-                                                                        "netmask": "255.255.255.0",
-                                                                        "gateway": "10.6.255.1",
-                                                                        "primaryDns": "10.6.255.1"
-                                                                      },
-                                                                          "apMgmtVlan": {
-                                                                            "id": "1",
-                                                                            "mode": "USER_DEFINED"                                                                
-                                                                        }
-                                                                })
+    def config_ap(self,hostname, ip_address, description):
+        mac_address = self.mac_address
+        response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
 
-    results = (json.dumps(response.json(), indent=4))
-    print(results)
 
-    self.client.disconnect()
+        # response = self.client.put(method=f'/aps/'+mac_address, data={ "name":hostname,
+        #                                                               "description":description,
+        #                                                               "network":{
+        #                                                                 "ipType": "Static",
+        #                                                                 "ip": ip_address,
+        #                                                                 "netmask": "255.255.255.0",
+        #                                                                 "gateway": "10.8.9.1",
+        #                                                                 "primaryDns": "10.8.9.1"
+        #                                                               },
+        #                                                                   "apMgmtVlan": {
+        #                                                                     "id": "100",
+        #                                                                     "mode": "USER_DEFINED"                                                                
+        #                                                                 }
+        #                                                         })
+
+        results = (json.dumps(response.json(), indent=4))
+        print(results)
+
+    def desconnect(self):
+        self.client.disconnect()

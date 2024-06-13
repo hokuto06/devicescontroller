@@ -166,7 +166,7 @@ class Ruckus:
         return "ok"
 
     def setController(self):
-        controller = self.sendCommand('set scg ip 172.20.196.167')
+        controller = self.sendCommand('set scg ip 192.168.188.10')
         return controller
 
     def getData(self):

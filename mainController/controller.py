@@ -12,6 +12,7 @@ from .unifiApi import Unifi
 from .ruckusApi import Ruckus
 from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
+from .vszApi import connectVsz
 
 def distributor(test):
     ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5])
@@ -58,6 +59,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor, 
                 'controllerStatus': 'null',
                 'clientes': clients,
                 'state': state,
+                'serialNumber':data.get('serial', ''),
                 'status': 2,
             }
             print(device_data)
@@ -86,6 +88,10 @@ def scan_devices(devices):
         for host in devices:
             distributor(host)
 
+'''
+FUNCIONES VSZ
+'''
+
 def set_ap_controller(devices):
     with transaction.atomic():
         for host in devices:
@@ -93,6 +99,19 @@ def set_ap_controller(devices):
             if device.status == 1:
                 hostname = device.setController()
                 return "ok"  
+
+
+def update_info_from_excel(mac_address,serial):
+    return ['hostname','ip_address','description']
+
+def put_ap_info_on_vsz(mac_address):
+    hostname, ip_address, description = update_device_info(mac_address,'serial')
+    new_ap = connectVsz(mac_address)
+    if new_ap.search_ap() == "ok":
+        new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+'''
+FIN FUNCIONES VSZ.
+'''
 
 def update_device_info(ip_address, user, password, collection):
     connect_device_update(Brocade, ip_address, user, password, collection)

@@ -114,6 +114,7 @@ def setup_devices(request, group_id):
             'model': dispositivo.model,
             'ip_address': dispositivo.ipAddress,
             'status': dispositivo.status,
+            'serial': dispositivo.serialNumber,
             'controller_status': dispositivo.controllerStatus,
         }
         resultados.append(dispositivo_dict)
@@ -168,7 +169,7 @@ def crear_grupo(request):
         print(group_name)
         nuevo_grupo = GroupDevices.objects.create(group_name=group_name)
         print(nuevo_grupo.__dict__)
-        return render(request, 'group.html', {'group': group_name})
+        return render(request, 'group.html', {'group_name': group_name})
     else:
         return render(request, 'crear_grupo.html')
 
@@ -247,7 +248,7 @@ def procesar_formulario(request, group):
         scan_devices(devices_list)
         return redirect('ViewAccessPoints',group_id=group)
     else:
-        return render(request, 'add_devices.html', {'group' : group})
+        return render(request, 'add_devices.html', {'group_name' : group})
 
 def add_one(request, group):
     if request.method == 'POST':
@@ -263,10 +264,10 @@ def add_one(request, group):
             print(' add one ')
         else:
             print(f'{ip} no responde')
-        distributor([ip, texto1, texto2, texto3, group])
+        distributor([ip, texto1, texto2, texto3, group, 'no_configured'])
         return redirect('ViewAccessPoints',group_id=group)
     else:
-        return render(request, 'add_one_device.html', {'group' : group})
+        return render(request, 'add_one_device.html', {'group_name' : group})
 
 def delete_device(request, pk):
     # Encuentra el dispositivo por su ID, si no existe, retorna un error 404

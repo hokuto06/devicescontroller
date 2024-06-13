@@ -2,7 +2,7 @@
     {% load static %}
     {% block content %}
     <div class="container-fluid px-4">
-        <h1 class="mt-4">{{ group }}</h1>
+        <h1 class="mt-4">{{ group_name }}</h1>
         <ol class="breadcrumb mb-4">
             <!-- <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Dashboard</a></li> -->
             <li class="breadcrumb-item"></li><a href="javascript: history.go(-1)">Go Back</a></li> &nbsp;&nbsp;
@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <br>
-                    <form method="post" action="{% url 'procesar_formulario'  group %}">{% csrf_token %}
+                    <form method="post" action="{% url 'procesar_formulario'  group_name %}">{% csrf_token %}
                         <br>
                         <div class="form-group row">
                             <label for="ip1" class="col-sm-2 col-form-label">IP 1:</label>
