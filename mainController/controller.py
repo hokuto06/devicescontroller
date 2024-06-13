@@ -13,6 +13,9 @@ from .ruckusApi import Ruckus
 from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
 from .vszApi import connectVsz
+from openpyxl import load_workbook
+import os
+
 
 def distributor(test):
     ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5])
@@ -102,6 +105,41 @@ def set_ap_controller(devices):
 
 
 def update_info_from_excel(mac_address,serial):
+    file_path = 'excel.xlsx'
+
+    if not os.path.exists(file_path):
+        print(f"Error: The file '{file_path}' does not exist.")
+        return []
+    try:
+        workbook = load_workbook(file_path)
+        worksheet = workbook.active
+    except Exception as e:
+        print(f"Error loading workbook: {e}")
+        return []
+    data = []
+    for row in worksheet.iter_rows(values_only=True):
+        data.append(list(row))
+    for index, row in enumerate(data):
+        if len(row) >= 5:
+            try:
+                values = [row[0],row[1],row[4]]
+                # print(f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}")
+                # value = f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}"
+                worksheet.cell(row=int(index)+1, column=2, value=mac_address)
+                worksheet.cell(row=int(index)+1, column=3, value=serial)
+            except TypeError as e:
+                print(f"Error concatenating row data: {e}")
+        else:
+            print("Row does not have enough elements")
+    try:
+        workbook.save(file_path)
+        print(f"Datos escritos en la primera columna de la segunda hoja en '{file_path}' exitosamente.")
+    except Exception as e:
+        print(f"Error al guardar el workbook: {e}")
+    workbook.close()
+    return data
+
+
     return ['hostname','ip_address','description']
 
 def put_ap_info_on_vsz(mac_address):
