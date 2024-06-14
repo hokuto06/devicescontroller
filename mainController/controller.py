@@ -91,6 +91,15 @@ def scan_devices(devices):
         for host in devices:
             distributor(host)
 
+def first_setup_ruckus_list(devices):
+    list_aps = []
+    with transaction.atomic():
+        for host in devices:
+            new_ap = Ruckus(host[0], host[1], host[2], firstTime=True)
+            if new_ap.status == 1:
+                list_aps.append(host[0], host[1], 'n3tw0rks.')
+        scan_devices(list_aps)
+
 '''
 FUNCIONES VSZ
 '''

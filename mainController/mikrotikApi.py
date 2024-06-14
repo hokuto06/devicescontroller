@@ -12,7 +12,7 @@ class Mikrotik:
         self.status = 1
     
     def get_clients(self):
-        list_dhcp = self.api.get_resource('/ip/dhcp-server/lease') 
+        list_dhcp = self.api.get_resource('/ip/dhcp-server/lease')
         dhcp_list = list_dhcp.get(server="dhcp1")
         list_client = []
         for dhcp_client in dhcp_list:
@@ -25,7 +25,7 @@ class Mikrotik:
         return list_client
 
     def getDeviceName(self):
-        identity = self.api.get_resource('/system/identity')    
+        identity = self.api.get_resource('/system/identity')
         _identity = identity.get()
         return _identity[0]['name']
 

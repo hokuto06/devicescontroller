@@ -8,7 +8,7 @@ class Ruckus:
 
     status = None
 
-    def __init__(self, ipAddress, userName, passWord):
+    def __init__(self, ipAddress, userName, passWord, firstTime=False):
         try:
             child = pexpect.spawn(
                 'ssh  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ' + ipAddress)
@@ -17,8 +17,16 @@ class Ruckus:
             child.sendline(userName)
             child.expect('password :')
             child.sendline(passWord)
+            if firstTime:
+                child.expect('New password:')
+                child.sendline('n3tw0rks.')
+                child.expect('Confirm password:')
+                child.sendline('n3tw0rks.')
+                child.expect('Please login:')
+                child.sendline(userName)
+                child.expect('password :')
+                child.sendline('n3tw0rks.')
             child.expect('rkscli:')
-            # print(colored(prueba,'red'))
             self.child = child
             print('connected to: '+ipAddress)
             self.status = 1
