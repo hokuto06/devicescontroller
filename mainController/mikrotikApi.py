@@ -12,8 +12,8 @@ class Mikrotik:
         self.status = 1
     
     def get_clients(self):
-        list_dhcp = self.api.get_resource('/ip/dhcp-server/lease')
-        dhcp_list = list_dhcp.get()
+        list_dhcp = self.api.get_resource('/ip/dhcp-server/lease') 
+        dhcp_list = list_dhcp.get(server="dhcp1")
         list_client = []
         for dhcp_client in dhcp_list:
             if 'mac-address' in dhcp_client and dhcp_client['mac-address']:
