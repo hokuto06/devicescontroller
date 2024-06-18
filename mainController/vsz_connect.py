@@ -9,14 +9,14 @@ client.connect(url='https://54.85.134.165:8443', username='admin', password='elr
 
 # response = client.get(method='/rkszones/28b9296d-7dc9-44d9-9221-80a926f1f4a0')
 # response = client.get(method='/rkszones/28b9296d-7dc9-44d9-9221-80a926f1f4a0/apgroups/4066127f-a6ed-4a26-8951-dab89c95d216')
-response = client.get(method='/aps/2C:C5:D3:2F:33:50')
+response = client.get(method='/aps/20:58:69:3C:D8:E0')
 
 #cambia nombre de dispositivo.
 
-hostname = "prueba"
-ip_address = "10.6.255.10"
-mac_address = "2C:C5:D3:2F:33:50"
-description = "ap prueba"
+# hostname = "prueba"
+# ip_address = "10.6.255.10"
+# mac_address = "2C:C5:D3:2F:33:50"
+# description = "ap prueba"
 # response = client.put(method=f'/aps/'+mac_address, data={ "name":hostname,
                                                                 # "description":description,
 #                                                               "network":{

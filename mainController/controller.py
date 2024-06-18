@@ -104,6 +104,7 @@ def scan_devices(devices):
 FUNCIONES VSZ
 '''
 
+
 def set_ap_controller(devices):
     for host in devices:
         print(host)
@@ -175,12 +176,13 @@ def update_info_from_excel(mac_address, serial):
 
 def put_ap_info_on_vsz(devices):
     for device in devices:
+        mac_address = device[0]
         hostname, ip_address, description = update_info_from_excel(device[0], device[1])
         print(hostname, ip_address, description)
-    # new_ap = connectVsz(mac_address)
-    # if new_ap.search_ap() == "ok":
-    #     new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
-
+        new_ap = connectVsz(mac_address)
+        if new_ap.search_ap() == "ok":
+            new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+    return 'ok'
 
 '''
 FIN FUNCIONES VSZ.

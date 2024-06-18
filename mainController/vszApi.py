@@ -21,35 +21,38 @@ class connectVsz():
     #cambia nombre de dispositivo.
 
     def search_ap(self):
+        print(self.mac_address)
         response = self.client.get(method='/aps/'+self.mac_address)
         # print(response.status_code) # --> 204
-        if response == 204:
+        print(response.status_code)
+        if response.status_code == 200:
             return('ok')
         else:
             return('no')
 
     def config_ap(self,hostname, ip_address, description):
         mac_address = self.mac_address
-        response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
+        # response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
+        print('mac address: '+mac_address)
+        print('ip address: '+ip_address)
 
-
-        # response = self.client.put(method=f'/aps/'+mac_address, data={ "name":hostname,
-        #                                                               "description":description,
-        #                                                               "network":{
-        #                                                                 "ipType": "Static",
-        #                                                                 "ip": ip_address,
-        #                                                                 "netmask": "255.255.255.0",
-        #                                                                 "gateway": "10.8.9.1",
-        #                                                                 "primaryDns": "10.8.9.1"
-        #                                                               },
-        #                                                                   "apMgmtVlan": {
-        #                                                                     "id": "100",
-        #                                                                     "mode": "USER_DEFINED"                                                                
-        #                                                                 }
-        #                                                         })
-
-        results = (json.dumps(response.json(), indent=4))
-        print(results)
+        response = self.client.put(method=f'/aps/'+mac_address, data={ "name":hostname,
+                                                                      "description":description,
+                                                                      "network":{
+                                                                        "ipType": "Static",
+                                                                        "ip": ip_address,
+                                                                        "netmask": "255.255.252.0",
+                                                                        "gateway": "192.168.112.1",
+                                                                        "primaryDns": "192.168.112.1"
+                                                                      },
+                                                                        "apMgmtVlan": {
+                                                                            "id": 100,
+                                                                            "mode": "USER_DEFINED"
+                                                                         }
+                                                                })
+        print(response)
+        # results = (json.dumps(response.json(), indent=4))
+        # print(results)
 
     def desconnect(self):
         self.client.disconnect()
