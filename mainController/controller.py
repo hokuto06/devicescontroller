@@ -109,7 +109,7 @@ def set_ap_controller(devices):
         print(host)
         device = Ruckus(host[0], host[1], host[2])
         if device.status == 1:
-            #hostname = device.setController()
+            hostname = device.setController()
             mac_address = host[0]
             Devices.objects.filter(ipAddress=mac_address).update(state='oncontroller')
             device.sendCommand('exit')
@@ -117,70 +117,12 @@ def set_ap_controller(devices):
 
 
 
-# def update_info_from_excel(mac_address, serial):
-#     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#     MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-
-#     # Nombre del archivo que deseas acceder
-#     nombre_archivo = 'excel.xlsm'
-#     file_path = os.path.join(MEDIA_DIR, nombre_archivo)
-
-#     # Verificar si el archivo existe
-#     if not os.path.exists(file_path):
-#         print(f"Error: The file '{file_path}' does not exist.")
-#         return []
-
-#     try:
-#         workbook = load_workbook(file_path)
-#         worksheet = workbook.active
-
-#         data = []
-#         for row in worksheet.iter_rows(values_only=True):
-#             print('sigue row:')
-#             print(row)
-#             data.append(list(row))
-#         for index, row in enumerate(data):
-#             if len(row) >= 5:
-#                 try:
-#                     print("columna 6"+row[5])
-#                     if row[5] != 'en uso':
-#                         # print(f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}")
-#                         # value = f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}"
-#                         worksheet.cell(row=int(index)+1, column=3, value=mac_address)
-#                         worksheet.cell(row=int(index)+1, column=4, value=serial)
-#                         values = [row[0],row[1],row[4]]
-#                         name,ip,mac = row[0],row[1],row[4]
-#                         workbook.save(file_path)
-#                         workbook.close()
-#                         break
-#                         # try:
-#                         # except Exception as e:
-#                         #     print(f"Error al guardar el workbook: {e}")
-                            
-#                         # print(f"Datos escritos exitosamente.")
-#                         # return name,ip,mac
-#                 except TypeError as e:
-#                     print(f"Error concatenating row data: {e}")
-#             else:
-#                 print("Row does not have enough elements")
-#     except Exception as e:
-#         print(f"Error loading workbook: {e}")
-#         return ['error','error','error']
-#     # finally:
-#     #     workbook.close()
-#     return values
-
-
-#     # return ['hostname','ip_address','description']
-
 # def put_ap_info_on_vsz(devices):
 #     # hostname, ip_address, description = update_device_info(mac_address,'serial')
 #     for device in devices:
 #         hostname, ip_address, description = update_info_from_excel(device[0],device[1])
 #         print(hostname,ip_address,description)
-    # new_ap = connectVsz(mac_address)
-    # if new_ap.search_ap() == "ok":
-    #     new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+
 
 def update_info_from_excel(mac_address, serial):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -235,22 +177,11 @@ def put_ap_info_on_vsz(devices):
     for device in devices:
         hostname, ip_address, description = update_info_from_excel(device[0], device[1])
         print(hostname, ip_address, description)
+    # new_ap = connectVsz(mac_address)
+    # if new_ap.search_ap() == "ok":
+    #     new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    devices = [
-        ['3C:46:A1:25:46:20', '122379002601'],
-        # Agrega más dispositivos si es necesario
-    ]
-    put_ap_info_on_vsz(devices)
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    devices = [
-        ['3C:46:A1:25:46:20', '122379002601'],
-        # Agrega más dispositivos si es necesario
-    ]
-    put_ap_info_on_vsz(devices)
 '''
 FIN FUNCIONES VSZ.
 '''
