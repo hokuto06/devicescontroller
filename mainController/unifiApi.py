@@ -11,6 +11,7 @@ class Unifi:
 	status = None
 
 	def __init__(self, ipAddress, userName, passWord):
+		self.password = passWord
 		try:
 			print(f'Intentando conectar a {ipAddress} como {userName}')
 			client = paramiko.SSHClient()

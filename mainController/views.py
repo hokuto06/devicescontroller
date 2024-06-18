@@ -10,7 +10,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller
+from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller,put_ap_info_on_vsz
 from .tools import _read_excel,unifi_controller
 from django.conf import settings
 from django.contrib import messages
@@ -101,8 +101,35 @@ def config_new_one(request):
     # return redirect('device-detail','664363fd0aa72a70fde68d2a')
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
 
+
 def setup_devices(request, group_id):
     dispositivos = Devices.objects.filter(group__group_name=group_id, vendor='ruckus')
+    resultados = []
+    for dispositivo in dispositivos:
+        print(dispositivo._id)
+        dispositivo_dict = {
+            'id': dispositivo._id,
+            'host_name': dispositivo.deviceName,
+            'version': dispositivo.version,
+            'mac_address': dispositivo.macAddress,
+            'model': dispositivo.model,
+            'ip_address': dispositivo.ipAddress,
+            'status': dispositivo.status,
+            'serial': dispositivo.serialNumber,
+            'group_name': group_id,
+            'controller_status': dispositivo.controllerStatus,
+        }
+        resultados.append(dispositivo_dict)
+
+    contexto = {
+        'dispositivos': resultados,
+        'group_name': group_id,
+    }
+    return render(request, 'setup.html', contexto)
+
+
+def to_controller(request, group_id):
+    dispositivos = Devices.objects.filter(group__group_name=group_id, state='oncontroller')
     resultados = []
     for dispositivo in dispositivos:
         print(dispositivo._id)
@@ -123,21 +150,36 @@ def setup_devices(request, group_id):
         'dispositivos': resultados,
         'group_name': group_id,
     }
-    return render(request, 'setup.html', contexto)
+    return render(request, 'to_controller.html', contexto)
+
+
+def config_ap_on_controller(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        group_name = list(data.keys())[0]
+        device_list = data[group_name]
+        devices_list = []
+        for device in device_list:
+            mac_serial = device.split()
+            print(mac_serial)
+            devices_list.append([mac_serial[0], mac_serial[1]])
+        put_ap_info_on_vsz(devices_list)
+        return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': device_list})    
 
 def set_controller(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
-        # Suponiendo que sólo hay un grupo en los datos enviados
         group_name = list(data.keys())[0]
         ip_list = data[group_name]
-        print(group_name)
-        print(ip_list)
         devices_list = []
         for device in ip_list:
-            print("ip: "+device)
-            devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name,'default'])
+            ip_mac = device.split()
+            # print(ip_mac[0])
+            # print("sigue device: "+device)
+            # print(device)
+            # print("ip: "+device)
+            devices_list.append([ip_mac[0], 'super', 'n3tw0rks.', 'ruckus',ip_mac[1], group_name,'default'])
+        print(devices_list)
         set_ap_controller(devices_list)
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
 

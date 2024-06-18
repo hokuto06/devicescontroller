@@ -14,8 +14,8 @@ from .brocadeApi import Brocade
 from .mikrotikApi import Mikrotik
 from .vszApi import connectVsz
 from openpyxl import load_workbook
+from openpyxl.utils.exceptions import InvalidFileException
 import os
-
 
 def distributor(test):
     ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5])
@@ -52,7 +52,7 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor, 
             device_data = {
                 'group': group,
                 'deviceUser': user,
-                'devicePassword': password,
+                'devicePassword': device.password,
                 'ipAddress': ip_address,
                 'deviceName': hostname,
                 'model': data.get('model', ''),
@@ -91,71 +91,166 @@ def scan_devices(devices):
         for host in devices:
             distributor(host)
 
-def first_setup_ruckus_list(devices):
-    list_aps = []
-    with transaction.atomic():
-        for host in devices:
-            new_ap = Ruckus(host[0], host[1], host[2], firstTime=True)
-            if new_ap.status == 1:
-                list_aps.append(host[0], host[1], 'n3tw0rks.')
-        scan_devices(list_aps)
+# def first_setup_ruckus_list(devices):
+#     list_aps = []
+#     with transaction.atomic():
+#         for host in devices:
+#             new_ap = Ruckus(host[0], host[1], host[2], firstTime=True)
+#             if new_ap.status == 1:
+#                 list_aps.append([host[0], host[1], 'n3tw0rks.',host[3],host[4],host[5]])
+#         scan_devices(list_aps)
 
 '''
 FUNCIONES VSZ
 '''
 
 def set_ap_controller(devices):
-    with transaction.atomic():
-        for host in devices:
-            device = Ruckus(host[0], host[1], host[2])
-            if device.status == 1:
-                hostname = device.setController()
-                return "ok"  
+    for host in devices:
+        print(host)
+        device = Ruckus(host[0], host[1], host[2])
+        if device.status == 1:
+            #hostname = device.setController()
+            mac_address = host[0]
+            Devices.objects.filter(ipAddress=mac_address).update(state='oncontroller')
+            device.sendCommand('exit')
+    return "ok" 
 
 
-def update_info_from_excel(mac_address,serial):
-    file_path = 'excel.xlsx'
+
+# def update_info_from_excel(mac_address, serial):
+#     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#     MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+#     # Nombre del archivo que deseas acceder
+#     nombre_archivo = 'excel.xlsm'
+#     file_path = os.path.join(MEDIA_DIR, nombre_archivo)
+
+#     # Verificar si el archivo existe
+#     if not os.path.exists(file_path):
+#         print(f"Error: The file '{file_path}' does not exist.")
+#         return []
+
+#     try:
+#         workbook = load_workbook(file_path)
+#         worksheet = workbook.active
+
+#         data = []
+#         for row in worksheet.iter_rows(values_only=True):
+#             print('sigue row:')
+#             print(row)
+#             data.append(list(row))
+#         for index, row in enumerate(data):
+#             if len(row) >= 5:
+#                 try:
+#                     print("columna 6"+row[5])
+#                     if row[5] != 'en uso':
+#                         # print(f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}")
+#                         # value = f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}"
+#                         worksheet.cell(row=int(index)+1, column=3, value=mac_address)
+#                         worksheet.cell(row=int(index)+1, column=4, value=serial)
+#                         values = [row[0],row[1],row[4]]
+#                         name,ip,mac = row[0],row[1],row[4]
+#                         workbook.save(file_path)
+#                         workbook.close()
+#                         break
+#                         # try:
+#                         # except Exception as e:
+#                         #     print(f"Error al guardar el workbook: {e}")
+                            
+#                         # print(f"Datos escritos exitosamente.")
+#                         # return name,ip,mac
+#                 except TypeError as e:
+#                     print(f"Error concatenating row data: {e}")
+#             else:
+#                 print("Row does not have enough elements")
+#     except Exception as e:
+#         print(f"Error loading workbook: {e}")
+#         return ['error','error','error']
+#     # finally:
+#     #     workbook.close()
+#     return values
+
+
+#     # return ['hostname','ip_address','description']
+
+# def put_ap_info_on_vsz(devices):
+#     # hostname, ip_address, description = update_device_info(mac_address,'serial')
+#     for device in devices:
+#         hostname, ip_address, description = update_info_from_excel(device[0],device[1])
+#         print(hostname,ip_address,description)
+    # new_ap = connectVsz(mac_address)
+    # if new_ap.search_ap() == "ok":
+    #     new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+
+def update_info_from_excel(mac_address, serial):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+    nombre_archivo = 'output.xlsx'
+    file_path = os.path.join(MEDIA_DIR, nombre_archivo)
 
     if not os.path.exists(file_path):
         print(f"Error: The file '{file_path}' does not exist.")
-        return []
+        return ['error', 'error', 'error']
+
     try:
-        workbook = load_workbook(file_path)
+        workbook = load_workbook(file_path, keep_vba=True)
         worksheet = workbook.active
-    except Exception as e:
-        print(f"Error loading workbook: {e}")
-        return []
-    data = []
-    for row in worksheet.iter_rows(values_only=True):
-        data.append(list(row))
-    for index, row in enumerate(data):
-        if len(row) >= 5:
-            try:
-                values = [row[0],row[1],row[4]]
-                # print(f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}")
-                # value = f"{row[0]}{row[1]}{row[2]}-{row[3]}-{row[4]}"
-                worksheet.cell(row=int(index)+1, column=2, value=mac_address)
-                worksheet.cell(row=int(index)+1, column=3, value=serial)
-            except TypeError as e:
-                print(f"Error concatenating row data: {e}")
+
+        data = []
+        for row in worksheet.iter_rows(values_only=True):
+            data.append(list(row))
+
+        updated = False
+        for index, row in enumerate(data):
+            if len(row) >= 6:
+                if row[5] != 'en uso':
+                    print(row[5])
+                    worksheet.cell(row=index + 1, column=3, value=mac_address)
+                    worksheet.cell(row=index + 1, column=4, value=serial)
+                    worksheet.cell(row=index + 1, column=6, value='en uso')
+                    name, ip, mac = row[0], row[1], row[4]
+                    updated = True
+                    break
+            else:
+                print("Row does not have enough elements")
+
+        if updated:
+            workbook.save(file_path)
+            workbook.close()
+            return name, ip, mac
         else:
-            print("Row does not have enough elements")
-    try:
-        workbook.save(file_path)
-        print(f"Datos escritos en la primera columna de la segunda hoja en '{file_path}' exitosamente.")
+            print("No rows were updated.")
+            workbook.close()
+            return ['error', 'error', 'error']
+
+    except InvalidFileException as e:
+        print(f"Invalid file format: {e}")
+        return ['error', 'error', 'error']
     except Exception as e:
-        print(f"Error al guardar el workbook: {e}")
-    workbook.close()
-    return data
+        print(f"Error loading or saving workbook: {e}")
+        return ['error', 'error', 'error']
 
+def put_ap_info_on_vsz(devices):
+    for device in devices:
+        hostname, ip_address, description = update_info_from_excel(device[0], device[1])
+        print(hostname, ip_address, description)
 
-    return ['hostname','ip_address','description']
+# Ejemplo de uso
+if __name__ == "__main__":
+    devices = [
+        ['3C:46:A1:25:46:20', '122379002601'],
+        # Agrega más dispositivos si es necesario
+    ]
+    put_ap_info_on_vsz(devices)
 
-def put_ap_info_on_vsz(mac_address):
-    hostname, ip_address, description = update_device_info(mac_address,'serial')
-    new_ap = connectVsz(mac_address)
-    if new_ap.search_ap() == "ok":
-        new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+# Ejemplo de uso
+if __name__ == "__main__":
+    devices = [
+        ['3C:46:A1:25:46:20', '122379002601'],
+        # Agrega más dispositivos si es necesario
+    ]
+    put_ap_info_on_vsz(devices)
 '''
 FIN FUNCIONES VSZ.
 '''

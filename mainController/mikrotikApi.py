@@ -5,7 +5,7 @@ class Mikrotik:
     status = None
 
     def __init__(self, ipAddress, userName, passWord):
-        
+        self.password = passWord
         connection = routeros_api.RouterOsApiPool(ipAddress, userName, passWord)
         api = connection.get_api()
         self.api = api

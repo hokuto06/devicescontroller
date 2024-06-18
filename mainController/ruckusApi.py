@@ -7,8 +7,8 @@ import re
 class Ruckus:
 
     status = None
-
     def __init__(self, ipAddress, userName, passWord, firstTime=False):
+        self.password = passWord
         try:
             child = pexpect.spawn(
                 'ssh  -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ' + ipAddress)
@@ -17,16 +17,34 @@ class Ruckus:
             child.sendline(userName)
             child.expect('password :')
             child.sendline(passWord)
-            if firstTime:
-                child.expect('New password:')
-                child.sendline('n3tw0rks.')
+            # Handle different expected responses
+            index = child.expect(['rkscli:', 'New password:'])
+
+            if index == 0:
+                # Successfully logged in
+                print("Logged in successfully")
+            elif index == 1:
+                # Password change required
+                new_password = 'n3tw0rks.'
+                child.sendline(new_password)
                 child.expect('Confirm password:')
-                child.sendline('n3tw0rks.')
+                child.sendline(new_password)
                 child.expect('Please login:')
                 child.sendline(userName)
                 child.expect('password :')
-                child.sendline('n3tw0rks.')
-            child.expect('rkscli:')
+                child.sendline(new_password)
+                child.expect('rkscli:')
+                self.password = new_password
+            # if firstTime:
+            #     child.expect('New password:')
+            #     child.sendline('n3tw0rks.')
+            #     child.expect('Confirm password:')
+            #     child.sendline('n3tw0rks.')
+            #     child.expect('Please login:')
+            #     child.sendline(userName)
+            #     child.expect('password :')
+            #     child.sendline('n3tw0rks.')
+            # child.expect('rkscli:')
             self.child = child
             print('connected to: '+ipAddress)
             self.status = 1

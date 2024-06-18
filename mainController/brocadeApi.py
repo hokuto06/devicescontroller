@@ -6,6 +6,7 @@ class Brocade:
     status = None
 
     def __init__(self, ipAddress, userName, passWord):
+        self.password = passWord
         try:
             brocade_router = {
                 'device_type': 'ruckus_fastiron',

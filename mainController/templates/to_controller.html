@@ -27,7 +27,7 @@
             Dispositivos
         </div>
         <div class="card-body">
-            <form id="myForm" method="post" action="{% url 'set-controller' %}">
+            <form id="myForm" method="post" action="{% url 'config-on-controller' %}">
                 {% csrf_token %}
                 <table class="table">
                     <thead>
@@ -53,8 +53,8 @@
                             <td>{{ dispositivo.model }}</td>
                             <td>{{ dispositivo.serial }}</td>
                             <td>{{ dispositivo.version }}</td>
-                            <td>{{ dispositivo.group_name }}</td>
-                            <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.ip_address }}{{ dispositivo.mac_address }}" data-group="{{ dispositivo.group_name }}"></td>
+                            <td>{{ dispositivo.status }}</td>
+                            <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.mac_address }} {{ dispositivo.serial }}" data-group="{{ dispositivo.group_name }}"></td>
                         </tr>
                         {% endfor %}
                     </tbody>
