@@ -100,10 +100,10 @@ def scan_devices(devices):
 #                 list_aps.append([host[0], host[1], 'n3tw0rks.',host[3],host[4],host[5]])
 #         scan_devices(list_aps)
 
-'''
-FUNCIONES VSZ
-'''
 
+####################################
+#########INICIO FUNCIONES VSZ##########
+####################################
 
 def set_ap_controller(devices):
     for host in devices:
@@ -184,9 +184,9 @@ def put_ap_info_on_vsz(devices):
             new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
     return 'ok'
 
-'''
-FIN FUNCIONES VSZ.
-'''
+####################################
+#########FIN FUNCIONES VSZ##########
+####################################
 
 def update_device_info(ip_address, user, password, collection):
     connect_device_update(Brocade, ip_address, user, password, collection)
