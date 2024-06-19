@@ -20,6 +20,7 @@ urlpatterns = [
     path('procesar_formulario/<str:group>/', views.procesar_formulario, name='procesar_formulario'),
     path('group/<str:group>', views.view_group),
     path('config-new-one/', views.config_new_one, name="config-new-one"),
+    path('get-ap-info-from-vsz/<pk>', views.get_ap_info_from_vsz, name='GetApInfoFromVsz'),
     path('delete-device/<pk>', views.delete_device, name='DeleteDevice'),
     # path('devices/', views.DevicesListCreateView.as_view(), name='devices-list-create'),
     path('devices/<int:group>/', views.DevicesListCreateView.as_view(), name='devices-list-create-filtered'),

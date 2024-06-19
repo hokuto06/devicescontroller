@@ -64,6 +64,12 @@ class Brocade:
         # Imprimir el diccionario resultante
         return result
 
+    def get_clients(self):
+        result = self.ssh.send_command('show lldp neighbors')
+        print(result)
+        interfaces = self.parse_ifcs( result)
+        return interfaces
+    
     def getInterfacesDevices(self):
         result = self.ssh.send_command('show lldp neighbors')
         print(result)

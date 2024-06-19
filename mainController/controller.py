@@ -101,29 +101,46 @@ def scan_devices(devices):
 #         scan_devices(list_aps)
 
 
-####################################
+#######################################
 #########INICIO FUNCIONES VSZ##########
-####################################
+#######################################
 
 def set_ap_controller(devices):
     for host in devices:
         print(host)
-        device = Ruckus(host[0], host[1], host[2])
+        device = Ruckus(host[0], host[1], host[2])#### pasar id desde views.py
         if device.status == 1:
             hostname = device.setController()
-            mac_address = host[0]
-            Devices.objects.filter(ipAddress=mac_address).update(state='oncontroller')
+            mac_address = host[4].strip()
+            Devices.objects.filter(macAddress=mac_address).update(state='oncontroller')
             device.sendCommand('exit')
     return "ok" 
 
+def get_device_from_vsz(mac_address, id):
+    vsz = connectVsz(mac_address=mac_address)
+    ap_info = vsz.get_ap_info()
+    json_ap_info = json.loads(ap_info)
+    print(json_ap_info.get("name"))
+    ip_address = json_ap_info.get("network", {}).get("ip")
+    if checkHost(ip_address, "ruckus"):
+        device = get_object_or_404(Devices, ipAddress='192.168.188.7')
+        # Devices.objects.filter(ipAddress='192.168.188.7').update(state='oncontroller')
+        dict_clients = device.clientes
+        for interface, mac in dict_clients.items():
+            if mac.upper() == mac_address:
+                nodo_padre = {'puerto':interface}
+            # key, value
 
-
-# def put_ap_info_on_vsz(devices):
-#     # hostname, ip_address, description = update_device_info(mac_address,'serial')
-#     for device in devices:
-#         hostname, ip_address, description = update_info_from_excel(device[0],device[1])
-#         print(hostname,ip_address,description)
-
+        # Devices.objects.fil
+        # brocade = Brocade(ipAddress="192.168.188.7",userName="super",passWord="n3tw0rks")
+        # data = brocade.getInterfacesDevices()
+        # print(data)
+    Devices.objects.filter(_id=id).update(
+        ipAddress = ip_address,
+        deviceName = json_ap_info.get("name"),
+        clientes = [nodo_padre]
+        )
+    return "ok"
 
 def update_info_from_excel(mac_address, serial):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

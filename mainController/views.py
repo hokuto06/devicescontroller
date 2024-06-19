@@ -10,7 +10,7 @@ from rest_framework import generics
 from collections import Counter
 from openpyxl import load_workbook
 from .models import Devices, GroupDevices
-from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller,put_ap_info_on_vsz
+from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller,put_ap_info_on_vsz, get_device_from_vsz
 from .tools import _read_excel,unifi_controller
 from django.conf import settings
 from django.contrib import messages
@@ -142,6 +142,7 @@ def to_controller(request, group_id):
             'ip_address': dispositivo.ipAddress,
             'status': dispositivo.status,
             'serial': dispositivo.serialNumber,
+            'clientes': dispositivo.clientes, 
             'controller_status': dispositivo.controllerStatus,
         }
         resultados.append(dispositivo_dict)
@@ -310,6 +311,18 @@ def add_one(request, group):
         return redirect('ViewAccessPoints',group_id=group)
     else:
         return render(request, 'add_one_device.html', {'group_name' : group})
+
+def get_ap_info_from_vsz(request, pk):
+    dispositivo = get_object_or_404(Devices, pk=ObjectId(pk))
+    mac_address = dispositivo.macAddress
+    _id = dispositivo._id
+    print(mac_address)
+    group_owner = dispositivo.group
+    group_name = group_owner.group_name    
+    get_device_from_vsz(mac_address=mac_address.strip(), id =_id)
+    # return HttpResponse("ok")
+    # return JsonResponse({'status':'ok'})
+    return redirect('setup_ap_controller',group_id=group_name)
 
 def delete_device(request, pk):
     # Encuentra el dispositivo por su ID, si no existe, retorna un error 404

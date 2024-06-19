@@ -20,6 +20,14 @@ class connectVsz():
 
     #cambia nombre de dispositivo.
 
+    def get_ap_info(self):
+        mac_address = self.mac_address
+        response = self.client.get(method='/aps/'+mac_address)
+        if response.status_code == 200:
+            results = (json.dumps(response.json(), indent=4))
+            return results
+
+
     def search_ap(self):
         print(self.mac_address)
         response = self.client.get(method='/aps/'+self.mac_address)
