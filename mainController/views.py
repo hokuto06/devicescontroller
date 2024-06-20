@@ -143,6 +143,7 @@ def to_controller(request, group_id):
             'status': dispositivo.status,
             'serial': dispositivo.serialNumber,
             'clientes': dispositivo.clientes, 
+            'controllerStatus': dispositivo.controllerStatus, 
             'controller_status': dispositivo.controllerStatus,
         }
         resultados.append(dispositivo_dict)
@@ -174,15 +175,18 @@ def set_controller(request):
         ip_list = data[group_name]
         devices_list = []
         for device in ip_list:
-            ip_mac = device.split()
-            # print(ip_mac[0])
+            ip_id = device.split()
+            print("primera "+ip_id[0])
+            print("segunda "+ip_id[1])
             # print("sigue device: "+device)
             # print(device)
             # print("ip: "+device)
-            devices_list.append([ip_mac[0], 'super', 'n3tw0rks.', 'ruckus',ip_mac[1], group_name,'default'])
+            devices_list.append([ip_id[0], 'super', 'n3tw0rks.', 'ruckus',ip_id[1], group_name,'default'])
         print(devices_list)
         set_ap_controller(devices_list)
-        return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
+        # return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
+        return redirect('setup_ap_controller',group_name)
+    
 
 class DevicesDetailView(DetailView):
     model = Devices
@@ -316,7 +320,7 @@ def get_ap_info_from_vsz(request, pk):
     dispositivo = get_object_or_404(Devices, pk=ObjectId(pk))
     mac_address = dispositivo.macAddress
     _id = dispositivo._id
-    print(mac_address)
+    # print(_id)
     group_owner = dispositivo.group
     group_name = group_owner.group_name    
     get_device_from_vsz(mac_address=mac_address.strip(), id =_id)

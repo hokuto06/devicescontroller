@@ -40,6 +40,7 @@
                             <th>Version</th>
                             <th>Status</th>
                             <th>Uplink</th>
+                            <th>Ubicacion</th>
                             <th>boton</th>
                             <th>
                                 <input type="checkbox" id="seleccionarTodos">
@@ -62,7 +63,8 @@
                                 {% else %}
                                     N/A
                                 {% endif %}
-                            </td>                            
+                            </td>
+                            <td>{{ dispositivo.controllerStatus }}</td>                                                        
                             <td><a href="{% url 'GetApInfoFromVsz' dispositivo.id %}"><i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                             <td><input type="checkbox" class="checkbox" name="dispositivos_seleccionados" value="{{ dispositivo.mac_address }} {{ dispositivo.serial }}" data-group="{{ dispositivo.group_name }}"></td>
                         </tr>

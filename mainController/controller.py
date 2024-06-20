@@ -15,6 +15,7 @@ from .mikrotikApi import Mikrotik
 from .vszApi import connectVsz
 from openpyxl import load_workbook
 from openpyxl.utils.exceptions import InvalidFileException
+from bson import ObjectId
 import os
 
 def distributor(test):
@@ -111,8 +112,8 @@ def set_ap_controller(devices):
         device = Ruckus(host[0], host[1], host[2])#### pasar id desde views.py
         if device.status == 1:
             hostname = device.setController()
-            mac_address = host[4].strip()
-            Devices.objects.filter(macAddress=mac_address).update(state='oncontroller')
+            _id = host[4].strip()
+            Devices.objects.filter(_id=ObjectId(_id)).update(state='oncontroller')
             device.sendCommand('exit')
     return "ok" 
 
@@ -122,11 +123,13 @@ def get_device_from_vsz(mac_address, id):
     json_ap_info = json.loads(ap_info)
     print(json_ap_info.get("name"))
     ip_address = json_ap_info.get("network", {}).get("ip")
+    nodo_padre = {}
     if checkHost(ip_address, "ruckus"):
         device = get_object_or_404(Devices, ipAddress='192.168.188.7')
         # Devices.objects.filter(ipAddress='192.168.188.7').update(state='oncontroller')
         dict_clients = device.clientes
         for interface, mac in dict_clients.items():
+            print("mac:"+mac)
             if mac.upper() == mac_address:
                 nodo_padre = {'puerto':interface}
             # key, value
@@ -138,6 +141,7 @@ def get_device_from_vsz(mac_address, id):
     Devices.objects.filter(_id=id).update(
         ipAddress = ip_address,
         deviceName = json_ap_info.get("name"),
+        controllerStatus = json_ap_info.get("description"),
         clientes = [nodo_padre]
         )
     return "ok"
