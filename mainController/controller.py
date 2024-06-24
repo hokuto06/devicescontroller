@@ -19,16 +19,17 @@ from bson import ObjectId
 import os
 
 def distributor(test):
-    ip_address, user, password, vendor, collection, state = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5])
+    ip_address, user, password, vendor, collection, state, device_type = (test[0], test[1], test[2], test[3], test[4].rstrip(), test[5], test[6])
     if vendor == 'unifi':
-        connect_device(Unifi, ip_address, user, password, collection, vendor, state)
+        device = connect_device(Unifi, ip_address, user, password, collection, vendor, state, device_type)
     elif vendor == 'ruckus':
-        connect_device(Ruckus, ip_address, user, password, collection, vendor, state)
+        device = connect_device(Ruckus, ip_address, user, password, collection, vendor, state, device_type)
     elif vendor == 'brocade':
-        connect_device(Brocade, ip_address, user, password, collection, vendor, state)
+        device = connect_device(Brocade, ip_address, user, password, collection, vendor, state, device_type)
     elif vendor == 'mikrotik':
         print('mikrotik')
-        connect_device(Mikrotik, ip_address, user, password, collection,vendor, state)
+        device = connect_device(Mikrotik, ip_address, user, password, collection,vendor, state, device_type)
+    return device
 
 def checkHost(ip_address, vendor):
     if vendor == 'mikrotik':
@@ -39,16 +40,17 @@ def checkHost(ip_address, vendor):
         sock.settimeout(0.5)
         return not sock.connect_ex((ip_address, port))
 
-def connect_device(DeviceClass, ip_address, user, password, collection, vendor, state="configured"):
-    print("sigue ip")
-    print(ip_address)
+def connect_device(DeviceClass, ip_address, user, password, collection, vendor, state="configured", device_type="access_point"):
+    print('intentando conectar a '+ip_address)
     if checkHost(ip_address, vendor):
         print('responde')
         device = DeviceClass(ip_address, user, password)
         if device.status == 1:
+            print('device status 1*******')
             hostname = device.getDeviceName()
             group = GroupDevices.objects.get(group_name=collection)
             data = device.getData()
+            mac_address = data.get('mac address', '')
             clients  = device.get_clients()
             device_data = {
                 'group': group,
@@ -57,19 +59,32 @@ def connect_device(DeviceClass, ip_address, user, password, collection, vendor, 
                 'ipAddress': ip_address,
                 'deviceName': hostname,
                 'model': data.get('model', ''),
-                'macAddress': data.get('mac address', ''),
+                'macAddress': mac_address,
                 'vendor': vendor,
                 'version': data.get('version', ''),
                 'controllerStatus': 'null',
                 'clientes': clients,
                 'state': state,
                 'serialNumber':data.get('serial', ''),
-                'status': 2,
+                'status': device.status,
+                'deviceType':device_type,
             }
             print(device_data)
-            Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
+            Devices.objects.update_or_create(ipAddress=ip_address.strip(), defaults=device_data)
+            return device.status
         else:
-            print(ip_address+'no responde')
+            # print(ip_address+'no responde')
+            # device_data ={
+            #     'ipAddress':ip_address,
+            #     'status':1,
+            #     'deviceUser': user,
+            #     'devicePassword': device.password,
+            # }
+            # Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
+            return device.status
+    else:
+        return '2'
+
 
 def connect_device_update(DeviceClass, ip_address, user, password, collection):
     if checkHost(ip_address):
@@ -84,22 +99,10 @@ def connect_device_update(DeviceClass, ip_address, user, password, collection):
             print(device_data)
             Devices.objects.update_or_create(ipAddress=ip_address, defaults=device_data)
 
-def getHosts():
-    return [['10.9.21.14', 'n1mbu5', 'n3tw0rks.', 'ruckus', 'hotel_a']]
- 
 def scan_devices(devices):
     with transaction.atomic():
         for host in devices:
             distributor(host)
-
-# def first_setup_ruckus_list(devices):
-#     list_aps = []
-#     with transaction.atomic():
-#         for host in devices:
-#             new_ap = Ruckus(host[0], host[1], host[2], firstTime=True)
-#             if new_ap.status == 1:
-#                 list_aps.append([host[0], host[1], 'n3tw0rks.',host[3],host[4],host[5]])
-#         scan_devices(list_aps)
 
 
 #######################################
@@ -124,20 +127,13 @@ def get_device_from_vsz(mac_address, id):
     print(json_ap_info.get("name"))
     ip_address = json_ap_info.get("network", {}).get("ip")
     nodo_padre = {}
-    if checkHost(ip_address, "ruckus"):
-        device = get_object_or_404(Devices, ipAddress='192.168.188.7')
-        # Devices.objects.filter(ipAddress='192.168.188.7').update(state='oncontroller')
-        dict_clients = device.clientes
-        for interface, mac in dict_clients.items():
-            print("mac:"+mac)
-            if mac.upper() == mac_address:
-                nodo_padre = {'puerto':interface}
-            # key, value
+    # if checkHost(ip_address, "ruckus"):
+    device = get_object_or_404(Devices, ipAddress='192.168.188.7')
+    dict_clients = device.clientes
+    for interface, mac in dict_clients.items():
+        if mac.upper() == mac_address:
+            nodo_padre = {'puerto':interface}
 
-        # Devices.objects.fil
-        # brocade = Brocade(ipAddress="192.168.188.7",userName="super",passWord="n3tw0rks")
-        # data = brocade.getInterfacesDevices()
-        # print(data)
     Devices.objects.filter(_id=id).update(
         ipAddress = ip_address,
         deviceName = json_ap_info.get("name"),

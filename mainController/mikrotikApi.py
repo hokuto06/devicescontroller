@@ -5,12 +5,22 @@ class Mikrotik:
     status = None
 
     def __init__(self, ipAddress, userName, passWord):
-        self.password = passWord
-        connection = routeros_api.RouterOsApiPool(ipAddress, userName, passWord)
-        api = connection.get_api()
-        self.api = api
-        self.status = 1
-    
+        try:
+            self.password = passWord
+            connection = routeros_api.RouterOsApiPool(ipAddress, userName, passWord)
+            api = connection.get_api()
+            self.api = api
+            self.status = 1
+        except routeros_api.exceptions.RouterOsApiConnectionError as e:
+            print(f"Connection error: {e}")
+            self.status = 0
+        except routeros_api.exceptions.RouterOsApiError as e:
+            print(f"API error: {e}")
+            self.status = 0
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            self.status = 0
+
     def get_clients(self):
         list_dhcp = self.api.get_resource('/ip/dhcp-server/lease')
         dhcp_list = list_dhcp.get(server="dhcp1")

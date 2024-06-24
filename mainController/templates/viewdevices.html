@@ -19,7 +19,7 @@
             </div> -->
             <div class="col-xl-3 col-md-4">
                 <div class="card bg-success text-white mb-4">
-                    <div class="card-body">UP: {{ status_counts_dict.status_1_count }}</div>
+                    <div class="card-body">UP: {{ status_counts_dict.status_2_count }}</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="#">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -28,7 +28,7 @@
             </div>
             <div class="col-xl-3 col-md-4">
                 <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">ERROR: {{ status_counts_dict.status_2_count }} Card</div>
+                    <div class="card-body">ERROR: {{ status_counts_dict.status_1_count }} Card</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="#">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -86,7 +86,6 @@
                     <tbody>
                         {% for dispositivo in dispositivos %}
                         <tr>
- 
                             <td><a href="{% url 'device-detail' dispositivo.id %}">{{ dispositivo.host_name }}</a></td>
                             <td>{{ dispositivo.ip_address }}</td>
                             <td>{{ dispositivo.mac_address }}</td>

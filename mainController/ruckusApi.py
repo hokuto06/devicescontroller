@@ -35,22 +35,12 @@ class Ruckus:
                 child.sendline(new_password)
                 child.expect('rkscli:')
                 self.password = new_password
-            # if firstTime:
-            #     child.expect('New password:')
-            #     child.sendline('n3tw0rks.')
-            #     child.expect('Confirm password:')
-            #     child.sendline('n3tw0rks.')
-            #     child.expect('Please login:')
-            #     child.sendline(userName)
-            #     child.expect('password :')
-            #     child.sendline('n3tw0rks.')
-            # child.expect('rkscli:')
             self.child = child
             print('connected to: '+ipAddress)
             self.status = 1
         except KeyboardInterrupt:
             # On Cntl-C
-            pass
+            self.status = 0
         except pexpect.TIMEOUT:
             print("scan: pexpect.TIMEOUT")
             pass

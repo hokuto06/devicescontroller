@@ -11,7 +11,7 @@ class GroupDevices(models.Model):
 class Devices(models.Model):
     _id = models.ObjectIdField(primary_key=True)
     group = models.ForeignKey(GroupDevices, on_delete=models.CASCADE)
-    ipAddress = models.GenericIPAddressField(unique=True)
+    ipAddress = models.GenericIPAddressField()
     deviceUser = models.CharField(max_length=100)
     devicePassword = models.CharField(max_length=100)
     controllerStatus = models.CharField(max_length=40)
@@ -19,11 +19,15 @@ class Devices(models.Model):
     version = models.CharField(max_length=40)
     model = models.CharField(max_length=40)
     vendor = models.CharField(max_length=40)
-    macAddress = models.CharField(max_length=40)
+    macAddress = models.CharField(unique=True, max_length=40)
     clientes = JSONField(default=list, null=True, blank=True)
     status = models.IntegerField()
     serialNumber = models.CharField(max_length=100, null=True, blank=True)
     state = models.CharField(max_length=100, null=True, blank=True)
+    deviceType = models.CharField(max_length=100, default='access_point', null=True, blank=True)
+    description = models.CharField(max_length=100, null=True, blank=True)
+    uplink = models.CharField(max_length=100, null=True, blank=True)
+    interfaces = JSONField(default=list, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Generar un nuevo ID grupal si no se proporciona uno

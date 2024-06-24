@@ -6,13 +6,13 @@
         <ol class="breadcrumb mb-4">
             <!-- <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Dashboard</a></li> -->
             <li class="breadcrumb-item"></li><a href="javascript: history.go(-1)">Go Back</a></li> &nbsp;&nbsp;
-            <li class="breadcrumb-item active">Search Devices</li>
+            <li class="breadcrumb-item active">Nuevo dispositivo</li>
         </ol>
         <div class="row">
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
-                    Search for devices
+                    Dispositivo
                 </div>
                 <div class="card-body">
                     <br>
@@ -21,21 +21,21 @@
                         <div class="form-group row">
                             <label for="ip" class="col-sm-2 col-form-label">IP :</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" id="ip" name="ip" placeholder="Introduce la primera IP">
+                                <input type="text" class="form-control" id="ip" name="ip" placeholder="Ip Address">
                             </div>
-                          </div>
+                        </div>
                         <br>
                         <div class="form-group row">
                             <label for="texto1" class="col-sm-2 col-form-label">User:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="deviceUser" name="texto1" placeholder="Introduce el usuario">
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="deviceUser" name="texto1" placeholder="usuario">
                             </div>
                         </div>
                         <br>
                         <div class="form-group row">
                             <label for="texto2" class="col-sm-2 col-form-label">Password:</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" id="texto2" name="texto2" placeholder="Introduce el segundo texto">
+                                <input type="text" class="form-control" id="texto2" name="texto2" placeholder="Password">
                             </div>
                         </div>
                         <br>
@@ -43,13 +43,22 @@
                         <div class="form-group row">
                             <label for="texto3" class="col-sm-2 col-form-label">Vendor</label>
                             <div class="col-sm-10">
-                        <select id="texto3" name="texto3">
-                            <option value="unifi">Unifi</option>
-                            <option value="mikrotik">Mikrotik</option>
-                            <option value="ruckus">Ruckus</option>
-                            <option value="brocade">Brocade</option>
-                        </select></div>
-                        </div>                        
+                                <select id="texto3" name="texto3">
+                                    <option value="unifi">Unifi</option>
+                                    <option value="mikrotik">Mikrotik</option>
+                                    <option value="ruckus">Ruckus</option>
+                                    <option value="brocade">Brocade</option>
+                                </select>
+                            </div>
+                            <label for="device_type" class="col-sm-2 col-form-label">Tipo de Dispositivo</label>
+                            <div class="col-sm-10">
+                                <select id="device_type" name="device_type">
+                                    <option value="access_point">Access Point</option>
+                                    <option value="switch">Switch</option>
+                                    <option value="router">Router</option>
+                                </select>
+                            </div>                            
+                        </div>        
                         <br>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>

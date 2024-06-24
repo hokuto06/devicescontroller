@@ -68,9 +68,9 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{% url  'ViewGateway' 'prueba' %}">Gateway</a>
+                                    <a class="nav-link" href="{% url  'ViewGateway' group_name %}">Gateway</a>
                                     <a class="nav-link" href="{% url  'ViewAccessPoints' group_name %}">Access Points</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Switch</a>
+                                    <a class="nav-link" href="{% url  'ViewSwitchs' group_name %}">Switchs</a>
                                     <a class="nav-link" href="{% url  'setup' group_name %}">Setup</a>
                                     <a class="nav-link" href="{% url  'setup_ap_controller' group_name %}">To Controller</a>
                                 </nav>
