@@ -114,9 +114,9 @@ def test(req):
 def crear_grupo(request):
     if request.method == 'POST':
         group_name = request.POST['group_name']
-        print(group_name)
+        # print(group_name)
         nuevo_grupo = GroupDevices.objects.create(group_name=group_name)
-        print(nuevo_grupo.__dict__)
+        # print(nuevo_grupo.__dict__)
         return render(request, 'group.html', {'group_name': group_name})
     else:
         return render(request, 'crear_grupo.html')
@@ -246,19 +246,20 @@ def config_new_one(request):
         data = json.loads(request.body)
         group_name = list(data.keys())[0]
         ip_list = data[group_name]
-        print(group_name)
-        print(ip_list)
+        # print(group_name)
+        # print(ip_list)
         devices_list = []
         for device in ip_list:
             devices_list.append([device, 'super', 'sp-admin', 'ruckus', group_name,'default','access_point'])
         scan_devices(devices_list)
-        return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
+        # return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})
+        return redirect('setup',group_name)
 
 def to_controller(request, group_id):
     dispositivos = Devices.objects.filter(group__group_name=group_id, state='oncontroller')
     resultados = []
     for dispositivo in dispositivos:
-        print(dispositivo._id)
+        # print(dispositivo._id)
         dispositivo_dict = {
             'id': dispositivo._id,
             'host_name': dispositivo.deviceName,
@@ -288,7 +289,7 @@ def config_ap_on_controller(request):
         devices_list = []
         for device in device_list:
             mac_serial = device.split()
-            print(mac_serial)
+            # print(mac_serial)
             devices_list.append([mac_serial[0], mac_serial[1]])
         put_ap_info_on_vsz(devices_list)
         return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': device_list})    
@@ -301,16 +302,14 @@ def set_controller(request):
         devices_list = []
         for device in ip_list:
             ip_id = device.split()
-            print("primera "+ip_id[0])
-            print("segunda "+ip_id[1])
-            # print("sigue device: "+device)
-            # print(device)
-            # print("ip: "+device)
-            devices_list.append([ip_id[0], 'super', 'n3tw0rks.', 'ruckus',ip_id[1], group_name,'default'])
-        print(devices_list)
+            _id = ip_id[1]
+            ip_address = ip_id[0]
+            dispositivo = get_object_or_404(Devices, pk=ObjectId(_id))
+            devices_list.append([ip_address, dispositivo.deviceUser, dispositivo.devicePassword, 'ruckus',_id, group_name,'default'])
+        # print(devices_list)
         set_ap_controller(devices_list)
-        # return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
-        return redirect('setup_ap_controller',group_name)
+        return JsonResponse({'status': 'success', 'group_name': group_name, 'ip_list': ip_list})    
+        # return redirect('setup_ap_controller',group_name)
 
 def get_ap_info_from_vsz(request, pk):
     dispositivo = get_object_or_404(Devices, pk=ObjectId(pk))
