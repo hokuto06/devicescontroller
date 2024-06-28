@@ -75,14 +75,14 @@
                                     <a class="nav-link" href="{% url  'setup_ap_controller' group_name %}">To Controller</a>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                            <div class="sb-sidenav-menu-heading">Controllers</div>
+                            <a class="nav-link" href="{% url 'ViewVsz' group_name %}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-dog"></i></div>
+                                VSZ
                             </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                            <a class="nav-link" href="{% url 'ViewVsz' group_name %}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-u"></i></div>
+                                Unifi
                             </a>
                         </div>
                     </div>

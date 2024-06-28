@@ -38,3 +38,20 @@ class Devices(models.Model):
 class UploadFile(models.Model):
     file = models.FileField(upload_to='uploads/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Controllers(models.Model):
+    _id = models.ObjectIdField(primary_key=True)
+    group = models.ForeignKey(GroupDevices, on_delete=models.CASCADE)
+    vendor = models.CharField(max_length=40)
+    username = models.CharField(max_length=40, null=True, blank=True)
+    password = models.CharField(max_length=40, null=True, blank=True)
+    host = models.CharField(max_length=40)
+    devices = JSONField(default=list, null=True, blank=True)
+    clients = JSONField(default=list, null=True, blank=True)
+    rkzones = JSONField(default=list, null=True, blank=True)
+    ipAddress = models.GenericIPAddressField(null=True, blank=True)
+    def save(self, *args, **kwargs):
+        # Generar un nuevo ID grupal si no se proporciona uno
+        if not self.group_id:
+            self.group_id = uuid.uuid4()
+        super().save(*args, **kwargs)

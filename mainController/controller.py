@@ -120,9 +120,36 @@ def set_ap_controller(devices):
             device.sendCommand('exit')
     return "ok" 
 
+def aps_from_vsz():
+    vsz = connectVsz()
+    if vsz.status == 1:
+        devices = vsz.get_aps_from_vsz()
+        pprint(devices)
+
+def set_single_ap_on_vsz(mac):
+    vsz = connectVsz()
+    response = vsz.config_ap_hostname(mac, 'prueba')
+    return "ok"
+
+def get_all_vsz_zones():
+    vsz = connectVsz()
+    result = vsz.get_zones()
+    print(result)
+
+def get_all_groups_from_vsz_zones():
+    vsz = connectVsz()
+    result = vsz.get_groups()
+    print(result)
+
+def get_one_ap_from_vsz(mac):
+    vsz = connectVsz()
+    device = vsz.get_ap_info(mac)
+    pprint(device)
+    return device
+
 def get_device_from_vsz(mac_address, id):
-    vsz = connectVsz(mac_address=mac_address)
-    ap_info = vsz.get_ap_info()
+    vsz = connectVsz()
+    ap_info = vsz.get_ap_info(mac_address=mac_address)
     json_ap_info = json.loads(ap_info)
     print(json_ap_info.get("name"))
     ip_address = json_ap_info.get("network", {}).get("ip")
@@ -196,9 +223,9 @@ def put_ap_info_on_vsz(devices):
         mac_address = device[0]
         hostname, ip_address, description = update_info_from_excel(device[0], device[1])
         print(hostname, ip_address, description)
-        new_ap = connectVsz(mac_address)
-        if new_ap.search_ap() == "ok":
-            new_ap.config_ap(hostname=hostname,ip_address=ip_address,description=description)
+        new_ap = connectVsz()
+        if new_ap.search_ap(mac_address=mac_address) == "ok":
+            new_ap.config_ap(mac_address=mac_address,hostname=hostname,ip_address=ip_address,description=description)
     return 'ok'
 
 ####################################

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">{{ group_name }}</h1>
+        <ol class="breadcrumb mb-4">
+            <!-- <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Dashboard</a></li> -->
+            <li class="breadcrumb-item"></li><a href="javascript: history.go(-1)">Go Back</a></li> &nbsp;&nbsp;
+            <li class="breadcrumb-item active">Nuevo Controller</li>
+        </ol>
+        <div class="row">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Dispositivo
+                </div>
+                <div class="card-body">
+                    <br>
+                    <form method="post" action="{% url 'AddNewController'  group_name %}">{% csrf_token %}
+                        <br>
+                        <div class="form-group row">
+                            <label for="ip" class="col-sm-2 col-form-label">IP :</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="ip" name="ip" placeholder="Ip Address">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-2 col-form-label">User:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="usuario">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-2 col-form-label">Password:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <br>
+                        <input type="hidden" id="grupo" name="grupo" value="{{ group_name }}">
+                        <div class="form-group row">
+                            <label for="controller_type" class="col-sm-2 col-form-label">Vendor</label>
+                            <div class="col-sm-10">
+                                <select id="controller_type" name="controller_type">
+                                    <option value="unifi">Unifi</option>
+                                    <option value="ruckus">VSZ</option>
+                                </select>
+                            </div>
+                        </div>        
+                        <br>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

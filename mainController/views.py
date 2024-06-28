@@ -9,9 +9,9 @@ from bson import ObjectId
 from rest_framework import generics
 from collections import Counter
 # from openpyxl import load_workbook
-from .models import Devices, GroupDevices
+from .models import Devices, GroupDevices, Controllers
 from .controller import main, checkHost, scan_devices, update_device_info,connect_mikrotik, distributor, set_ap_controller,put_ap_info_on_vsz, get_device_from_vsz
-# from .tools import _read_excel,unifi_controller
+from .controller import aps_from_vsz, get_one_ap_from_vsz, set_single_ap_on_vsz, get_all_vsz_zones, get_all_groups_from_vsz_zones
 from django.conf import settings
 from django.contrib import messages
 from .forms import UploadFileForm
@@ -128,6 +128,10 @@ def view_groups(request):
         print(group)
     return render(request, 'dashboard.html', {'groups': groups})
 
+def view_vsz(request, group_id):
+    contexto = {'group_name':group_id}
+    return render(request, 'vsz.html', contexto )
+
 def view_devices_by_type(request, group_id, device_type):
     dispositivos = Devices.objects.filter(group__group_name=group_id,deviceType=device_type)
     status_counts = Counter(dispositivo.status for dispositivo in dispositivos)
@@ -157,6 +161,7 @@ def view_devices_by_type(request, group_id, device_type):
         'group_name': group_id,
     }
     return render(request, 'viewdevices.html', contexto)
+
 
 def view_gateway(request, group_id):
     return view_devices_by_type(request, group_id, 'router')
@@ -319,6 +324,48 @@ def get_ap_info_from_vsz(request, pk):
     group_name = group_owner.group_name    
     get_device_from_vsz(mac_address=mac_address.strip(), id =_id)
     return redirect('setup_ap_controller',group_id=group_name)    
+
+def get_aps_from_vsz(request):
+    devices = aps_from_vsz()
+    return JsonResponse({'ok':'ok'})
+
+def setup_single_ap_on_vsz(request, mac):
+    response = set_single_ap_on_vsz(mac)
+    return HttpResponse(response)
+
+def get_ap_data_from_mac(request, mac):
+    device = get_one_ap_from_vsz(mac)
+    return JsonResponse({'ok':'ok'})
+    # return JsonResponse(device)
+
+def get_vsz_zones(request):
+    get_all_vsz_zones()
+    return JsonResponse({'ok':'ok'})
+    
+def get_vsz_groups(request, group):
+    vsz = Controllers.objects.filter(group__group_name=group,deviceType=device_type)
+    get_all_groups_from_vsz_zones(group)
+    return JsonResponse({'ok':'ok'})
+
+
+def add_new_controller(request, group):
+    if request.method == 'POST':
+        ip = request.POST.get('ip')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        controller_type = request.POST.get('controller_type')
+        group_name = GroupDevices.objects.get(group_name=group)
+        controller = Controllers.objects.create(
+            host=ip,
+            username=username,
+            password=password,
+            vendor=controller_type,
+            group=group_name
+        )
+        return redirect('ViewVsz', group_name=group)
+    else:
+        return render(request, 'add_controller.html', {'group_name': group})
+
 
 ############################
 #Fin Funciones Ruckus - VSZ#

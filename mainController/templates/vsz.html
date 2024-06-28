@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <div class="container-fluid px-4">
+    
+    <div id="device-detail-container">
+            <h3 class="breadcrumb-item active">VSZ</h3>
+
+    </div>
+    <a class="btn btn-primary" href="{% url  'AddNewController' group_name %}">Cargar Controller</a>
+    </div>
+    {% endblock %}
