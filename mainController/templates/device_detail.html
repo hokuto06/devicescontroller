@@ -38,6 +38,7 @@
             <tr><td>Ip: {{ device.ip_address }}</td></tr>
             <tr><td>Version: {{ device.version }}</td></tr>
             <tr><td>Controller: {{ device.controller_status }}</td></tr>
+            <tr><td>Serial: {{ device.serial_number }}</td></tr>
             <tr><td>Device: {{ device.deviceType }}</td></tr>
         </table>
         <!-- <p id="device-detail-content">Cargando...</p> -->
@@ -86,18 +87,20 @@
                 </tbody>
             {% endif %}
             </table>
-            <button type="submit" id="enviar" disabled>Enviar</button>
+            <button type="submit" id="enviar" data-toggle="tooltip" title="Enviar a VSZ" disabled>Enviar</button>
         </form>        
         {% else %}
             <p>No hay clientes disponibles.</p>
         {% endif %}
         
         </div>
-    </div>
-</div>
-</div>
+        </div>
+        </div>
+    <button id="miBoton">redireccion</button>
+        </div>
 <script>
 $(document).ready(function() {
+    var groupName = "{{ group_name }}";
     // Obtener el checkbox "Seleccionar Todos"
     const seleccionarTodosCheckbox = document.getElementById('seleccionarTodos');
     // Obtener todos los checkboxes individuales
@@ -154,7 +157,10 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log('Success:', response);
-                // Aquí puedes manejar la respuesta exitosa del servidor
+
+                var redirectUrl = `/controller/setup/${groupName}`; 
+                window.location.href = redirectUrl;
+
             },
             error: function(error) {
                 console.log('Error:', error);
@@ -162,6 +168,11 @@ $(document).ready(function() {
             }
         });
     });
+    $('#miBoton').click(function() {
+        var redirectUrl = `/controller/setup/${groupName}`; 
+        window.location.href = redirectUrl;        
+    });
+
 });
 </script>
 {% endblock %}

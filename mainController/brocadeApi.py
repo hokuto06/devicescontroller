@@ -1,19 +1,22 @@
-from netmiko import ConnectHandler, NetmikoTimeoutException
+from netmiko import ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException
 import re
+import socket
 
 class Brocade:
 
     status = None
 
-    def __init__(self, ipAddress, userName, passWord):
+    def __init__(self, ipAddress, userName, passWord, enablePassword=None):
         self.password = passWord
+        if not enablePassword:
+            enablePassword = passWord
         try:
             brocade_router = {
                 'device_type': 'ruckus_fastiron',
                 'host': ipAddress,
                 'username': userName,
                 'password': passWord,
-                #'secret': 'enablepass',
+                'secret': enablePassword,
                 'port': 22,
                 # "session_log": "netmiko_session.log"
             }
@@ -28,8 +31,17 @@ class Brocade:
             # result = ssh.send_command('sh mac-address vlan 100')
             # result = ssh.send_command('show interfaces brief')
             # print(result)
-        except NetmikoTimeoutException:
-            print("Connection failed")
+        except (NetmikoTimeoutException, NetmikoAuthenticationException) as e:
+            print(f"Error de Netmiko: {e}")
+            self.status = 0
+
+        except socket.error as e:
+            print(f"Error de socket: {e}")
+            self.status = 0
+
+        except Exception as e:
+            print(f"Otro error: {e}")
+            self.status = 0 
     
     def getDeviceName(self):
         deviceName = self.ssh.find_prompt()[:-1]
@@ -81,9 +93,10 @@ class Brocade:
         deviceData = self.parse(raw_data)
         raw_mac_address = self.ssh.send_command('show chassis')
         mac_address = self.parse(raw_mac_address)
+        mac = self.parse_mac(mac_address['Management MAC'])
         # print(deviceData)
         data = {
-            'mac address':mac_address['Management MAC'],
+            'mac address':mac,
             'serial':deviceData['Serial  #'],
             'model':deviceData['HW'],
             'version':deviceData['SW'],

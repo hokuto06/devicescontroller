@@ -63,6 +63,7 @@ def device_detail_view(request, pk):
         'group_name': group_name.group_name,
         'status': device.status,
         'state': device.state,
+        'serial_number': device.serialNumber,
         'clientes':device_clientes,
         'controller_status': device.controllerStatus,
         'deviceType':device.deviceType,
@@ -70,7 +71,7 @@ def device_detail_view(request, pk):
     return render(request, 'device_detail.html', {'device': dispositivo_dict,'group_name':group_name.group_name})
 
 def setup_devices(request, group_id):
-    dispositivos = Devices.objects.filter(group__group_name=group_id, vendor='ruckus')
+    dispositivos = Devices.objects.filter(group__group_name=group_id, state='default',vendor='ruckus')
     resultados = []
     for dispositivo in dispositivos:
         print(dispositivo._id)
@@ -137,6 +138,8 @@ def view_devices_by_type(request, group_id, device_type):
     status_counts = Counter(dispositivo.status for dispositivo in dispositivos)
     resultados = []
     status_counts_dict = {}
+    device_type_mapping = {'router': 'Gateway','switch': 'Switches','access_point': 'Access Points'}
+    deviceType = device_type_mapping.get(device_type, 'Unknown')
     for dispositivo in dispositivos:
         print(dispositivo._id)
         dispositivo_dict = {
@@ -159,6 +162,7 @@ def view_devices_by_type(request, group_id, device_type):
         'dispositivos': resultados,
         'status_counts_dict': status_counts_dict,
         'group_name': group_id,
+        'device_type': deviceType,
     }
     return render(request, 'viewdevices.html', contexto)
 
