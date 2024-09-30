@@ -22,18 +22,18 @@ def _read_excel():
     workbook.close()
     return(data)
 
-def unifi_controller():
+def unifi_controller(ip_controller, site):
     uc_user = "rsupport"
     uc_pass = "elrbsestNF!25"
-    uc_site = "1xgr01ba"
-    client = UnifiClient(host="3.208.83.14",
+    uc_site = site
+    client = UnifiClient(host=ip_controller,
     username=uc_user, password=uc_pass, site=uc_site)
     devices = client.list_devices()
     list_devices = []
     for device in devices:
-        list_devices.append(device['ip'])
-        # list_devices['config_network']['ip': '10.2.3.58']
-        list_devices.append(device['mac'])
+        if device['ip'] == "192.168.200.100":
+            list_devices.append({"ip":device['ip'],"id":device['_id'],"mac":device['mac']})
+            pprint(device)
     pprint(list_devices)
     return(list_devices)
 
