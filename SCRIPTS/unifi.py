@@ -73,8 +73,13 @@ try:
                                     'name':device.get('name'),
                                     'model':device.get('model'),
                                     'ip':device.get('ip'),
+                                    'state':device.get('state'),
                 })
-
+                # print("####")
+                # print(device.get('ip'))
+                # print(device.get('mac'))
+                # print(device.get('state'))
+                # print("####")
                 # Insertar los dispositivos en MongoDB
             if list_devices:
                 collection.insert_many(list_devices)
