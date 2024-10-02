@@ -1,6 +1,7 @@
 import sys 
 import os 
-sys.path.append('/home/esteban/app/devicescontroller/mainController')
+sys.path.append('/home/hokuto/devicescontroller/mainController')
+# sys.path.append('/home/esteban/app/devicescontroller/mainController')
 from pymongo import MongoClient
 from unifiApi import Unifi
 from tools import unifi_controller
@@ -31,15 +32,17 @@ def set_ap_controller(ip_address, user, password):
 # set_ap_controller('10.10.7.40','ubnt','ubnt')
 # get_devices()
 
-# Consultar todos los documentos de la colección
-documentos = collection.find()
+def reset_all_devices():
+    documentos = collection.find()
 
-# Iterar sobre los documentos e interactuar con ellos
-for documento in documentos:
-    if documento['state'] == 1:
-        set_ap_default(documento['ip'], 'nimbus', 'networks')
-        resultado = collection.update_one({"_id":documento['_id']}, {"$set": {"status":"default"}})
-        print(documento)  # Puedes reemplazar esto con la lógica set_ap_default que necesites
+    # Iterar sobre los documentos e interactuar con ellos
+    for documento in documentos:
+        if documento['state'] == 1:
+            set_ap_default(documento['ip'], 'nimbus', 'networks')
+            resultado = collection.update_one({"_id":documento['_id']}, {"$set": {"status":"default"}})
+            print(documento)  # Puedes reemplazar esto con la lógica set_ap_default que necesites
+            break
+    # Cerrar la conexión al finalizarstatusstatus
+    client.close()
 
-# Cerrar la conexión al finalizarstatusstatus
-client.close()
+reset_all_devices()
