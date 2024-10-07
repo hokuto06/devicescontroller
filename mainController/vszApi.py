@@ -21,6 +21,7 @@ class connectVsz():
  
     #cambia nombre de dispositivo.
  
+
     def get_ap_info(self, mac_address):
         response = self.client.get(method='/aps/'+mac_address)
         if response.status_code == 200:
@@ -29,14 +30,34 @@ class connectVsz():
  
  
     def search_ap(self,mac_address):
-        print(mac_address)
         response = self.client.get(method='/aps/'+mac_address)
         # print(response.status_code) # --> 204
-        print(response.status_code)
         if response.status_code == 200:
             return('ok')
         else:
             return('no')
+
+    def get_all_devices(self, apGroup):
+        response = self.client.get(method='/aps/')
+        if response.status_code == 200:
+            results = (response.json())
+            list_devices = []
+            for ap in results['list']:
+                json_info_ap = self.client.get(method='/aps/'+ap['mac'])
+                info_ap = (json_info_ap.json())
+                # print("mac: "+info_ap['mac']+" ip: "+info_ap['network']['ipType'])
+                # ip_device = info_ap['network']['ip'] if info_ap['network']['ipType'] == 'static' else 'None'
+                list_devices.append({"mac":info_ap['mac'],
+                                    "name":info_ap['name'],
+                                    "model":info_ap['model'],
+                                    "serial":info_ap['serial'],
+                                    "zoneId":info_ap['zoneId'],
+                                    "zoneId":info_ap['apGroupId'],
+                                    "description":info_ap['description'],
+                                    "ip_device": info_ap['network'].get('ip', 'None')
+                })
+            print(list_devices)
+            return list_devices
  
     def config_ap(self,mac_address,hostname, ip_address, description):
         # response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
