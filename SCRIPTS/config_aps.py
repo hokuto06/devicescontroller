@@ -16,7 +16,8 @@ collection = db['devices']  # Cambia el nombre de tu colección
 
 
 def get_devices():
-    unifi_controller('172.20.197.148','etw7f5dj')
+    # unifi_controller('172.20.197.148','etw7f5dj')
+    unifi_controller('192.168.188.10','etw7f5dj')
 
 
 def set_ap_default(ip_address, user, password):
@@ -26,7 +27,8 @@ def set_ap_default(ip_address, user, password):
 
 def set_ap_controller(ip_address, user, password):
     device = Unifi(ip_address, user, password)
-    device.set_inform('172.20.197.148')
+    # device.set_inform('172.20.197.148')
+    device.set_inform('192.168.188.10')
     print('ok')
 
 # set_ap_controller('10.10.7.40','ubnt','ubnt')
