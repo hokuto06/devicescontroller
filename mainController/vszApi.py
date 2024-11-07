@@ -1,6 +1,7 @@
 import RuckusVirtualSmartZoneAPIClient
 import json
- 
+from pprint import pprint
+
 class connectVsz():
     def __init__(self, vsz_ip):
         try:
@@ -36,9 +37,16 @@ class connectVsz():
             return('ok')
         else:
             return('no')
+    def get_all_devices_single(self, apGroup):
+        response = self.client.get(method='/aps/', data={'zone_id': 'a92aa2ff-de24-4ef8-aa54-8a672af846e2'})
+        if response.status_code == 200:
+            results = (response.json())
+            list_devices = []
+            return results
 
     def get_all_devices(self, apGroup):
-        response = self.client.get(method='/aps/')
+        # response = self.client.get_aps(group_id="NOVOTEL_IBIS_OBELISCO")
+        response = self.client.get(method='/aps/', DeprecationWarning={'group_id': 'NOVOTEL_IBIS_OBELISCO'})
         if response.status_code == 200:
             results = (response.json())
             list_devices = []
@@ -56,9 +64,25 @@ class connectVsz():
                                     "description":info_ap['description'],
                                     "ip_device": info_ap['network'].get('ip', 'None')
                 })
-            print(list_devices)
             return list_devices
+
+    def config_full_ap(self,mac_address,hostname, ip_address, ap_netmask, ap_gateway, description):
+        # response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
+        print('mac address: '+mac_address)
+        print('ip address: '+ip_address)
  
+        response = self.client.put(method=f'/aps/'+mac_address, data={ "name":hostname
+                                                                    #   "description":description,
+                                                                    #   "network":{
+                                                                    #     "ipType": "Static",
+                                                                    #     "ip": ip_address,
+                                                                    #     "netmask": ap_netmask,
+                                                                    #     "gateway": ap_gateway,
+                                                                    #     "primaryDns": ap_gateway
+                                                                    #   }                                                               
+                                                                })
+        print(response)
+
     def config_ap(self,mac_address,hostname, ip_address, description):
         # response = {"name":hostname,"descripcion":description,"mac_address":mac_address,"network":{"ip":ip_address}}
         print('mac address: '+mac_address)
@@ -70,8 +94,8 @@ class connectVsz():
                                                                         "ipType": "Static",
                                                                         "ip": ip_address,
                                                                         "netmask": "255.255.252.0",
-                                                                        "gateway": "192.168.112.1",
-                                                                        "primaryDns": "192.168.112.1"
+                                                                        "gateway": "192.168.188.1",
+                                                                        "primaryDns": "192.168.188.1"
                                                                       },
                                                                         "apMgmtVlan": {
                                                                             "id": 100,
